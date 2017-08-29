@@ -1,29 +1,25 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import _ from 'lodash';
-
-const adminEntities = [{
-    pathname: "forms",
-    className: "fa-wpforms",
-    label: "Forms"
-},{
-    pathname: "concepts",
-    className: "fa-question-circle",
-    label: "Concepts"
-}];
-
-const children = [];
-_.forEach(adminEntities, (adminEntity) => {
-    const className = `fa ${adminEntity.className} fa-5x`;
-    children.push(
-        <Link to={adminEntity.pathname}>
-            <i className={className}></i>{adminEntity.label}
-        </Link>);
-});
+import {Col, Grid, Jumbotron, Row} from "react-bootstrap";
 
 const Dashboard = () =>
-    <div>
-        {children}
-    </div>;
+    <Grid bsClass="text-center">
+        <Jumbotron>
+            <Row>
+                <Col sm={4}>
+                    <Link to="forms">
+                        <i className="fa fa-wpforms fa-5x"></i>
+                    </Link>
+                    <h4>Forms</h4>
+                </Col>
+                <Col sm={4}>
+                    <Link to="concepts">
+                        <i className="fa fa-question-circle fa-5x"></i>
+                    </Link>
+                    <h4>Concepts</h4>
+                </Col>
+            </Row>
+        </Jumbotron>
+    </Grid>;
 
 export default Dashboard;

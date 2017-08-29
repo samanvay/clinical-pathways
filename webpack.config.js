@@ -63,6 +63,7 @@ module.exports = {
                 }, {
                     loader: "css-loader" // translates CSS into CommonJS
                 }]
-            }]
+            },
+            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }]
     }
 };

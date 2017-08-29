@@ -7,6 +7,9 @@ import {createStore, combineReducers} from 'redux';
 import Reducers from "./reducers/index";
 import Dashboard from "./components/Dashboard";
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+
 const history = createBrowserHistory();
 const store = createStore(combineReducers(Reducers.createReducers()))
 const forms = () => (
