@@ -64,6 +64,10 @@ module.exports = {
                     loader: "css-loader" // translates CSS into CommonJS
                 }]
             },
-            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }]
+            { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loader: 'file-loader?name=/styles/images/[name].[ext]',
+            }]
     }
 };
