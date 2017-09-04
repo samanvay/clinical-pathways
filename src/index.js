@@ -9,16 +9,16 @@ import Dashboard from "./components/Dashboard";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/css/bootstrap-theme.css';
+import Forms from "./components/Forms";
+import AdminHeader from "./components/AdminHeader";
+import Breadcrumb from "./components/Breadcrumb";
 
 const history = createBrowserHistory();
 const store = createStore(combineReducers(Reducers.createReducers()))
-const forms = () => (
-    <div>
-        <h2>Forms</h2>
-    </div>
-);
 const concepts = () => (
     <div>
+        <AdminHeader/>
+        <Breadcrumb name="concepts"/>
         <h2>Concepts</h2>
     </div>
 );
@@ -27,7 +27,7 @@ ReactDOM.render(
         <Router history={history}>
             <div>
                 <Route exact path="/" component={Dashboard}/>
-                <Route path="/forms" component={forms}/>
+                <Route path="/forms" component={Forms}/>
                 <Route path="/concepts" component={concepts}/>
             </div>
         </Router>

@@ -1,15 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Col, Grid, Jumbotron, Row} from "react-bootstrap";
+import {Col, Grid, Row} from "react-bootstrap";
+import AdminHeader from "./AdminHeader";
 
 const Dashboard = () =>
     <div>
-        <div className="jumbotron">
-            <div className="container">
-                <h1>Open Community Health System Admin</h1>
-                <p>Configure Modules. Add Catchment data. Manage Forms/Metadata/Users. </p>
-            </div>
-        </div>
+        <AdminHeader/>
         <Grid>
             <Row>
                 <Col sm={4}>
