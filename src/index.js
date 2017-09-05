@@ -8,7 +8,6 @@ import Reducers from "./reducers/index";
 import Dashboard from "./components/Dashboard";
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
 import Forms from "./components/Forms";
 import AdminHeader from "./components/AdminHeader";
 import Breadcrumb from "./components/Breadcrumb";
