@@ -58,27 +58,6 @@ class Forms extends Component {
         </div>
     }
 
-    renderRows1(data) {
-        let cols = [], rows = [];
-        _.forEach(data, (programData, programDataIndex) => {
-            rows.push(
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h3 className="panel-title">{programData.program.name}</h3></div>
-                </div>);
-            rows.push(<div className="panel-body">{this.renderProgramForms()}</div>);
-            _.forEach(programData.forms, (form, formIndex) => {
-                cols.push(Forms.renderForm(form));
-                if (cols.length === 4) {
-                    rows.push(Forms.renderRow(cols));
-                    cols = [];
-                }
-            });
-        });
-        rows.push(Forms.renderRow(cols));
-        return rows;
-    }
-
     renderRows(data) {
         const rows = [];
         _.forEach(data, (programData, programDataIndex) => {
