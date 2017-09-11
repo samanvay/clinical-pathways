@@ -33,7 +33,7 @@ class Forms extends Component {
 
     }
 
-    renderRow(cols) {
+    static renderRow(cols) {
         return (
             <div className="row">
                 {cols}
@@ -41,7 +41,7 @@ class Forms extends Component {
         );
     }
 
-    renderForm(form) {
+    static renderForm(form) {
         return <div className="col-md-3" key={form.uuid}>
             <div className="card h-100">
                 <div className="card-body">
@@ -68,14 +68,14 @@ class Forms extends Component {
                 </div>);
             rows.push(<div className="panel-body">{this.renderProgramForms()}</div>);
             _.forEach(programData.forms, (form, formIndex) => {
-                cols.push(this.renderForm(form));
+                cols.push(Forms.renderForm(form));
                 if (cols.length === 4) {
-                    rows.push(this.renderRow(cols));
+                    rows.push(Forms.renderRow(cols));
                     cols = [];
                 }
             });
         });
-        rows.push(this.renderRow(cols));
+        rows.push(Forms.renderRow(cols));
         return rows;
     }
 
@@ -113,13 +113,13 @@ class Forms extends Component {
         const rows = [];
         let cols = [];
         _.forEach(programData.forms, (form, formIndex) => {
-            cols.push(this.renderForm(form));
+            cols.push(Forms.renderForm(form));
             if (cols.length === 4) {
-                rows.push(this.renderRow(cols));
+                rows.push(Forms.renderRow(cols));
                 cols = [];
             }
         });
-        rows.push(this.renderRow(cols));
+        rows.push(Forms.renderRow(cols));
         return rows;
     }
 }
