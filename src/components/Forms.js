@@ -7,12 +7,12 @@ import AdminHeader from "./AdminHeader";
 class Forms extends Component {
     constructor() {
         super();
-        this.state = {forms: [], loading: true};
+        this.state = {data: [], loading: true};
         this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
-        fetch("http://localhost:8021/forms/program/1", {credentials: 'include', Accept: 'application/json'})
+        fetch("http://localhost:8021/forms", {credentials: 'include', Accept: 'application/json'})
             .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
@@ -25,7 +25,7 @@ class Forms extends Component {
                 throw error;
             })
             .then((data) => {
-                this.setState({forms: data, loading: false});
+                this.setState({data: data, loading: false});
             })
             .catch((error) => {
                 this.setState({loading: false});
@@ -49,7 +49,6 @@ class Forms extends Component {
                         <a href="#">{form.name}</a>
                     </h4>
                     <h5>{form.formType}</h5>
-                    <p className="card-text">{form.programName}</p>
                     <a href="#" className="btn btn-primary">Open</a>
                 </div>
                 <div className="card-footer">
@@ -59,20 +58,37 @@ class Forms extends Component {
         </div>
     }
 
-    renderRows(forms) {
+    renderRows1(data) {
         let cols = [], rows = [];
-        _.forEach(forms, (form, index) => {
-            cols.push(this.renderForm(form));
-            if (cols.length === 4) {
-                rows.push(this.renderRow(cols));
-                cols = [];
-            }
+        _.forEach(data, (programData, programDataIndex) => {
+            rows.push(
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">{programData.program.name}</h3></div>
+                </div>);
+            rows.push(<div className="panel-body">{this.renderProgramForms()}</div>);
+            _.forEach(programData.forms, (form, formIndex) => {
+                cols.push(this.renderForm(form));
+                if (cols.length === 4) {
+                    rows.push(this.renderRow(cols));
+                    cols = [];
+                }
+            });
         });
-        rows.push(<div className="divider-new my-5">
-                <h2 className="h3-responsive">Program</h2>
-            </div>
-        );
         rows.push(this.renderRow(cols));
+        return rows;
+    }
+
+    renderRows(data) {
+        const rows = [];
+        _.forEach(data, (programData, programDataIndex) => {
+            rows.push(
+            <div className="card">
+                <div className="card-heading">
+                    <h3 className="card-title" style={{'background-color': programData.program.colour}}>{programData.program.name}</h3>
+                </div>
+            </div>);
+           rows.push(<div className="card-body">{this.renderProgramForms(programData)}</div>);});
         return rows;
     }
 
@@ -88,9 +104,23 @@ class Forms extends Component {
                 </nav>
             </div>
             <div className="container">
-                {this.renderRows(this.state.forms)}
+                {this.renderRows(this.state.data)}
             </div>
         </div>
+    }
+
+    renderProgramForms(programData) {
+        const rows = [];
+        let cols = [];
+        _.forEach(programData.forms, (form, formIndex) => {
+            cols.push(this.renderForm(form));
+            if (cols.length === 4) {
+                rows.push(this.renderRow(cols));
+                cols = [];
+            }
+        });
+        rows.push(this.renderRow(cols));
+        return rows;
     }
 }
 
