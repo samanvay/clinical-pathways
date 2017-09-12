@@ -7,7 +7,9 @@ import {createStore, combineReducers} from 'redux';
 import Reducers from "./reducers/index";
 import Dashboard from "./components/Dashboard";
 
+import 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap';
 import Forms from "./components/Forms";
 import AdminHeader from "./components/AdminHeader";
 import Breadcrumb from "./components/Breadcrumb";

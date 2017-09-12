@@ -1,6 +1,7 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 module.exports = {
     devtool: 'eval',
     entry: [
@@ -20,6 +21,12 @@ module.exports = {
                 },
             ], { copyUnmodified: true }
         ),
+        new webpack.ProvidePlugin({
+            jQuery: 'jquery',
+            $: 'jquery',
+            jquery: 'jquery',
+            'Popper': 'popper.js'
+        })
     ],
     externals: {
         cheerio: 'window',
