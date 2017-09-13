@@ -4,6 +4,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import Breadcrumb from "./Breadcrumb";
 import AdminHeader from "./AdminHeader";
+import NewFormModal, {NewFormButton} from "./NewFormModal";
 
 class Forms extends Component {
     constructor() {
@@ -93,13 +94,8 @@ class Forms extends Component {
         return <div>
             <AdminHeader/>
             <Breadcrumb name="forms"/>
-            <div className="container">
-                <nav className="navbar my-2 my-sm-0">
-                    <form className="form-inline">
-                        <button className="btn btn-outline-success" type="button">New Form</button>
-                    </form>
-                </nav>
-            </div>
+            <NewFormButton/>
+            <NewFormModal/>
             <div className="container">
                 <div id="accordion" role="tablist">
                     {this.renderRows(this.state.data)}

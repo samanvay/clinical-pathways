@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import {Provider} from 'react-redux';
-import {createBrowserHistory} from 'history';
+import {createHashHistory} from 'history';
 import {createStore, combineReducers} from 'redux';
 import Reducers from "./reducers/index";
 import Dashboard from "./components/Dashboard";
@@ -14,7 +14,7 @@ import Forms from "./components/Forms";
 import AdminHeader from "./components/AdminHeader";
 import Breadcrumb from "./components/Breadcrumb";
 
-const history = createBrowserHistory();
+const history = createHashHistory({queryKey: false})
 const store = createStore(combineReducers(Reducers.createReducers()))
 const concepts = () => (
     <div>
