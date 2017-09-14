@@ -3,10 +3,8 @@ import {Link} from 'react-router-dom';
 
 const Breadcrumb = (props) => {
     const items = [];
-    if (props.name === 'forms') {
-        items.push(<li className="breadcrumb-item active">Forms</li>);
-    } else if (props.name === 'concepts') {
-        items.push(<li className="breadcrumb-item active">Concepts</li>);
+    if (props.location !== undefined) {
+        items.push(<li className="breadcrumb-item active" key={props.location.pathname}>{activePage(props.location.pathname)}</li>);
     }
     return (
         <div className="container">
@@ -16,5 +14,16 @@ const Breadcrumb = (props) => {
             </ol>
         </div>
     );
+};
+
+const activePage = (path)=>{
+    switch (path) {
+        case "/forms":
+            return "Forms";
+        case "/concepts":
+            return "Concepts";
+        default:
+            return "";
+    }
 };
 export default Breadcrumb;

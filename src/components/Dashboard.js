@@ -1,11 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Col, Grid, Row} from "react-bootstrap";
-import AdminHeader from "./AdminHeader";
 
 const Dashboard = () =>
     <div>
-        <AdminHeader/>
         <Grid>
             <Row>
                 <Col sm={4}>

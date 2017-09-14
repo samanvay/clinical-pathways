@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createHashHistory} from 'history';
 import {createStore, combineReducers} from 'redux';
@@ -13,6 +13,8 @@ import 'bootstrap/dist/js/bootstrap';
 import Forms from "./components/Forms";
 import AdminHeader from "./components/AdminHeader";
 import Breadcrumb from "./components/Breadcrumb";
+import App from "./App";
+import Routes from "./routes";
 
 const history = createHashHistory({queryKey: false})
 const store = createStore(combineReducers(Reducers.createReducers()))
@@ -26,10 +28,6 @@ const concepts = () => (
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <div>
-                <Route exact path="/" component={Dashboard}/>
-                <Route path="/forms" component={Forms}/>
-                <Route path="/concepts" component={concepts}/>
-            </div>
+            <Routes/>
         </Router>
     </Provider>, document.getElementById('openchs-admin-client'));

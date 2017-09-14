@@ -26,12 +26,12 @@ export default function NewFormModal() {
                 <form>
                     <div className="modal-body">
                         <div className="form-group">
-                            <label for="formName">Name</label>
+                            <label htmlFor="formName">Name</label>
                             <input type="email" className="form-control" id="formName" aria-describedby="formNameHelp"
                                    placeholder="Enter form name"/>
                         </div>
                         <div className="form-group">
-                            <label for="formType">Form Type</label>
+                            <label htmlFor="formType">Form Type</label>
                             <select className="form-control" id="formTypeSelect">
                                 <option>IndividualProfile</option>
                                 <option>Encounter</option>
