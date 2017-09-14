@@ -9,8 +9,6 @@ import Reducers from "./reducers/index";
 import 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
-import AdminHeader from "./components/AdminHeader";
-import Breadcrumb from "./components/Breadcrumb";
 import Routes from "./routes";
 
 const history = createHashHistory({queryKey: false})
