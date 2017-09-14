@@ -15,13 +15,7 @@ import Routes from "./routes";
 
 const history = createHashHistory({queryKey: false})
 const store = createStore(combineReducers(Reducers.createReducers()))
-const concepts = () => (
-    <div>
-        <AdminHeader/>
-        <Breadcrumb name="concepts"/>
-        <h2>Concepts</h2>
-    </div>
-);
+
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
