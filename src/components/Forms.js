@@ -4,8 +4,8 @@ import ProgramCard from './ProgramCard';
 import NewFormModal, {NewFormButton} from "./NewFormModal";
 
 class Forms extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {data: [], loading: true};
         this.setState = this.setState.bind(this);
     }
@@ -35,7 +35,7 @@ class Forms extends Component {
     render() {
         return <div>
             <NewFormButton/>
-            <NewFormModal/>
+            <NewFormModal {...this.props}/>
             <ProgramCard data={this.state.data}/>
         </div>
     }

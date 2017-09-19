@@ -1,18 +1,24 @@
 import React from "react";
 
 export function NewFormButton() {
-    return <div className="container">
-        <nav className="navbar my-2 my-sm-0">
-            <form className="form-inline">
-                <button className="btn btn-primary" data-toggle="modal" data-target="#newFormModal" type="button">New
-                    Form
-                </button>
-            </form>
-        </nav>
-    </div>
+    return <div className="row justify-content-end">
+        <div className="col-1">
+            <nav className="navbar float-right">
+                <form className="form-inline">
+                    <button className="btn btn-primary" data-toggle="modal" data-target="#newFormModal" type="button">
+                        New Form
+                    </button>
+                </form>
+            </nav>
+        </div>
+    </div>;
 };
 
-export default function NewFormModal() {
+export default function NewFormModal(props) {
+    const addFields = (event) => {
+        props.history.push("/forms/addFields", null);
+    };
+
     return <div className="modal fade" id="newFormModal" role="dialog" aria-labelledby="newFormModalTitle"
                 aria-hidden="true">
         <div className="modal-dialog" role="document">
@@ -27,7 +33,7 @@ export default function NewFormModal() {
                     <div className="modal-body">
                         <div className="form-group">
                             <label htmlFor="formName">Name</label>
-                            <input type="email" className="form-control" id="formName" aria-describedby="formNameHelp"
+                            <input type="text" className="form-control" id="formName" aria-describedby="formNameHelp"
                                    placeholder="Enter form name"/>
                         </div>
                         <div className="form-group">
@@ -42,7 +48,9 @@ export default function NewFormModal() {
                         </div>
                     </div>
                     <div className="modal-footer">
-                        <button type="submit" className="btn btn-primary btn-block">Add Fields</button>
+                        <button type="button" data-dismiss="modal" className="btn btn-primary btn-block"
+                                onClick={addFields}>Add Fields
+                        </button>
                     </div>
                 </form>
             </div>

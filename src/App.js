@@ -1,19 +1,15 @@
 import React from 'react';
 import AdminHeader from "./components/AdminHeader";
 import {withRouter} from "react-router-dom";
-const App = (props) =>{
-    console.log(Object.getOwnPropertyNames(props));
-    const {location, breadcrumb: Breadcrumb, content: Content} = props;
-    if (Breadcrumb) {
-        return <div>
-            <AdminHeader/>
-            <Breadcrumb location={location}/>
-            <Content/>
-        </div>;
-    }
+
+const App = (props) => {
+    const {history, location, breadcrumb: Breadcrumb, content: Content} = props;
     return <div>
         <AdminHeader/>
-        <Content/>
+        {Breadcrumb && <Breadcrumb location={location}/>}
+        <div className="container">
+            <Content history={history}/>
+        </div>
     </div>;
 };
 export default withRouter(App);

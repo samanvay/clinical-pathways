@@ -1,29 +1,28 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import _ from 'lodash';
 
 const Breadcrumb = (props) => {
     const items = [];
     if (props.location !== undefined) {
-        items.push(<li className="breadcrumb-item active" key={props.location.pathname}>{activePage(props.location.pathname)}</li>);
+        let fullPath = "";
+        const paths = _.split(props.location.pathname, '/');
+        const lastPath = paths.pop();
+        paths.forEach(path=>{
+            fullPath = fullPath + path + '/';
+            if (fullPath === '/') {path = 'Dashboard'}
+            items.push(<li className="breadcrumb-item" key={fullPath}><Link to={fullPath}>{_.startCase(path)}</Link></li>);
+        });
+        fullPath = fullPath + '/' + lastPath;
+        items.push(<li className="breadcrumb-item active" key={fullPath}>{_.startCase(lastPath)}</li>);
     }
     return (
         <div className="container">
             <ol className="breadcrumb">
-                <li className="breadcrumb-item"><Link to="/">Dashboard</Link></li>
                 {items}
             </ol>
         </div>
     );
 };
 
-const activePage = (path)=>{
-    switch (path) {
-        case "/forms":
-            return "Forms";
-        case "/concepts":
-            return "Concepts";
-        default:
-            return "";
-    }
-};
 export default Breadcrumb;
