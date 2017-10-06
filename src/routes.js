@@ -4,19 +4,25 @@ import Dashboard from "./components/Dashboard";
 import Forms from "./components/Forms";
 import Breadcrumb from "./components/Breadcrumb";
 import {Route, Switch} from 'react-router-dom';
-import FormGroup from "./components/FormGroup";
+import FormDetails from "./components/FormDetails";
+
+const Default = (props) => {
+    return <App content={Dashboard} {...props}/>
+};
+
+const FormList = (props) => {
+    return <App content={Forms} breadcrumb={Breadcrumb} {...props}/>
+};
+
+const AddFields = (props) => {
+    return <App content={FormDetails} breadcrumb={Breadcrumb} {...props}/>
+};
 
 export default function Routes(props) {
     return <Switch>
-        <Route exact path="/">
-            <App content={Dashboard}/>
-        </Route>
-        <Route exact path="/forms">
-            <App content={Forms} breadcrumb={Breadcrumb}/>
-        </Route>
-        <Route path="/forms/addFields">
-            <App content={FormGroup} breadcrumb={Breadcrumb}/>
-        </Route>
+        <Route exact path="/" component={Default}/>
+        <Route exact path="/forms" component={FormList}/>
+        <Route path="/forms/addFields" component={AddFields}/>
         <Route path="/concepts">
             <App content={() => (<h2>Concepts</h2>)} breadcrumb={Breadcrumb}/>
         </Route>
