@@ -6,13 +6,16 @@ class FormGroup extends Component {
     }
 
     render() {
-        return <form className="form-inline">
-            <label htmlFor="groupName">Group: </label>
-            <input type="text" className="form-control form-control-danger" id="groupName"
-                   placeholder="Enter group"/>
-            <label htmlFor="groupDisplay">Display:</label>
-            <input type="text" className="form-control" id="groupDisplay" placeholder="Enter display"/>
-        </form>;
+        return (
+            <form className="form-inline">
+                <label htmlFor="groupName" className="mr-sm-2">Group: </label>
+                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupName"
+                       placeholder="Enter group"/>
+                <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
+                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupDisplay"
+                       placeholder="Enter display"/>
+            </form>
+        );
     }
 }
 
