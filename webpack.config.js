@@ -25,6 +25,7 @@ module.exports = {
             jQuery: 'jquery',
             $: 'jquery',
             jquery: 'jquery',
+            Tether: 'tether',
             'Popper': 'popper.js'
         })
     ],

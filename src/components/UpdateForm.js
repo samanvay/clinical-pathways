@@ -16,28 +16,30 @@ class UpdateForm extends Component {
     };
 
     render() {
-        return <form>
-            <div className="form-group">
-                <label htmlFor="formName">Name</label>
-                <input type="text" className="form-control  form-control-danger" id="formName"
-                       aria-describedby="formNameHelp"
-                       value={this.props.formName}
-                       placeholder="Enter form name" onChange={this.onChangeField.bind(this)}/>
-            </div>
-            <div className="form-group">
-                <label htmlFor="formType">Form Type</label>
-                <select className="form-control" id="formTypeSelect"
-                        onChange={this.onChangeField.bind(this)}
-                        value={this.props.formType}>
-                    <option>IndividualProfile</option>
-                    <option>Encounter</option>
-                    <option>ProgramEncounter</option>
-                    <option>ProgramEnrolment</option>
-                    <option>ProgramExit</option>
-                </select>
-            </div>
-            <button type="submit" className="btn btn-primary" onSubmit={this.update.bind(this)}>Update</button>
-        </form>;
+        return (
+            <form>
+                <div className="form-group has-danger">
+                    <label htmlFor="formName">Name</label>
+                    <input type="text" className="form-control  form-control-danger" id="formName"
+                           aria-describedby="formNameHelp"
+                           value={this.props.formName}
+                           placeholder="Enter form name" onChange={this.onChangeField.bind(this)}/>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="formType">Form Type</label>
+                    <select className="form-control" id="formTypeSelect"
+                            onChange={this.onChangeField.bind(this)}
+                            value={this.props.formType}>
+                        <option>IndividualProfile</option>
+                        <option>Encounter</option>
+                        <option>ProgramEncounter</option>
+                        <option>ProgramEnrolment</option>
+                        <option>ProgramExit</option>
+                    </select>
+                </div>
+                <button type="submit" className="btn btn-primary" onSubmit={this.update.bind(this)}>Update</button>
+            </form>
+        );
     }
 };
 

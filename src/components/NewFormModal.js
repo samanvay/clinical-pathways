@@ -44,11 +44,12 @@ class NewFormModal extends Component {
                     </div>
                     <form>
                         <div className="modal-body">
-                            <div className="form-group">
+                            <div className="form-group has-danger">
                                 <label htmlFor="formName">Name</label>
-                                <input type="text" className="form-control  form-control-danger" id="formName"
+                                <input type="text" className="form-control form-control-danger" id="formName"
                                        aria-describedby="formNameHelp" name="formName"
-                                       placeholder="Enter form name" onChange={this.onChangeField.bind(this)}/>
+                                       placeholder="Enter form name" onChange={this.onChangeField.bind(this)}
+                                       required/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="formType">Form Type</label>
