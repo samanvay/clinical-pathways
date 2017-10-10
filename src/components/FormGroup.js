@@ -7,14 +7,18 @@ class FormGroup extends Component {
 
     render() {
         return (
-            <form className="form-inline">
-                <label htmlFor="groupName" className="mr-sm-2">Group: </label>
-                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupName"
-                       placeholder="Enter group"/>
-                <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
-                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupDisplay"
-                       placeholder="Enter display"/>
-            </form>
+            <div className="row">
+                <div className="col-12">
+                    <form className="form-inline">
+                        <label htmlFor="groupName" className="mr-sm-2">Group: </label>
+                        <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupName"
+                               placeholder="Enter group"/>
+                        <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
+                        <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id="groupDisplay"
+                               placeholder="Enter display"/>
+                    </form>
+                </div>
+            </div>
         );
     }
 }
