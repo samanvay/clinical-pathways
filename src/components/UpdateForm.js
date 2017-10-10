@@ -19,7 +19,7 @@ class UpdateForm extends Component {
         return (
             <form>
                 <div className="form-group has-danger">
-                    <label htmlFor="formName">Name</label>
+                    <label htmlFor="formName">Form Name</label>
                     <input type="text" className="form-control  form-control-danger" id="formName"
                            aria-describedby="formNameHelp"
                            value={this.props.formName}
