@@ -1,53 +1,33 @@
 import React, {Component} from 'react';
-import _ from "lodash";
+import {MenuItem} from "react-bootstrap";
+import {connect} from "react-redux";
+import fields from './configFields';
+import addField from "../actions/addField";
+import PropTypes from 'prop-types';
 
-const fields = [
-    {
-        icon: "object-group",
-        label: "Group"
-    },
-    {
-        icon: "font",
-        label: "Text"
-    },
-    {
-        icon: "check-circle",
-        label: "Checkbox"
-    },
-    {
-        icon: "list",
-        label: "List"
-    },
-    {
-        icon: "calendar",
-        label: "Date"
-    },
-    {
-        icon: "align-left",
-        label: "Multiple choices"
-    }
-];
-
-export default class FieldList extends Component {
+class FieldList extends Component {
     constructor(props) {
         super(props);
     }
 
     static addFieldsRow(fields) {
         return (
-            <div className="row list-group-horizontal">
+            <div className="row list-group-horizontal list-unstyled">
                 {fields}
             </div>
         );
     }
 
     renderFields() {
+        const onClick = this.props.onClick;
         let rows = [];
         let cols = [];
-        _.forEach(fields, (field, fieldIndex) => {
+        fields.forEach((field, icon) => {
             cols.push(
-                <div className="col-4 list-group-item" key={fieldIndex}>
-                    <i className={`fa fa-${field.icon}`}>{" " + field.label}</i>
+                <div className="col-4 list-group-item" key={icon}>
+                    <MenuItem key={icon} eventKey={icon} onClick={(e) => onClick(e)} name={field.icon}>
+                        <i className={`fa fa-${field.icon}`}/>{" " + field.label}
+                    </MenuItem>
                 </div>);
             if (cols === 3) {
                 rows.push(FieldList.addFieldsRow(cols));
@@ -61,15 +41,22 @@ export default class FieldList extends Component {
     }
 
     render() {
+        let allFields = this.renderFields();
         return (
             <div className="card">
                 <div className="card-header">
                     <strong>Select Field</strong>
                 </div>
                 <div className="card-body">
-                    {this.renderFields()}
+                    {allFields}
                 </div>
             </div>
         );
     }
 }
+
+FieldList.propTypes = {
+    onClick: PropTypes.func
+};
+
+export default connect(()=>{return {}}, {addField})(FieldList);

@@ -75,6 +75,6 @@ class NewFormModal extends Component {
     }
 };
 
-export default connect(() => {
-    return {formName: '', formType: ''}
+export default connect((state) => {
+    return {}
 }, {addNewForm})(NewFormModal);
