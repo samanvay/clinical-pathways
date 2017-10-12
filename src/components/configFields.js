@@ -1,5 +1,6 @@
 import React from 'react';
-const TextComponent = (props)=> {
+
+const TextComponent = (props) => {
     return <input type="text" name={props.name}/>
 };
 
@@ -11,7 +12,7 @@ const fields = new Map([
     ["font", {
         icon: "font",
         label: "Text",
-        component: (name)=>(<TextComponent name={name}/>)
+        component: (name) => (<TextComponent name={name}/>)
     }],
     ["check-circle", {
         icon: "check-circle",
@@ -28,6 +29,13 @@ const fields = new Map([
     ["align-left", {
         icon: "align-left",
         label: "Multiple choices"
+    }],
+    ["circle-o-number", {
+        isStack: true,
+        iconWrapper: "circle-o",
+        iconContent: "#",
+        label: "Number"
     }]
-]);
+])
+;
 export default fields;

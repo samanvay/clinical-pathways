@@ -5,6 +5,18 @@ import fields from './configFields';
 import addField from "../actions/addField";
 import PropTypes from 'prop-types';
 
+const FieldIcon = (props) => {
+    const field = props.field;
+    if (field.isStack) {
+        return (
+            <i className="fa-stack">
+                <i className={`fa fa-${field.iconWrapper} fa-stack-2x`}/>
+                <i className="fa-stack-1x">{field.iconContent}</i>
+            </i>);
+    }
+    return <i className={`fa fa-${field.icon}`}/>;
+};
+
 class FieldList extends Component {
     constructor(props) {
         super(props);
@@ -26,7 +38,7 @@ class FieldList extends Component {
             cols.push(
                 <div className="col-4 list-group-item" key={icon}>
                     <MenuItem key={icon} eventKey={icon} onClick={(e) => onClick(e)} name={field.icon}>
-                        <i className={`fa fa-${field.icon}`}/>{" " + field.label}
+                        <FieldIcon field={field}/>{" " + field.label}
                     </MenuItem>
                 </div>);
             if (cols === 3) {
@@ -59,4 +71,6 @@ FieldList.propTypes = {
     onClick: PropTypes.func
 };
 
-export default connect(()=>{return {}}, {addField})(FieldList);
+export default connect(() => {
+    return {}
+}, {addField})(FieldList);
