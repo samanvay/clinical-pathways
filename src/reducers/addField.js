@@ -1,12 +1,37 @@
-import {ADD_FIELD} from "../actions/addField";
-export default function addField(fields = [], action) {
+import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP} from "../actions/addField";
+import _ from 'lodash';
+/*
+[
+    {groupId: '', groupName: '', groupDisplayName: '', fields: [{id: '', name: '', type: ''}]},
+    {groupId: '', groupName: '', groupDisplayName: '', fields: []}
+]
+ */
+export default function addField(formGroups = [], action) {
+    const clonedFormGroups = formGroups.slice(0);
+    const groupId = action.groupId;
+    const formGroup = _.find(clonedFormGroups, function (formGroup) {
+        return formGroup.groupId === groupId;
+    });
     switch (action.type) {
         case ADD_FIELD:
-            const clonedFields = fields.slice(0);
-            clonedFields.push(action.field.component(name(clonedFields, action.field)))
-            return clonedFields;
+            formGroup.fields.push(action.field);
+            return clonedFormGroups;
+        case ADD_GROUP:
+            clonedFormGroups.push(action.group);
+            return clonedFormGroups;
+        case UPDATE_GROUP:
+            formGroup.groupName = action.groupName;
+            formGroup.groupDisplayName = action.groupDisplayName;
+            return clonedFormGroups;
+        case UPDATE_FIELD:
+            const field = _.field(formGroup.fields, function(field) {
+                return field.id === action.fieldId;
+            });
+            field.name = action.fieldName;
+            field.type = action.fieldType;
+            return clonedFormGroups;
         default:
-            return fields;
+            return formGroups;
     }
 }
 

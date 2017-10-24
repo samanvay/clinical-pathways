@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import fields from './configFields';
 import addField from "../actions/addField";
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 const FieldIcon = (props) => {
     const field = props.field;
@@ -22,9 +23,9 @@ class FieldList extends Component {
         super(props);
     }
 
-    static addFieldsRow(fields) {
+    static addFieldsRow(fields, groupId, rowNum) {
         return (
-            <div className="row list-group-horizontal list-unstyled">
+            <div className="row list-group-horizontal list-unstyled" key={groupId + '_fields_' + rowNum}>
                 {fields}
             </div>
         );
@@ -34,20 +35,21 @@ class FieldList extends Component {
         const onClick = this.props.onClick;
         let rows = [];
         let cols = [];
-        fields.forEach((field, icon) => {
+        _.forEach(fields, (field) => {
             cols.push(
-                <div className="col-4 list-group-item" key={icon}>
-                    <MenuItem key={icon} eventKey={icon} onClick={(e) => onClick(e)} name={field.icon}>
+                <div className="col-4 list-group-item" key={field.icon + this.props.groupId}>
+                    <MenuItem key={field.icon} eventKey={field.icon} onClick={(e) => onClick(field, this.props.groupId)}
+                              name={field.icon}>
                         <FieldIcon field={field}/>{" " + field.label}
                     </MenuItem>
                 </div>);
             if (cols === 3) {
-                rows.push(FieldList.addFieldsRow(cols));
+                rows.push(FieldList.addFieldsRow(cols, this.props.groupId, rows.length));
                 cols = [];
             }
         });
         if (cols.length > 0) {
-            rows.push(FieldList.addFieldsRow(cols));
+            rows.push(FieldList.addFieldsRow(cols, this.props.groupId, rows.length));
         }
         return rows;
     }
@@ -68,7 +70,8 @@ class FieldList extends Component {
 }
 
 FieldList.propTypes = {
-    onClick: PropTypes.func
+    onClick: PropTypes.func.isRequired,
+    groupId: PropTypes.string
 };
 
 export default connect(() => {

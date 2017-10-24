@@ -1,41 +1,43 @@
 import React from 'react';
 
 const TextComponent = (props) => {
-    return <input type="text" name={props.name}/>
+    return (
+        <div className="form-group row">
+            <label htmlFor={props.id} className="col-sm-2 col-form-label">Name</label>
+            <div className="col-sm-10">
+                <input type="text" className="form-control" id={props.id}/>
+            </div>
+        </div>
+    );
 };
 
-const fields = new Map([
-    ["object-group", {
+const fields = [{
         icon: "object-group",
-        label: "Group"
-    }],
-    ["font", {
+        label: "Group",
+        type: "Group"
+    },{
         icon: "font",
         label: "Text",
-        component: (name) => (<TextComponent name={name}/>)
-    }],
-    ["check-circle", {
+        type: "Text",
+        component: (id) => (<TextComponent id={id} key={id}/>)
+    },{
         icon: "check-circle",
-        label: "Checkbox"
-    }],
-    ["list", {
-        icon: "list",
-        label: "List"
-    }],
-    ["calendar", {
+        label: "Checkbox",
+        type: "Boolean"
+    },{
         icon: "calendar",
-        label: "Date"
-    }],
-    ["align-left", {
+        label: "Date",
+        type: "Date"
+    },{
         icon: "align-left",
-        label: "Multiple choices"
-    }],
-    ["circle-o-number", {
+        label: "Multiple choices",
+        type: "Coded"
+    },{
+        icon: "circle-o-#",
         isStack: true,
         iconWrapper: "circle-o",
         iconContent: "#",
-        label: "Number"
-    }]
-])
-;
+        label: "Number",
+        type: "Number"
+    }];
 export default fields;
