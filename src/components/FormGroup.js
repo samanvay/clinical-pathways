@@ -33,7 +33,7 @@ class FormGroup extends Component {
             });
             const fieldComponent = fieldCfg.component(inputField.id);
             inputFields.push(
-                <div className="row">
+                <div className="row" key={inputField.id}>
                     <div className="col-12">
                         {fieldComponent}
                     </div>

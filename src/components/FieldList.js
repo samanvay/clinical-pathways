@@ -6,7 +6,7 @@ import addField from "../actions/addField";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-const FieldIcon = (props) => {
+export const FieldIcon = (props) => {
     const field = props.field;
     if (field.isStack) {
         return (

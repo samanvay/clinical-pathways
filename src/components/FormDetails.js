@@ -48,35 +48,49 @@ class FormDetails extends Component {
             addField(groupField, formGroup.groupId);
             groupFields.push(groupField);
         }
+        delete this.state.currentGroup;
         this.setState({formFields: this.props.formFields});
     }
 
     renderGroups() {
         const formElements = [];
         _.forEach(this.props.formFields, (group) => {
-            console.log("Render group " + group.groupId);
             formElements.push(
                 <FormGroup id={group.groupId} name={group.groupName} displayName={group.groupDisplayName}
                            fields={group.fields} key={group.groupId + group.fields.length}/>
             );
+            if (this.props.formFields.length >= 1 && this.props.formFields[0].fields.length > 0) {
+                formElements.push(<button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => {
+                    this.setState({currentGroup: group});
+                }} key={group.groupId}>Add
+                    Fields</button>);
+            }
         });
         if (this.props.formFields.length === 1 && this.props.formFields[0].fields.length === 0) {
             formElements.push(<FieldList onClick={this.onSelectField.bind(this)} groupId='group_1'
                                          key='group_1_fieldList'/>);
         }
-        console.log("return form elements");
         return formElements;
     }
 
+    showFields(group) {
+        return <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId}
+                          key={group.groupId + '_fieldList'}/>;
+    }
+
     render() {
-        return (
-            <div className="row">
-                {this.renderForm()}
-                <div className="col-4">
-                    <UpdateForm/>
+        if (this.state.currentGroup) {
+            return this.showFields(this.state.currentGroup);
+        } else {
+            return (
+                <div className="row">
+                    {this.renderForm()}
+                    <div className="col-4">
+                        <UpdateForm/>
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
