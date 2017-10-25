@@ -27,11 +27,15 @@ class FormGroup extends Component {
 
     renderFields() {
         const inputFields = [];
+        let i = 0;
+        const collapse = "collapse";
         _.forEach(this.props.fields, (inputField) => {
+            i++;
             const fieldCfg = _.find(fields, (field) => {
                 return inputField.icon === field.icon;
             });
-            const fieldComponent = fieldCfg.component(inputField.id);
+            const collapseClass = this.props.collapse === true ? collapse : (this.props.fields.length === i ? collapse + " show" : collapse);
+            const fieldComponent = fieldCfg.component(inputField.id, collapseClass);
             inputFields.push(
                 <div className="row" key={inputField.id}>
                     <div className="col-12">
@@ -47,7 +51,9 @@ class FormGroup extends Component {
         return (
             <div>
                 {this.renderGroup()}
-                {this.renderFields()}
+                <div id="accordion" role="tablist">
+                    {this.renderFields()}
+                </div>
             </div>
         );
     }
@@ -57,7 +63,8 @@ FormGroup.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string,
     displayName: PropTypes.string,
-    fields: PropTypes.array
+    fields: PropTypes.array,
+    collapse: PropTypes.bool
 };
 
 //id={group.groupId} name={group.groupName} displayName={group.groupDisplayName} fields={group.fields}

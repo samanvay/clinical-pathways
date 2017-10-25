@@ -12,7 +12,7 @@ export default function ProgramCard(props) {
         const headingId = "heading" + programDataIndex;
         programCards.push(
             <div className="card" key={programData.program.uuid}>
-                <div className="card-heading" role="tab" id={headingId}>
+                <div className="card-header" role="tab" id={headingId}>
                     <h2 className="card-title text-center" style={style}>
                         <a data-toggle="collapse" href={"#" + collapseId} aria-expanded="true"
                            aria-controls={collapseId} style={{color: 'white'}}>

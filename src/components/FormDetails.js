@@ -38,6 +38,7 @@ class FormDetails extends Component {
             const group = createGroup(groupId);
             addGroup(group);
             this.state.formFields.push(group);
+            this.setState({formFields: this.props.formFields, currentGroup: group});
         } else {
             const formGroup = _.find(this.props.formFields, (formGroup) => {
                 return formGroup.groupId === groupId;
@@ -47,18 +48,23 @@ class FormDetails extends Component {
             const groupField = {id, type: field.type, icon: field.icon};
             addField(groupField, formGroup.groupId);
             groupFields.push(groupField);
+            delete this.state.currentGroup;
+            this.setState({formFields: this.props.formFields});
         }
-        delete this.state.currentGroup;
-        this.setState({formFields: this.props.formFields});
     }
 
     renderGroups() {
+        const collapse = !!this.state.currentGroup;
+        console.log("collapse: " + collapse);
         const formElements = [];
         _.forEach(this.props.formFields, (group) => {
             formElements.push(
                 <FormGroup id={group.groupId} name={group.groupName} displayName={group.groupDisplayName}
-                           fields={group.fields} key={group.groupId + group.fields.length}/>
+                           fields={group.fields} key={group.groupId + group.fields.length} collapse={collapse}/>
             );
+            if (collapse && group.groupId === this.state.currentGroup.groupId) {
+                formElements.push(this.showFields(this.state.currentGroup));
+            }
             if (this.props.formFields.length >= 1 && this.props.formFields[0].fields.length > 0) {
                 formElements.push(<button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => {
                     this.setState({currentGroup: group});
@@ -79,18 +85,14 @@ class FormDetails extends Component {
     }
 
     render() {
-        if (this.state.currentGroup) {
-            return this.showFields(this.state.currentGroup);
-        } else {
-            return (
-                <div className="row">
-                    {this.renderForm()}
-                    <div className="col-4">
-                        <UpdateForm/>
-                    </div>
+        return (
+            <div className="row">
+                {this.renderForm()}
+                <div className="col-4">
+                    <UpdateForm/>
                 </div>
-            );
-        }
+            </div>
+        );
     }
 }
 
