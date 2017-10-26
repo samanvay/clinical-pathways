@@ -3,9 +3,9 @@ import AdminHeader from "./components/AdminHeader";
 import {withRouter} from "react-router-dom";
 
 const App = (props) => {
-    const {history, location, breadcrumb: Breadcrumb, content: Content} = props;
+    const {header: Header, history, location, breadcrumb: Breadcrumb, content: Content} = props;
     return <div>
-        <AdminHeader/>
+        {Header && <Header/>}
         {Breadcrumb && <Breadcrumb location={location}/>}
         <div className="container">
             <Content history={history}/>

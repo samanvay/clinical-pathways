@@ -36,10 +36,15 @@ class FormDetails extends Component {
             <div className="col-9">
                 <form>
                     {this.renderGroups()}
+                    <button type="button" className="btn btn-success pull-right"
+                            onClick={() =>{}}>
+                        <i className={`glyphicon glyphicon-save`} />
+                        Save your form
+                    </button>
                 </form>
             </div>);
     }
-
+    
     onSelectField(field, groupId) {
         let currentGroup;
         let showFields;
@@ -61,6 +66,7 @@ class FormDetails extends Component {
             showFields = false;
         }
         this.setState({formFields: this.props.formFields, currentGroup, showFields});
+        scrollDown();
     }
 
     /**
@@ -95,6 +101,7 @@ class FormDetails extends Component {
 
     addGroupField(currentGroup) {
         this.setState({currentGroup, showFields: true});
+        scrollDown();
     }
 
     showFields(group) {
@@ -126,6 +133,10 @@ FormDetails.propTypes = {
 
 function createGroup(id) {
     return {groupId: id, groupName: '', groupDisplayName: '', fields: []}
+}
+
+function scrollDown(){
+    $("html, body").animate({ scrollTop: $(document).height() }, "fast");
 }
 
 export default connect((state) => {

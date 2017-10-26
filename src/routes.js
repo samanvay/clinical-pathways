@@ -5,13 +5,14 @@ import Forms from "./components/Forms";
 import Breadcrumb from "./components/Breadcrumb";
 import {Route, Switch} from 'react-router-dom';
 import FormDetails from "./components/FormDetails";
+import AdminHeader from "./components/AdminHeader";
 
 const Default = (props) => {
-    return <App content={Dashboard} {...props}/>
+    return <App header={AdminHeader} content={Dashboard} {...props}/>
 };
 
 const FormList = (props) => {
-    return <App content={Forms} breadcrumb={Breadcrumb} {...props}/>
+    return <App header={AdminHeader} content={Forms} breadcrumb={Breadcrumb} {...props}/>
 };
 
 const AddFields = (props) => {
