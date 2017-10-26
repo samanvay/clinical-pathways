@@ -54,7 +54,7 @@ class FormDetails extends Component {
                 return group.groupId === groupId;
             });
             const groupFields = currentGroup.fields;
-            const id = groupId + field.icon + currentGroup.fields.length + 1;
+            const id = groupId + field.id + currentGroup.fields.length + 1;
             const groupField = {id, type: field.type, icon: field.icon};
             addField(groupField, currentGroup.groupId);
             groupFields.push(groupField);

@@ -15,7 +15,7 @@ class TextComponent extends Component {
     }
 
     render() {
-        const collapseId = "collapse" + this.props.field.id;
+        const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
         return (
             <div className="row">
