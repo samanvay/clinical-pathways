@@ -10,22 +10,30 @@ import _ from 'lodash';
 class FormDetails extends Component {
     /*
     [
-        {groupId: '', groupName: '', groupDisplayName: '', fields: [{id: '', name: '', type: '', icon: ''}]},
-        {groupId: '', groupName: '', groupDisplayName: '', fields: []}
+        {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: [{id: '', name: '', type: '', icon: ''}]},
+        {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: []}
     ]
      */
     constructor(props) {
         super(props);
         if (this.props.formFields.length === 0) {
-            this.props.formFields.push(createGroup('group_1'));
+            const firstGroup = createGroup('group_1');
+            this.props.formFields.push(firstGroup);
+            this.state = {formFields: this.props.formFields, currentGroup: firstGroup, showFields: true};
+        } else if (this.props.formFields.length === 1) {
+            this.state = {formFields: this.props.formFields, currentGroup: this.props.formFields[0], showFields: true};
         }
-        this.state = {formFields: this.props.formFields};
+        else {
+            this.state = {formFields: this.props.formFields, showFields: false, currentGroup: {}};
+        }
+
         this.onSelectField = this.onSelectField.bind(this);
+        this.addGroupField = this.addGroupField.bind(this);
     }
 
     renderForm() {
         return (
-            <div className="col-8">
+            <div className="col-9">
                 <form>
                     {this.renderGroups()}
                 </form>
@@ -33,50 +41,60 @@ class FormDetails extends Component {
     }
 
     onSelectField(field, groupId) {
+        let currentGroup;
+        let showFields;
         if (field.type === 'Group') {
             const groupId = "group_" + (this.props.formFields.length + 1);
-            const group = createGroup(groupId);
-            addGroup(group);
-            this.state.formFields.push(group);
-            this.setState({formFields: this.props.formFields, currentGroup: group});
+            currentGroup = createGroup(groupId);
+            addGroup(currentGroup);
+            this.props.formFields.push(currentGroup);
+            showFields = true;
         } else {
-            const formGroup = _.find(this.props.formFields, (formGroup) => {
-                return formGroup.groupId === groupId;
+            currentGroup = _.find(this.props.formFields, (group) => {
+                return group.groupId === groupId;
             });
-            const groupFields = formGroup.fields;
-            const id = groupId + field.icon + formGroup.fields.length + 1;
+            const groupFields = currentGroup.fields;
+            const id = groupId + field.icon + currentGroup.fields.length + 1;
             const groupField = {id, type: field.type, icon: field.icon};
-            addField(groupField, formGroup.groupId);
+            addField(groupField, currentGroup.groupId);
             groupFields.push(groupField);
-            delete this.state.currentGroup;
-            this.setState({formFields: this.props.formFields});
+            showFields = false;
         }
+        this.setState({formFields: this.props.formFields, currentGroup, showFields});
     }
 
+    /**
+     * single group, no fields added show the fields panel
+     * single group, selected a field, add field component and 'Add field' button. Except last field, all other fields
+     * are collapsed.
+     * single group, click on 'Add field'. Collapse all field, show fields panel
+     * click on group in fields panel, a new group should be added, all other group fields collapsed. just the new group
+     * will have the fields panel
+     * @returns {Array}
+     */
     renderGroups() {
-        const collapse = !!this.state.currentGroup;
-        console.log("collapse: " + collapse);
         const formElements = [];
         _.forEach(this.props.formFields, (group) => {
+            const isCurrentGroup = group.groupId === this.state.currentGroup.groupId;
             formElements.push(
                 <FormGroup id={group.groupId} name={group.groupName} displayName={group.groupDisplayName}
-                           fields={group.fields} key={group.groupId + group.fields.length} collapse={collapse}/>
+                           fields={group.fields} key={group.groupId + group.fields.length} collapse={this.state.showFields || !isCurrentGroup}/>
             );
-            if (collapse && group.groupId === this.state.currentGroup.groupId) {
-                formElements.push(this.showFields(this.state.currentGroup));
-            }
-            if (this.props.formFields.length >= 1 && this.props.formFields[0].fields.length > 0) {
-                formElements.push(<button type="button" className="btn btn-primary btn-lg btn-block" onClick={() => {
-                    this.setState({currentGroup: group});
-                }} key={group.groupId}>Add
-                    Fields</button>);
+            if (this.state.showFields && isCurrentGroup) {
+                formElements.push(this.showFields(group));
+            } else {
+                formElements.push(
+                    <button type="button" className="btn btn-secondary btn-block"
+                            onClick={() =>(this.addGroupField(group))} key={group.groupId}>
+                        Add Fields
+                    </button>);
             }
         });
-        if (this.props.formFields.length === 1 && this.props.formFields[0].fields.length === 0) {
-            formElements.push(<FieldList onClick={this.onSelectField.bind(this)} groupId='group_1'
-                                         key='group_1_fieldList'/>);
-        }
         return formElements;
+    }
+
+    addGroupField(currentGroup) {
+        this.setState({currentGroup, showFields: true});
     }
 
     showFields(group) {
@@ -88,7 +106,7 @@ class FormDetails extends Component {
         return (
             <div className="row">
                 {this.renderForm()}
-                <div className="col-4">
+                <div className="col-3">
                     <UpdateForm/>
                 </div>
             </div>
@@ -101,7 +119,9 @@ FormDetails.defaultProps = {
 };
 
 FormDetails.propTypes = {
-    formFields: PropTypes.array
+    formFields: PropTypes.array,
+    currentGroup: PropTypes.object,
+    showFields: PropTypes.bool
 };
 
 function createGroup(id) {

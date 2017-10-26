@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import addField from "../actions/addField";
-import fields from './configFields';
+import {updateGroup} from "../actions/addField";
+import fieldsMetadata from './configFields';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -10,17 +10,23 @@ class FormGroup extends Component {
         super(props);
     }
 
+    onChangeField(event) {
+        this.props.updateGroup(this.props.id, event.target.name, event.target.value);
+    }
+
     renderGroup() {
         return (
-            <div className="row">
-                <div className="col-12 form-inline">
+            <div className="form-row">
+                <div className="form-inline mb-2">
                     <label htmlFor="groupName" className="mr-sm-2">Group: </label>
                     <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id={this.props.id + '_groupName'}
-                           placeholder="Enter group" value={this.props.name}/>
+                           placeholder="Enter group" defaultValue={this.props.name} name="groupName"
+                           onChange={this.onChangeField.bind(this)}/>
                     <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
                     <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
-                           id={this.props.id + '_groupDisplay'}
-                           placeholder="Enter display" value={this.props.displayName}/>
+                           id={this.props.id + '_groupDisplay'} name="groupDisplayName"
+                           placeholder="Enter display" defaultValue={this.props.displayName}
+                           onChange={this.onChangeField.bind(this)}/>
                 </div>
             </div>);
     }
@@ -31,11 +37,11 @@ class FormGroup extends Component {
         const collapse = "collapse";
         _.forEach(this.props.fields, (inputField) => {
             i++;
-            const fieldCfg = _.find(fields, (field) => {
+            const fieldMetadata = _.find(fieldsMetadata, (field) => {
                 return inputField.icon === field.icon;
             });
             const collapseClass = this.props.collapse === true ? collapse : (this.props.fields.length === i ? collapse + " show" : collapse);
-            const fieldComponent = fieldCfg.component(inputField.id, collapseClass);
+            const fieldComponent = fieldMetadata.component(this.props.id, inputField, collapseClass);
             inputFields.push(
                 <div className="row" key={inputField.id}>
                     <div className="col-12">
@@ -67,7 +73,6 @@ FormGroup.propTypes = {
     collapse: PropTypes.bool
 };
 
-//id={group.groupId} name={group.groupName} displayName={group.groupDisplayName} fields={group.fields}
 export default connect((state) => {
     return {}
-}, {addField})(FormGroup);
+}, {updateGroup})(FormGroup);

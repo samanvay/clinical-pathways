@@ -12,6 +12,7 @@ export default function addField(formGroups = [], action) {
     const formGroup = _.find(clonedFormGroups, function (formGroup) {
         return formGroup.groupId === groupId;
     });
+
     switch (action.type) {
         case ADD_FIELD:
             formGroup.fields.push(action.field);
@@ -20,11 +21,10 @@ export default function addField(formGroups = [], action) {
             clonedFormGroups.push(action.group);
             return clonedFormGroups;
         case UPDATE_GROUP:
-            formGroup.groupName = action.groupName;
-            formGroup.groupDisplayName = action.groupDisplayName;
+            formGroup[action.groupField] = action.value;
             return clonedFormGroups;
         case UPDATE_FIELD:
-            const field = _.field(formGroup.fields, function(field) {
+            const field = _.find(formGroup.fields, function(field) {
                 return field.id === action.fieldId;
             });
             field.name = action.fieldName;

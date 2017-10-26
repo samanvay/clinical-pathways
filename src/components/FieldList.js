@@ -1,24 +1,24 @@
 import React, {Component} from 'react';
 import {MenuItem} from "react-bootstrap";
 import {connect} from "react-redux";
-import fields from './configFields';
+import fieldsMetadata from './configFields';
 import addField from "../actions/addField";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 export const FieldIcon = (props) => {
-    const field = props.field;
-    if (field.isStack) {
+    const fieldMetadata = props.fieldMetadata;
+    if (fieldMetadata.isStack) {
         return (
             <i className="fa-stack">
-                <i className={`fa fa-${field.iconWrapper} fa-stack-2x`}/>
-                <i className="fa-stack-1x">{field.iconContent}</i>
+                <i className={`fa fa-${fieldMetadata.iconWrapper} fa-stack-2x`}/>
+                <i className="fa-stack-1x">{fieldMetadata.iconContent}</i>
             </i>);
     }
-    return <i className={`fa fa-${field.icon}`}/>;
+    return <i className={`fa fa-${fieldMetadata.icon}`}/>;
 };
 
-class FieldList extends Component {
+class FieldsPanel extends Component {
     constructor(props) {
         super(props);
     }
@@ -35,21 +35,22 @@ class FieldList extends Component {
         const onClick = this.props.onClick;
         let rows = [];
         let cols = [];
-        _.forEach(fields, (field) => {
+        _.forEach(fieldsMetadata, (fieldMetadata) => {
             cols.push(
-                <div className="col-4 list-group-item" key={field.icon + this.props.groupId}>
-                    <MenuItem key={field.icon} eventKey={field.icon} onClick={(e) => onClick(field, this.props.groupId)}
-                              name={field.icon}>
-                        <FieldIcon field={field}/>{" " + field.label}
+                <div className="col-4 list-group-item" key={fieldMetadata.icon + this.props.groupId}>
+                    <MenuItem key={fieldMetadata.icon} eventKey={fieldMetadata.icon}
+                              onClick={(e) => onClick(fieldMetadata, this.props.groupId)}
+                              name={fieldMetadata.icon}>
+                        <FieldIcon fieldMetadata={fieldMetadata}/>{" " + fieldMetadata.label}
                     </MenuItem>
                 </div>);
             if (cols === 3) {
-                rows.push(FieldList.addFieldsRow(cols, this.props.groupId, rows.length));
+                rows.push(FieldsPanel.addFieldsRow(cols, this.props.groupId, rows.length));
                 cols = [];
             }
         });
         if (cols.length > 0) {
-            rows.push(FieldList.addFieldsRow(cols, this.props.groupId, rows.length));
+            rows.push(FieldsPanel.addFieldsRow(cols, this.props.groupId, rows.length));
         }
         return rows;
     }
@@ -69,11 +70,11 @@ class FieldList extends Component {
     }
 }
 
-FieldList.propTypes = {
+FieldsPanel.propTypes = {
     onClick: PropTypes.func.isRequired,
     groupId: PropTypes.string
 };
 
 export default connect(() => {
     return {}
-}, {addField})(FieldList);
+}, {addField})(FieldsPanel);

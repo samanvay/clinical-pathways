@@ -11,10 +11,10 @@ export function addGroup(group) {
     return {type: ADD_GROUP, group}
 }
 
-export function updateGroup(group) {
-    return {type: UPDATE_GROUP, group}
+export function updateGroup(groupId, groupField, value) {
+    return {type: UPDATE_GROUP, groupId, groupField, value}
 }
 
-export function updateField(field) {
-    return {type: UPDATE_FIELD, field}
+export function updateField(groupId, fieldId, fieldName, fieldType) {
+    return {type: UPDATE_FIELD, groupId, fieldId, fieldName, fieldType}
 }

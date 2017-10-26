@@ -22,14 +22,14 @@ class UpdateForm extends Component {
                     <label htmlFor="formName">Form Name</label>
                     <input type="text" className="form-control  form-control-danger" id="formName"
                            aria-describedby="formNameHelp"
-                           value={this.props.formName}
+                           defaultValue={this.props.formName}
                            placeholder="Enter form name" onChange={this.onChangeField.bind(this)}/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="formType">Form Type</label>
                     <select className="form-control" id="formTypeSelect"
                             onChange={this.onChangeField.bind(this)}
-                            value={this.props.formType}>
+                            defaultValue={this.props.formType}>
                         <option>IndividualProfile</option>
                         <option>Encounter</option>
                         <option>ProgramEncounter</option>
