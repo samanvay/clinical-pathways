@@ -1,5 +1,6 @@
 import React from 'react';
 import TextComponent from "./TextComponent";
+import DateComponent from "./DateComponent";
 
 const fieldsMetadata = [{
     id: "object-group",
@@ -23,7 +24,10 @@ const fieldsMetadata = [{
     id: "calendar",
     icon: "calendar",
     label: "Date",
-    type: "Date"
+    type: "Date",
+    component: (groupId, field, collapse) => (
+        <DateComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[3]} key={field.id}
+                       collapse={collapse}/>)
 }, {
     id: "align-left",
     icon: "align-left",

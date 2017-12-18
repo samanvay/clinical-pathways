@@ -29,6 +29,7 @@ export default function addField(formGroups = [], action) {
             });
             field.name = action.fieldName;
             field.type = action.fieldType;
+            field.keyValues = action.fieldKeyValues;
             return clonedFormGroups;
         default:
             return formGroups;
