@@ -5,12 +5,12 @@ import MultiCodedComponent from "./MultiCodedComponent";
 import SingleCodedComponent from "./SingleCodedComponent";
 
 const fieldsMetadata = [{
-    id: "object-group",
+    id: "groupField",
     icon: "object-group",
     label: "Group",
     type: "Group"
 }, {
-    id: "font",
+    id: "textField",
     icon: "font",
     label: "Text",
     type: "Text",
@@ -18,12 +18,12 @@ const fieldsMetadata = [{
         <TextComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[1]} key={field.id}
                        collapse={collapse}/>)
 }, {
-    id: "check-circle",
+    id: "booleanField",
     icon: "check-circle",
     label: "Checkbox",
     type: "Boolean"
 }, {
-    id: "calendar",
+    id: "calendarField",
     icon: "calendar",
     label: "Date",
     type: "Date",
@@ -31,7 +31,7 @@ const fieldsMetadata = [{
         <DateComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[3]} key={field.id}
                        collapse={collapse}/>)
 }, {
-    id: "align-left",
+    id: "multiCodedField",
     icon: "align-left",
     label: "Multiple choices",
     type: "Coded",
@@ -39,15 +39,15 @@ const fieldsMetadata = [{
         <MultiCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[4]} key={field.id}
                             collapse={collapse}/>)
 },{
-    id: "list",
+    id: "singleCodedField",
     icon: "list",
-    label: "List",
+    label: "Multiple choices",
     type: "Coded",
     component: (groupId, field, collapse) => (
         <SingleCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[4]} key={field.id}
                              collapse={collapse}/>)
 },{
-    id: "circle-o-",
+    id: "numberField",
     icon: "circle-o-#",
     isStack: true,
     iconWrapper: "circle-o",
