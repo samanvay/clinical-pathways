@@ -8,6 +8,15 @@ import _ from "lodash";
 class DateComponent extends Component {
     constructor(props) {
         super(props);
+        const checkedState = {};
+        dateSubFields.forEach((dateSubField)=>{
+            const checked = this.checked(dateSubField) || false;
+            Object.assign(checkedState,
+                {[dateSubField.id + this.props.field.id]:
+                    {checked,
+                     dateSubField}});
+        });
+        this.state = checkedState;
     }
 
     onChangeFieldName(event) {
@@ -15,60 +24,50 @@ class DateComponent extends Component {
             this.props.field.keyValues, this.props.field.answers);
     }
 
-    renderDateField(dateSubField) {
+    renderDateSubField(dateSubField) {
         const dateSubFieldId = dateSubField.id + this.props.field.id;
-        if (this.isChecked(dateSubField)) {
-            return (<div className="form-check form-check-inline" key={dateSubFieldId}>
-                <label className="form-check-label">
-                    <input className="form-check-input" type="checkbox" id={dateSubFieldId}
-                           defaultValue={dateSubField.value} checked
-                           onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
-                </label>
-            </div>);
-        } else {
-            return (<div className="form-check form-check-inline" key={dateSubFieldId}>
-                <label className="form-check-label">
-                    <input className="form-check-input" type="checkbox" id={dateSubFieldId}
-                           defaultValue={dateSubField.value}
-                           onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
-                </label>
-            </div>);
-        }
+        return (<div className="form-check form-check-inline" key={dateSubFieldId}>
+            <label className="form-check-label">
+                <input className="form-check-input" type="checkbox" id={dateSubFieldId}
+                       checked={this.state[dateSubFieldId].checked}
+                       onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
+            </label>
+        </div>);
     }
 
-    isChecked(dateSubField) {
-        const dateFields = this.dateSubFields();
-        return dateFields && dateFields.includes(dateSubField.value);
+    checked(dateSubField) {
+        const dateSubFieldValues = this.dateSubFieldValues();
+        return dateSubFieldValues && dateSubFieldValues.includes(dateSubField.value);
     }
 
-    dateSubFields(){
+    dateSubFieldValues(){
         return this.props.field.keyValues &&
             this.props.field.keyValues[0] &&
             this.props.field.keyValues[0]["value"];
     }
 
     renderDateSubFields() {
-        let dateSubFieldE = [];
-        dateFields.forEach((dateSubField) =>(dateSubFieldE.push(this.renderDateField(dateSubField))));
+        let dateSubFieldComponents = [];
+        dateSubFields.forEach((dateSubField) =>(dateSubFieldComponents.push(this.renderDateSubField(dateSubField))));
         return (<div className="form-group">
-            {dateSubFieldE}
+            {dateSubFieldComponents}
         </div>);
     }
 
     onChangeDateField(event) {
-        const subField = event.target.defaultValue;
-        let subFields = this.dateSubFields();
-        if (!subFields) {
-            subFields = []
-        }
-        if (subFields && subFields.includes(subField)) {
-            _.remove(subFields, (e) => (e === subField));
+        const checked = event.target.checked;
+        let dateSubFieldValues = this.dateSubFieldValues() || [];
+        const dateSubFieldValue = this.state[event.target.id].dateSubField.value;
+        if (dateSubFieldValues && !checked) {
+            _.remove(dateSubFieldValues, (e) => (e === dateSubFieldValue));
         } else {
-            subFields.push(subField);
+            dateSubFieldValues.push(dateSubFieldValue);
         }
-        const keyValues = subFields ? [{"key": "durationOptions", "value": subFields}] : [];
+        const keyValues = dateSubFieldValues ? [{"key": "durationOptions", "value": dateSubFieldValues}] : [];
         this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
             keyValues, this.props.field.answers);
+        const dateField = this.state[event.target.id];
+        this.setState(...this.state, {[event.target.id]: {...dateField, checked: checked}});
     }
 
     render() {
@@ -105,7 +104,7 @@ class DateComponent extends Component {
     }
 }
 
-const dateFields = [
+const dateSubFields = [
     {id: "days_cb", value: "days", label: "Days"},
     {id: "weeks_cb", value: "weeks", label: "Weeks"},
     {id: "months_cb", value: "months", label: "Months"},

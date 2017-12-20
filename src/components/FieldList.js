@@ -56,14 +56,13 @@ class FieldsPanel extends Component {
     }
 
     render() {
-        let allFields = this.renderFields();
         return (
             <div className="card">
                 <div className="card-header">
                     <strong>Select Field</strong>
                 </div>
                 <div className="card-body">
-                    {allFields}
+                    {this.renderFields()}
                 </div>
             </div>
         );
