@@ -11,22 +11,24 @@ class DateComponent extends Component {
     }
 
     onChangeFieldName(event) {
-        this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.field.type);
+        this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.field.type,
+            this.props.field.keyValues, this.props.field.answers);
     }
 
     renderDateField(dateSubField) {
+        const dateSubFieldId = dateSubField.id + this.props.field.id;
         if (this.isChecked(dateSubField)) {
-            return (<div className="form-check form-check-inline">
+            return (<div className="form-check form-check-inline" key={dateSubFieldId}>
                 <label className="form-check-label">
-                    <input className="form-check-input" type="checkbox" id={dateSubField.id}
+                    <input className="form-check-input" type="checkbox" id={dateSubFieldId}
                            defaultValue={dateSubField.value} checked
                            onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
                 </label>
             </div>);
         } else {
-            return (<div className="form-check form-check-inline">
+            return (<div className="form-check form-check-inline" key={dateSubFieldId}>
                 <label className="form-check-label">
-                    <input className="form-check-input" type="checkbox" id={dateSubField.id}
+                    <input className="form-check-input" type="checkbox" id={dateSubFieldId}
                            defaultValue={dateSubField.value}
                            onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
                 </label>
@@ -47,7 +49,7 @@ class DateComponent extends Component {
 
     renderDateSubFields() {
         let dateSubFieldE = [];
-        dateFields.forEach((dateSubField) =>(dateSubFieldE.push(this.renderDateField(this.props.field.id + dateSubField))));
+        dateFields.forEach((dateSubField) =>(dateSubFieldE.push(this.renderDateField(dateSubField))));
         return (<div className="form-group">
             {dateSubFieldE}
         </div>);
@@ -66,7 +68,7 @@ class DateComponent extends Component {
         }
         const keyValues = subFields ? [{"key": "durationOptions", "value": subFields}] : [];
         this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
-            keyValues);
+            keyValues, this.props.field.answers);
     }
 
     render() {
