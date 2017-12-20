@@ -6,7 +6,7 @@ import {connect} from "react-redux";
 import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 
-class MultiCodeComponent extends Component {
+class CodedComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {tags: []}
@@ -14,12 +14,14 @@ class MultiCodeComponent extends Component {
 
     onChangeFieldName(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type, selectMulti, this.props.field.answers);
+        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type,
+            this.props.selectType, this.props.field.answers);
     }
 
     onChangeAnswers(tags) {
         this.setState({tags});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type, selectMulti, tags);
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+            this.props.selectType, tags);
     }
 
     render() {
@@ -51,7 +53,8 @@ class MultiCodeComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor={tagsFieldId}>Type your choices. Press enter after each choice.</label>
-                            <TagsInput value={tags} onChange={this.onChangeAnswers.bind(this)} id={tagsFieldId} inputProps={{placeholder: "Answer"}}/>
+                            <TagsInput value={tags} onChange={this.onChangeAnswers.bind(this)} id={tagsFieldId}
+                                       inputProps={{placeholder: "Answer"}}/>
                         </div>
                         <div className="form-group">
                             <div className="form-check">
@@ -67,18 +70,14 @@ class MultiCodeComponent extends Component {
     }
 }
 
-const selectMulti = [{
-    "key": "Select",
-    "value": "Multi"
-}];
-
-MultiCodeComponent.propTypes = {
+CodedComponent.propTypes = {
     groupId: PropTypes.string.isRequired,
     field: PropTypes.object,
+    selectType: PropTypes.oneOf(['Single', 'Multi']),
     fieldMetadata: PropTypes.object,
     collapse: PropTypes.string
 };
 
 export default connect((state) => {
     return {};
-}, {updateField})(MultiCodeComponent);
+}, {updateField})(CodedComponent);
