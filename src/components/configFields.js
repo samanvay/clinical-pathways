@@ -44,7 +44,7 @@ const fieldsMetadata = [{
     label: "Multiple choices",
     type: "Coded",
     component: (groupId, field, collapse) => (
-        <SingleCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[4]} key={field.id}
+        <SingleCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
                              collapse={collapse}/>)
 },{
     id: "numberField",
@@ -55,7 +55,7 @@ const fieldsMetadata = [{
     label: "Number",
     type: "Number",
     component: (groupId, field, collapse) => (
-        <TextComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
+        <TextComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[6]} key={field.id}
                        collapse={collapse}/>)
 }];
 export default fieldsMetadata;
