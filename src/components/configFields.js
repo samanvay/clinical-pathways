@@ -1,6 +1,7 @@
 import React from 'react';
 import TextComponent from "./TextComponent";
 import DateComponent from "./DateComponent";
+import MultiCodeComponent from "./MultiCodeComponent";
 
 const fieldsMetadata = [{
     id: "object-group",
@@ -32,7 +33,10 @@ const fieldsMetadata = [{
     id: "align-left",
     icon: "align-left",
     label: "Multiple choices",
-    type: "Coded"
+    type: "Coded",
+    component: (groupId, field, collapse) => (
+        <MultiCodeComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[4]} key={field.id}
+                            collapse={collapse}/>)
 }, {
     id: "circle-o-",
     icon: "circle-o-#",

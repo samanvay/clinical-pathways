@@ -1,5 +1,4 @@
 import React from 'react';
-import AdminHeader from "./components/AdminHeader";
 import {withRouter} from "react-router-dom";
 
 const App = (props) => {

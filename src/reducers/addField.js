@@ -30,6 +30,7 @@ export default function addField(formGroups = [], action) {
             field.name = action.fieldName;
             field.type = action.fieldType;
             field.keyValues = action.fieldKeyValues;
+            field.answers = action.answers !== undefined && action.answers;
             return clonedFormGroups;
         default:
             return formGroups;

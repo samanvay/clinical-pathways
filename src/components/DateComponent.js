@@ -47,7 +47,7 @@ class DateComponent extends Component {
 
     renderDateSubFields() {
         let dateSubFieldE = [];
-        dateFields.forEach((dateSubField) =>(dateSubFieldE.push(this.renderDateField(dateSubField))));
+        dateFields.forEach((dateSubField) =>(dateSubFieldE.push(this.renderDateField(this.props.field.id + dateSubField))));
         return (<div className="form-group">
             {dateSubFieldE}
         </div>);

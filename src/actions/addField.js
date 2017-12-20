@@ -15,6 +15,6 @@ export function updateGroup(groupId, groupField, value) {
     return {type: UPDATE_GROUP, groupId, groupField, value}
 }
 
-export function updateField(groupId, fieldId, fieldName, fieldType, fieldKeyValues) {
-    return {type: UPDATE_FIELD, groupId, fieldId, fieldName, fieldType, fieldKeyValues}
+export function updateField(groupId, fieldId, fieldName, fieldType, fieldKeyValues, answers) {
+    return {type: UPDATE_FIELD, groupId, fieldId, fieldName, fieldType, fieldKeyValues, answers}
 }
