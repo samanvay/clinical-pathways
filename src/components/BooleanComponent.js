@@ -3,33 +3,33 @@ import {FieldIcon} from "./FieldList";
 import {updateField} from "../actions/addField";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
-import TagsInput from 'react-tagsinput'
-import 'react-tagsinput/react-tagsinput.css'
 
-class CodedComponent extends Component {
+class BooleanComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {tags: []}
     }
 
-    onChangeFieldName(event) {
+    onChangeField(event) {
         const fieldName = event.target.value;
         this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type,
-            this.props.field.fieldKeyValues, this.props.field.answers);
+            this.props.fieldKeyValues);
     }
 
-    onChangeAnswers(tags) {
-        this.setState({tags});
-        const keyValues = [{'key': 'Select', 'value': this.props.selectType}];
+    onChangeBoolField(event) {
+        const value = event.target.value;
+        const isTrueValue = event.target.id === this.trueId();
+        const keyValues = this.props.field.keyValues || [{'key': 'TrueValue'}, {'key': 'FalseValue'}];
+        const trueValue = isTrueValue ? value : keyValues[0]['value'];
+        const falseValue = !isTrueValue ? value : keyValues[1]['value'];
         this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
-            keyValues, tags);
+            [{...keyValues[0], 'value': trueValue}, {...keyValues[1], 'value': falseValue}]);
     }
 
     render() {
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
-        const tags = this.props.field.answers || [];
-        const tagsFieldId = this.props.field.id + "_tags";
+        const trueValue = this.props.field.keyValues && this.props.field.keyValues[0]['value'];
+        const falseValue = this.props.field.keyValues && this.props.field.keyValues[1]['value'];
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -44,7 +44,7 @@ class CodedComponent extends Component {
                         <div className="form-row">
                             <div className="form-group col-md-10">
                                 <input type="text" className="form-control" id={this.props.field.id}
-                                       placeholder="Question Title" onChange={this.onChangeFieldName.bind(this)}
+                                       placeholder="Question Title" onChange={this.onChangeField.bind(this)}
                                        defaultValue={this.props.field.name}/>
                             </div>
                             <div className="form-group col-md-2">
@@ -52,10 +52,17 @@ class CodedComponent extends Component {
                                     fieldMetadata={this.props.fieldMetadata}/>{" " + this.props.fieldMetadata.label}
                             </div>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor={tagsFieldId}>Type your choices. Press enter after each choice.</label>
-                            <TagsInput value={tags} onChange={this.onChangeAnswers.bind(this)} id={tagsFieldId}
-                                       inputProps={{placeholder: "Answer"}}/>
+                        <div className="form-row">
+                            <div className="form-group col-md-5">
+                                <input type="text" className="form-control" id={this.trueId()}
+                                       placeholder="True Value" onChange={this.onChangeBoolField.bind(this)}
+                                       defaultValue={trueValue}/>
+                            </div>
+                            <div className="form-group col-md-5">
+                                <input type="text" className="form-control" id={this.falseId()}
+                                       placeholder="False Value" onChange={this.onChangeBoolField.bind(this)}
+                                       defaultValue={falseValue}/>
+                            </div>
                         </div>
                         <div className="form-group">
                             <div className="form-check">
@@ -69,16 +76,27 @@ class CodedComponent extends Component {
             </div>
         );
     }
+
+    trueId() {
+        return this.boolId(true);
+    }
+
+    falseId() {
+        return this.boolId(false);
+    }
+
+    boolId(bool) {
+        return bool + this.props.field.id;
+    }
 }
 
-CodedComponent.propTypes = {
+BooleanComponent.propTypes = {
     groupId: PropTypes.string.isRequired,
     field: PropTypes.object,
-    selectType: PropTypes.oneOf(['Single', 'Multi']),
     fieldMetadata: PropTypes.object,
     collapse: PropTypes.string
 };
 
 export default connect((state) => {
     return {};
-}, {updateField})(CodedComponent);
+}, {updateField})(BooleanComponent);

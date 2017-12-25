@@ -3,6 +3,7 @@ import TextComponent from "./TextComponent";
 import DateComponent from "./DateComponent";
 import MultiCodedComponent from "./MultiCodedComponent";
 import SingleCodedComponent from "./SingleCodedComponent";
+import BooleanComponent from "./BooleanComponent";
 
 const fieldsMetadata = [{
     id: "groupField",
@@ -21,7 +22,10 @@ const fieldsMetadata = [{
     id: "booleanField",
     icon: "check-circle",
     label: "Checkbox",
-    type: "Boolean"
+    type: "Boolean",
+    component: (groupId, field, collapse) => (
+        <BooleanComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[2]} key={field.id}
+                       collapse={collapse}/>)
 }, {
     id: "calendarField",
     icon: "calendar",
