@@ -8,6 +8,7 @@ import _ from 'lodash';
 class FormGroup extends Component {
     constructor(props) {
         super(props);
+        this.state = {groupName: this.props.name};
     }
 
     onChangeField(event) {
@@ -15,18 +16,38 @@ class FormGroup extends Component {
     }
 
     renderGroup() {
+        const collapse = "collapse";
+        const collapseClass = this.state['groupName'] ? collapse : collapse + " show";
+        const collapseId = "collapse_" + this.props.id;
+        const headerId = "heading_" + this.props.id;
+        const formHeader = 'Group' + (this.props.displayName ? ' ' + this.props.displayName :
+            (this.props.name ? ' ' + this.props.name : ''));
         return (
-            <div className="form-row">
-                <div className="form-inline mb-2">
-                    <label htmlFor="groupName" className="mr-sm-2">Group: </label>
-                    <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0" id={this.props.id + '_groupName'}
-                           placeholder="Enter group" defaultValue={this.props.name} name="groupName"
-                           onChange={this.onChangeField.bind(this)}/>
-                    <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
-                    <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
-                           id={this.props.id + '_groupDisplay'} name="groupDisplayName"
-                           placeholder="Enter display" defaultValue={this.props.displayName}
-                           onChange={this.onChangeField.bind(this)}/>
+            <div className="card">
+                <div className="card-header py-2" id={headerId}>
+                    <a data-toggle="collapse" href={"#" + collapseId} aria-expanded="true"
+                       aria-controls={collapseId}>
+                        <strong>{formHeader}</strong>
+                    </a>
+                </div>
+                <div id={collapseId} className={collapseClass} aria-labelledby={headerId}
+                     data-parent="#accordion">
+                    <div className="card-body">
+                        <div className="form-row">
+                            <div className="form-inline mb-2">
+                                <label htmlFor="groupName" className="mr-sm-2">Group: </label>
+                                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
+                                       id={this.props.id + '_groupName'}
+                                       placeholder="Enter group" defaultValue={this.props.name} name="groupName"
+                                       onChange={this.onChangeField.bind(this)}/>
+                                <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
+                                <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
+                                       id={this.props.id + '_groupDisplay'} name="groupDisplayName"
+                                       placeholder="Enter display" defaultValue={this.props.displayName}
+                                       onChange={this.onChangeField.bind(this)}/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>);
     }
