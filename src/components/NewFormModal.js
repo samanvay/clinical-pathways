@@ -15,15 +15,22 @@ export function NewFormButton() {
         </div>
     </div>;
 };
-
+/*
+{
+"name":,
+"uuid":,
+"formType":,
+"programName":,
+"userUUID":
+ */
 class NewFormModal extends Component {
     constructor(props) {
         super(props);
-        this.state = {formName: '', formType: 'IndividualProfile'};
+        this.state = {name: '', formType: 'IndividualProfile', programName: 'Mother'};
     }
 
     addFields() {
-        this.props.addNewForm(this.state.formName, this.state.formType);
+        this.props.addNewForm(this.state.name, this.state.formType, this.state.programName);
         this.props.history.push("/forms/addFields");
     };
 
@@ -47,7 +54,7 @@ class NewFormModal extends Component {
                             <div className="form-group has-danger">
                                 <label htmlFor="formName">Name</label>
                                 <input type="text" className="form-control form-control-danger" id="formName"
-                                       aria-describedby="formNameHelp" name="formName"
+                                       aria-describedby="formNameHelp" name="name"
                                        placeholder="Enter form name" onChange={this.onChangeField.bind(this)}
                                        required/>
                             </div>
@@ -60,6 +67,15 @@ class NewFormModal extends Component {
                                     <option>ProgramEncounter</option>
                                     <option>ProgramEnrolment</option>
                                     <option>ProgramExit</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="programName">Program Name</label>
+                                <select className="form-control" id="programNameSelect" name="programName"
+                                        onChange={this.onChangeField.bind(this)}>
+                                    <option>Mother</option>
+                                    <option>Child</option>
+                                    <option>Diabetes</option>
                                 </select>
                             </div>
                         </div>

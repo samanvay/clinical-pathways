@@ -9,20 +9,26 @@ import 'react-tagsinput/react-tagsinput.css'
 class CodedComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {tags: []}
+        this.state = {tags: [], mandatory: false}
     }
 
     onChangeFieldName(event) {
         const fieldName = event.target.value;
         this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type,
-            this.props.field.fieldKeyValues, this.props.field.answers);
+            this.props.field.fieldKeyValues, this.props.field.answers, this.state.mandatory);
     }
 
     onChangeAnswers(tags) {
-        this.setState({tags});
+        this.setState(...this.state, {tags});
         const keyValues = [{'key': 'Select', 'value': this.props.selectType}];
         this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
-            keyValues, tags);
+            keyValues, tags, this.state.mandatory);
+    }
+
+    onChangeMandatory(event) {
+        this.setState(...this.state, {mandatory: !this.state.mandatory});
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+            this.props.field.fieldKeyValues, tags, this.state.mandatory);
     }
 
     render() {
@@ -30,6 +36,7 @@ class CodedComponent extends Component {
         const headerId = "heading_" + this.props.field.id;
         const tags = this.props.field.answers || [];
         const tagsFieldId = this.props.field.id + "_tags";
+        const mandatoryFieldId = this.props.field.id + "_mandatory";
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -60,7 +67,8 @@ class CodedComponent extends Component {
                         <div className="form-group">
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input className="form-check-input" type="checkbox"/> Required
+                                    <input className="form-check-input" type="checkbox" name={mandatoryFieldId}
+                                    required={this.state.mandatory} onChange={this.onChangeMandatory.bind(this)}/> Required
                                 </label>
                             </div>
                         </div>

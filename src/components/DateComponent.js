@@ -8,28 +8,32 @@ import _ from "lodash";
 class DateComponent extends Component {
     constructor(props) {
         super(props);
-        const checkedState = {};
+        const dateSubFieldsState = {};
         dateSubFields.forEach((dateSubField)=>{
-            const checked = this.checked(dateSubField) || false;
-            Object.assign(checkedState,
+            const checked = this.checked(dateSubField);
+            console.log(dateSubField.id + this.props.field.id + ":" + checked);
+            Object.assign(dateSubFieldsState,
                 {[dateSubField.id + this.props.field.id]:
                     {checked,
                      dateSubField}});
         });
-        this.state = checkedState;
+        this.state = {dateSubFieldsState, 'mandatory': this.props.field.mandatory || false};
+        console.log("constr: " + JSON.stringify(this.state));
+        //console.log("constr, dateSubFieldsState: " + Object.getOwnPropertyNames(this.state.dateSubFieldsState));
     }
 
     onChangeFieldName(event) {
         this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.field.type,
-            this.props.field.keyValues, this.props.field.answers);
+            this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
     }
 
     renderDateSubField(dateSubField) {
         const dateSubFieldId = dateSubField.id + this.props.field.id;
+        console.log("renderDateSubField: " + dateSubFieldId + ", " + this.state.dateSubFieldsState[dateSubFieldId]['checked']);
         return (<div className="form-check form-check-inline" key={dateSubFieldId}>
             <label className="form-check-label">
                 <input className="form-check-input" type="checkbox" id={dateSubFieldId}
-                       checked={this.state[dateSubFieldId].checked}
+                       checked={this.state.dateSubFieldsState[dateSubFieldId]['checked']}
                        onChange={this.onChangeDateField.bind(this)}/>{dateSubField.label}
             </label>
         </div>);
@@ -37,13 +41,13 @@ class DateComponent extends Component {
 
     checked(dateSubField) {
         const dateSubFieldValues = this.dateSubFieldValues();
-        return dateSubFieldValues && dateSubFieldValues.includes(dateSubField.value);
+        return (dateSubFieldValues && dateSubFieldValues.includes(dateSubField.value)) || false;
     }
 
     dateSubFieldValues(){
-        return this.props.field.keyValues &&
+        return (this.props.field.keyValues &&
             this.props.field.keyValues[0] &&
-            this.props.field.keyValues[0]["value"];
+            this.props.field.keyValues[0]["value"]) || [];
     }
 
     renderDateSubFields() {
@@ -56,8 +60,8 @@ class DateComponent extends Component {
 
     onChangeDateField(event) {
         const checked = event.target.checked;
-        let dateSubFieldValues = this.dateSubFieldValues() || [];
-        const dateSubFieldValue = this.state[event.target.id].dateSubField.value;
+        let dateSubFieldValues = this.dateSubFieldValues();
+        const dateSubFieldValue = this.state.dateSubFieldsState[event.target.id].dateSubField.value;
         if (dateSubFieldValues && !checked) {
             _.remove(dateSubFieldValues, (e) => (e === dateSubFieldValue));
         } else {
@@ -66,14 +70,26 @@ class DateComponent extends Component {
         const keyValues = dateSubFieldValues ? [{"key": "durationOptions", "value": dateSubFieldValues}] : [];
         this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
             keyValues, this.props.field.answers);
-        const dateField = this.state[event.target.id];
-        this.setState(...this.state, {[event.target.id]: {...dateField, checked: checked}});
+        const dateField = this.state.dateSubFieldsState[event.target.id];
+        this.setState(...this.state,
+            {dateSubFieldsState: {
+                ...this.state.dateSubFieldsState,
+                [event.target.id]: {...dateField, checked: checked}
+            }
+            });
+    }
+
+    onChangeMandatory(event) {
+        const isMandatory = !this.state.mandatory;
+        this.setState(...this.state, {mandatory: isMandatory});
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+            this.props.field.keyValues, this.props.field.answers, isMandatory);
     }
 
     render() {
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
-
+        const mandatoryFieldId = this.props.field.id + "_mandatory";
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -97,6 +113,15 @@ class DateComponent extends Component {
                             </div>
                         </div>
                         {this.renderDateSubFields()}
+                        <div className="form-group">
+                            <div className="form-check">
+                                <label className="form-check-label">
+                                    <input className="form-check-input" type="checkbox" id={mandatoryFieldId}
+                                           onChange={this.onChangeMandatory.bind(this)}
+                                           checked={this.state.mandatory}/> Required
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

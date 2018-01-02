@@ -1,9 +1,24 @@
 import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP} from "../actions/addField";
 import _ from 'lodash';
 /*
-[
-    {groupId: '', groupName: '', groupDisplayName: '', fields: [{id: '', name: '', type: ''}]},
-    {groupId: '', groupName: '', groupDisplayName: '', fields: []}
+"formElementGroups": [
+{"name":
+"displayOrder":
+"display":
+"formElements": [
+{"name":
+"uuid":
+"isMandatory":
+"keyValues":
+"conceptName":
+"dataType":
+"displayOrder",
+"answers":
+}, {
+..
+}
+]
+},
 ]
  */
 export default function addField(formGroups = [], action) {
@@ -15,7 +30,7 @@ export default function addField(formGroups = [], action) {
 
     switch (action.type) {
         case ADD_FIELD:
-            formGroup.fields.push(action.field);
+            formGroup.formElements.push(action.field);
             return clonedFormGroups;
         case ADD_GROUP:
             clonedFormGroups.push(action.group);
@@ -24,13 +39,14 @@ export default function addField(formGroups = [], action) {
             formGroup[action.groupField] = action.value;
             return clonedFormGroups;
         case UPDATE_FIELD:
-            const field = _.find(formGroup.fields, function(field) {
+            const formElement = _.find(formGroup.formElements, function(field) {
                 return field.id === action.fieldId;
             });
-            field.name = action.fieldName;
-            field.type = action.fieldType;
-            field.keyValues = action.fieldKeyValues;
-            field.answers = action.answers;
+            formElement.name = action.fieldName;
+            formElement.dataType = action.fieldType;
+            formElement.mandatory = action.mandatory;
+            formElement.keyValues = action.fieldKeyValues;
+            formElement.answers = action.answers;
             return clonedFormGroups;
         default:
             return formGroups;

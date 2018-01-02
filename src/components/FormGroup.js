@@ -20,8 +20,8 @@ class FormGroup extends Component {
         const collapseClass = this.state['groupName'] ? collapse : collapse + " show";
         const collapseId = "collapse_" + this.props.id;
         const headerId = "heading_" + this.props.id;
-        const formHeader = 'Group' + (this.props.displayName ? ' ' + this.props.displayName :
-            (this.props.name ? ' ' + this.props.name : ''));
+        const formHeader = 'Group' + (this.props.name ? ' ' + this.props.name :
+            (this.props.displayName ? ' ' + this.props.displayName : ''));
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -38,11 +38,11 @@ class FormGroup extends Component {
                                 <label htmlFor="groupName" className="mr-sm-2">Group: </label>
                                 <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
                                        id={this.props.id + '_groupName'}
-                                       placeholder="Enter group" defaultValue={this.props.name} name="groupName"
+                                       placeholder="Enter group" defaultValue={this.props.name} name="name"
                                        onChange={this.onChangeField.bind(this)}/>
                                 <label htmlFor="groupDisplay" className="mr-sm-2">Display:</label>
                                 <input type="text" className="form-control mb-2 mr-sm-2 mb-sm-0"
-                                       id={this.props.id + '_groupDisplay'} name="groupDisplayName"
+                                       id={this.props.id + '_groupDisplay'} name="displayName"
                                        placeholder="Enter display" defaultValue={this.props.displayName}
                                        onChange={this.onChangeField.bind(this)}/>
                             </div>

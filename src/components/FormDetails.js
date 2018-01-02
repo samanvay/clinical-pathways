@@ -9,6 +9,25 @@ import _ from 'lodash';
 
 class FormDetails extends Component {
     /*
+"formElementGroups": [
+{"name":
+"displayOrder":
+"display":
+"formElements": [
+{"name":
+"uuid":
+"isMandatory":
+"keyValues":
+"conceptName":
+"dateType":
+"displayOrder",
+"answers":
+}, {
+..
+}
+]
+},
+]
     [
         {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: [{id: '', name: '', type: '', icon: ''}]},
         {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: []}
@@ -16,15 +35,15 @@ class FormDetails extends Component {
      */
     constructor(props) {
         super(props);
-        if (this.props.formFields.length === 0) {
+        if (this.props.formGroups.length === 0) {
             const firstGroup = createGroup('group_1');
-            this.props.formFields.push(firstGroup);
-            this.state = {formFields: this.props.formFields, currentGroup: firstGroup, showFields: true};
-        } else if (this.props.formFields.length === 1) {
-            this.state = {formFields: this.props.formFields, currentGroup: this.props.formFields[0], showFields: true};
+            this.props.formGroups.push(firstGroup);
+            this.state = {formGroups: this.props.formGroups, currentGroup: firstGroup, showFields: true};
+        } else if (this.props.formGroups.length === 1) {
+            this.state = {formGroups: this.props.formGroups, currentGroup: this.props.formGroups[0], showFields: true};
         }
         else {
-            this.state = {formFields: this.props.formFields, showFields: false, currentGroup: {}};
+            this.state = {formGroups: this.props.formGroups, showFields: false, currentGroup: {}};
         }
 
         this.onSelectField = this.onSelectField.bind(this);
@@ -37,7 +56,13 @@ class FormDetails extends Component {
                 <form>
                     {this.renderGroups()}
                     <button type="button" className="btn btn-success pull-right"
-                            onClick={() =>{}}>
+                            onClick={() =>{
+                                const completeForm = {
+                                    ...this.props.form,
+                                    formElementGroups: this.state.formGroups
+                                };
+                                console.log(JSON.stringify(completeForm));
+                            }}>
                         <i className={`glyphicon glyphicon-save`} />
                         Save your form
                     </button>
@@ -49,23 +74,24 @@ class FormDetails extends Component {
         let currentGroup;
         let showFields;
         if (field.type === 'Group') {
-            const groupId = "group_" + (this.props.formFields.length + 1);
+            const groupId = "group_" + (this.props.formGroups.length + 1);
             currentGroup = createGroup(groupId);
             addGroup(currentGroup);
-            this.props.formFields.push(currentGroup);
+            this.props.formGroups.push(currentGroup);
             showFields = true;
         } else {
-            currentGroup = _.find(this.props.formFields, (group) => {
+            currentGroup = _.find(this.props.formGroups, (group) => {
                 return group.groupId === groupId;
             });
-            const groupFields = currentGroup.fields;
-            const id = groupId + field.id + currentGroup.fields.length + 1;
-            const groupField = {id, type: field.type, icon: field.icon};
+            const groupFields = currentGroup.formElements;
+            const id = groupId + field.id + currentGroup.formElements.length + 1;
+            const groupField = {id, dateType: field.type, keyValues: field.keyValues, answers: field.answers,
+            mandatory: field.mandatory, icon: field.icon};
             addField(groupField, currentGroup.groupId);
             groupFields.push(groupField);
             showFields = false;
         }
-        this.setState({formFields: this.props.formFields, currentGroup, showFields});
+        this.setState({formGroups: this.props.formGroups, currentGroup, showFields});
         scrollDown();
     }
 
@@ -80,11 +106,11 @@ class FormDetails extends Component {
      */
     renderGroups() {
         const formElements = [];
-        _.forEach(this.props.formFields, (group) => {
+        _.forEach(this.props.formGroups, (group) => {
             const isCurrentGroup = group.groupId === this.state.currentGroup.groupId;
             formElements.push(
-                <FormGroup id={group.groupId} name={group.groupName} displayName={group.groupDisplayName}
-                           fields={group.fields} key={group.groupId + group.fields.length} collapse={this.state.showFields || !isCurrentGroup}/>
+                <FormGroup id={group.groupId} name={group.name} displayName={group.displayName}
+                           fields={group.formElements} key={group.groupId + group.formElements.length} collapse={this.state.showFields || !isCurrentGroup}/>
             );
             if (this.state.showFields && isCurrentGroup) {
                 formElements.push(this.showFields(group));
@@ -122,17 +148,17 @@ class FormDetails extends Component {
 }
 
 FormDetails.defaultProps = {
-    formFields: [createGroup('group_1')]
+    formGroups: [createGroup('group_1')]
 };
 
 FormDetails.propTypes = {
-    formFields: PropTypes.array,
+    formGroups: PropTypes.array,
     currentGroup: PropTypes.object,
     showFields: PropTypes.bool
 };
 
 function createGroup(id) {
-    return {groupId: id, groupName: '', groupDisplayName: '', fields: []}
+    return {groupId: id, name: '', displayName: '', formElements: []}
 }
 
 function scrollDown(){
@@ -140,5 +166,5 @@ function scrollDown(){
 }
 
 export default connect((state) => {
-    return {formFields: state.formFields}
+    return {form: state.currentForm, formGroups: state.formElementGroups}
 }, {addField, addGroup})(FormDetails);

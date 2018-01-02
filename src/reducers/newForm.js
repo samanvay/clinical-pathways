@@ -3,10 +3,11 @@ import {NEW_FORM} from "../actions/newForm";
 export default function newForm(state = {}, action) {
     switch (action.type) {
         case NEW_FORM:
-            const {formName, formType} = action;
+            const {name, formType, programName} = action;
             return {
-                formName,
-                formType
+                name,
+                formType,
+                programName
             };
         default:
             return state;

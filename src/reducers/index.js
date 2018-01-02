@@ -5,7 +5,7 @@ export default class Reducers {
     static createReducers() {
         const reducerMap = {};
         reducerMap['currentForm'] = newForm;
-        reducerMap['formFields'] = addField;
+        reducerMap['formElementGroups'] = addField;
         return reducerMap;
     }
 }

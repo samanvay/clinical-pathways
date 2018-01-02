@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 class TextComponent extends Component {
     constructor(props) {
         super(props);
+        this.state = {mandatory: false}
     }
 
     onChangeField(event) {
@@ -14,9 +15,16 @@ class TextComponent extends Component {
         this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type);
     }
 
+    onChangeMandatory(event) {
+        this.setState(...this.state, {mandatory: !this.state.mandatory});
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+            keyValues, tags, this.state.mandatory);
+    }
+
     render() {
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
+        const mandatoryFieldId = this.props.field.id + "_mandatory";
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -43,7 +51,8 @@ class TextComponent extends Component {
                         <div className="form-group">
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input className="form-check-input" type="checkbox"/> Required
+                                    <input className="form-check-input" type="checkbox"
+                                           onChange={this.onChangeMandatory.bind(this)}/> Required
                                 </label>
                             </div>
                         </div>
