@@ -74,7 +74,6 @@ class FormDetails extends Component {
     }
 
     saveForm(form) {
-        console.log(JSON.stringify(form))
         fetch("http://localhost:8021/saveForm",{
             method: 'POST',
             credentials: 'include',
@@ -131,10 +130,10 @@ class FormDetails extends Component {
     renderGroups() {
         const formElements = [];
         _.forEach(this.props.formGroups, (group) => {
-            const groupId = group.groupId || group.name;
+            const groupId = (group.groupId || group.name).replace(/ /g,"_");
             const isCurrentGroup = (this.state.currentGroup && groupId === this.state.currentGroup.groupId) || false;
             formElements.push(
-                <FormGroup id={groupId} name={group.name} displayName={group.displayName}
+                <FormGroup id={groupId} name={group.name} display={group.display}
                            fields={group.formElements} key={groupId + group.formElements.length}
                            collapse={this.state.showFields || !isCurrentGroup}/>
             );
@@ -184,7 +183,7 @@ FormDetails.propTypes = {
 };
 
 function createGroup(id) {
-    return {groupId: id, name: '', displayName: '', formElements: []}
+    return {groupId: id, name: '', display: '', formElements: []}
 }
 
 function scrollDown(){
