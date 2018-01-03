@@ -11,7 +11,6 @@ class DateComponent extends Component {
         const dateSubFieldsState = {};
         dateSubFields.forEach((dateSubField)=>{
             const checked = this.checked(dateSubField);
-            console.log(dateSubField.id + this.props.field.id + ":" + checked);
             Object.assign(dateSubFieldsState,
                 {[dateSubField.id + this.props.field.id]:
                     {checked,

@@ -5,8 +5,7 @@ export default function addNewForm(name, formType, programName, uuid) {
     return {type: NEW_FORM, name, formType, programName, uuid};
 }
 export function fetchGroups(formName, uuid, callback) {
-    console.log("in fetchGroup action for " + uuid);
-    return (dispatch, getState) => {
+    return (dispatch) => {
         dispatch(requestGroups(formName));
         return fetch(`http://localhost:8021/forms/export?formUUID=${uuid}`, {
             credentials: 'include',
@@ -24,9 +23,7 @@ export function fetchGroups(formName, uuid, callback) {
                 throw error;
             })
             .then((form) => {
-                console.log(JSON.stringify(form));
                 dispatch(receiveGroups(form));
-                console.log("After fetch: " + JSON.stringify(getState()["formElementGroups"]));
                 callback();
             })
             .catch((error) => {

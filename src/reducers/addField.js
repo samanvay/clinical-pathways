@@ -24,7 +24,6 @@ import {FETCH_GROUPS} from "../actions/newForm";
  */
 export default function addField(formGroups = [], action) {
     if (action.type === FETCH_GROUPS) {
-        console.log("return groups for fetch group " + JSON.stringify(action.form.formElementGroups));
         return action.form.formElementGroups;
     }
     const clonedFormGroups = formGroups.slice(0);

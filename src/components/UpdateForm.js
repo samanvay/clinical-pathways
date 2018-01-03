@@ -5,12 +5,10 @@ import {connect} from "react-redux";
 class UpdateForm extends Component {
     constructor(props) {
         super(props);
-        console.log("in update form");
         this.state = {name: this.props.name, formType: this.props.formType, programName: this.props.programName}
     }
 
     update() {
-        console.log("update: " + this.state.name);
         this.props.addNewForm(this.state.name, this.state.formType, this.state.programName);
     };
 
