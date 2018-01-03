@@ -18,18 +18,15 @@ class DateComponent extends Component {
                      dateSubField}});
         });
         this.state = {dateSubFieldsState, 'mandatory': this.props.field.mandatory || false};
-        console.log("constr: " + JSON.stringify(this.state));
-        //console.log("constr, dateSubFieldsState: " + Object.getOwnPropertyNames(this.state.dateSubFieldsState));
     }
 
     onChangeFieldName(event) {
-        this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.dataType,
             this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
     }
 
     renderDateSubField(dateSubField) {
         const dateSubFieldId = dateSubField.id + this.props.field.id;
-        console.log("renderDateSubField: " + dateSubFieldId + ", " + this.state.dateSubFieldsState[dateSubFieldId]['checked']);
         return (<div className="form-check form-check-inline" key={dateSubFieldId}>
             <label className="form-check-label">
                 <input className="form-check-input" type="checkbox" id={dateSubFieldId}
@@ -68,7 +65,7 @@ class DateComponent extends Component {
             dateSubFieldValues.push(dateSubFieldValue);
         }
         const keyValues = dateSubFieldValues ? [{"key": "durationOptions", "value": dateSubFieldValues}] : [];
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
             keyValues, this.props.field.answers);
         const dateField = this.state.dateSubFieldsState[event.target.id];
         this.setState(...this.state,
@@ -82,7 +79,7 @@ class DateComponent extends Component {
     onChangeMandatory(event) {
         const isMandatory = !this.state.mandatory;
         this.setState(...this.state, {mandatory: isMandatory});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
             this.props.field.keyValues, this.props.field.answers, isMandatory);
     }
 
@@ -144,5 +141,5 @@ DateComponent.propTypes = {
 };
 
 export default connect((state) => {
-    return {};
+    return {dataType: 'Date'};
 }, {updateField})(DateComponent);

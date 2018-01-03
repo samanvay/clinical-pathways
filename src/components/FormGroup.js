@@ -59,12 +59,16 @@ class FormGroup extends Component {
         _.forEach(this.props.fields, (inputField) => {
             i++;
             const fieldMetadata = _.find(fieldsMetadata, (field) => {
-                return inputField.icon === field.icon;
+                return (field.type === inputField.dataType) || (inputField.icon === field.icon);
             });
+            if (!fieldMetadata) {
+                console.log("No field metadata found for " + (inputField.name + ", type " + inputField.dataType));
+            }
             const collapseClass = this.props.collapse === true ? collapse : (this.props.fields.length === i ? collapse + " show" : collapse);
             const fieldComponent = fieldMetadata.component(this.props.id, inputField, collapseClass);
+            const fieldId = inputField.id || inputField.name;
             inputFields.push(
-                <div className="row" key={inputField.id}>
+                <div className="row" key={fieldId}>
                     <div className="col-12">
                         {fieldComponent}
                     </div>

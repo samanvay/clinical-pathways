@@ -12,13 +12,14 @@ class TextComponent extends Component {
 
     onChangeField(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type);
+        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
+            this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
     }
 
     onChangeMandatory(event) {
         this.setState(...this.state, {mandatory: !this.state.mandatory});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
-            keyValues, tags, this.state.mandatory);
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
+            this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
     }
 
     render() {
@@ -71,5 +72,5 @@ TextComponent.propTypes = {
 };
 
 export default connect((state) => {
-    return {};
+    return {dataType: 'Text'};
 }, {updateField})(TextComponent);

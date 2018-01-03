@@ -14,20 +14,20 @@ class CodedComponent extends Component {
 
     onChangeFieldName(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
             this.props.field.fieldKeyValues, this.props.field.answers, this.state.mandatory);
     }
 
     onChangeAnswers(tags) {
         this.setState(...this.state, {tags});
         const keyValues = [{'key': 'Select', 'value': this.props.selectType}];
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
             keyValues, tags, this.state.mandatory);
     }
 
     onChangeMandatory(event) {
         this.setState(...this.state, {mandatory: !this.state.mandatory});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
             this.props.field.fieldKeyValues, tags, this.state.mandatory);
     }
 
@@ -88,5 +88,5 @@ CodedComponent.propTypes = {
 };
 
 export default connect((state) => {
-    return {};
+    return {dataType: 'Coded'};
 }, {updateField})(CodedComponent);

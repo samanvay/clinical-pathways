@@ -14,7 +14,7 @@ export function NewFormButton() {
             </nav>
         </div>
     </div>;
-};
+}
 /*
 {
 "name":,
@@ -89,7 +89,7 @@ class NewFormModal extends Component {
             </div>
         </div>;
     }
-};
+}
 
 export default connect((state) => {
     return {}

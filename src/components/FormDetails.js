@@ -6,6 +6,8 @@ import {connect} from "react-redux";
 import addField, {addGroup} from "../actions/addField";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import {bindActionCreators, dispatch} from "redux";
+import {fetchGroups} from "../actions/newForm";
 
 class FormDetails extends Component {
     /*
@@ -61,7 +63,8 @@ class FormDetails extends Component {
                                     ...this.props.form,
                                     formElementGroups: this.state.formGroups
                                 };
-                                console.log(JSON.stringify(completeForm));
+                                this.saveForm(completeForm);
+                                this.props.history.push("/forms");
                             }}>
                         <i className={`glyphicon glyphicon-save`} />
                         Save your form
@@ -69,7 +72,28 @@ class FormDetails extends Component {
                 </form>
             </div>);
     }
-    
+
+    saveForm(form) {
+        console.log(JSON.stringify(form))
+        fetch("http://localhost:8021/saveForm",{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(form),
+        })
+            .then((response) => {
+                if (response.status >= 200 && response.status < 300) {
+                    return response.json();
+                }
+                const error = new Error(response.statusText);
+                error.response = response;
+                throw error;
+            });
+    }
+
     onSelectField(field, groupId) {
         let currentGroup;
         let showFields;
@@ -107,17 +131,19 @@ class FormDetails extends Component {
     renderGroups() {
         const formElements = [];
         _.forEach(this.props.formGroups, (group) => {
-            const isCurrentGroup = group.groupId === this.state.currentGroup.groupId;
+            const groupId = group.groupId || group.name;
+            const isCurrentGroup = (this.state.currentGroup && groupId === this.state.currentGroup.groupId) || false;
             formElements.push(
-                <FormGroup id={group.groupId} name={group.name} displayName={group.displayName}
-                           fields={group.formElements} key={group.groupId + group.formElements.length} collapse={this.state.showFields || !isCurrentGroup}/>
+                <FormGroup id={groupId} name={group.name} displayName={group.displayName}
+                           fields={group.formElements} key={groupId + group.formElements.length}
+                           collapse={this.state.showFields || !isCurrentGroup}/>
             );
             if (this.state.showFields && isCurrentGroup) {
                 formElements.push(this.showFields(group));
             } else {
                 formElements.push(
                     <button type="button" className="btn btn-secondary btn-block"
-                            onClick={() =>(this.addGroupField(group))} key={group.groupId}>
+                            onClick={() =>(this.addGroupField(group))} key={groupId}>
                         Add Fields
                     </button>);
             }

@@ -36,7 +36,7 @@ class Forms extends Component {
         return <div>
             <NewFormButton/>
             <NewFormModal {...this.props}/>
-            <ProgramCard data={this.state.data}/>
+            <ProgramCard data={this.state.data} {...this.props}/>
         </div>
     }
 }

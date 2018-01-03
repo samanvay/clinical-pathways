@@ -1,5 +1,6 @@
-import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP} from "../actions/addField";
+import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP, INIT_GROUPS} from "../actions/addField";
 import _ from 'lodash';
+import {FETCH_GROUPS} from "../actions/newForm";
 /*
 "formElementGroups": [
 {"name":
@@ -22,6 +23,10 @@ import _ from 'lodash';
 ]
  */
 export default function addField(formGroups = [], action) {
+    if (action.type === FETCH_GROUPS) {
+        console.log("return groups for fetch group " + JSON.stringify(action.form.formElementGroups));
+        return action.form.formElementGroups;
+    }
     const clonedFormGroups = formGroups.slice(0);
     const groupId = action.groupId;
     const formGroup = _.find(clonedFormGroups, function (formGroup) {

@@ -57,7 +57,7 @@ const fieldsMetadata = [{
     iconWrapper: "circle-o",
     iconContent: "#",
     label: "Number",
-    type: "Number",
+    type: "Numeric",
     component: (groupId, field, collapse) => (
         <TextComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[6]} key={field.id}
                        collapse={collapse}/>)

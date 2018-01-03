@@ -14,16 +14,18 @@ export default function ProgramForms(props) {
     const programData = props.programData;
     const rows = [];
     let cols = [];
-    let rowKey;
+    let uuid;
+    let i = 0;
     _.forEach(programData.forms, (form) => {
-        rowKey = form.uuid + "-" + rows.length;
-        cols.push(<FormCard form={form} key={form.uuid}/>);
+        uuid = form.uuid;
+        i++;
+        cols.push(<FormCard form={form} key={uuid + i} history={props.history}/>);
         if (cols.length === 4) {
-            rows.push(renderRow(cols, rowKey));
+            rows.push(renderRow(cols,  uuid + "-" + rows.length));
             cols = [];
         }
     });
-    rows.push(renderRow(cols, rowKey));
+    rows.push(renderRow(cols, uuid + "-" + rows.length));
     return <div>
         {rows}
     </div>

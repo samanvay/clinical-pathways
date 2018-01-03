@@ -11,7 +11,7 @@ class BooleanComponent extends Component {
 
     onChangeField(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
             this.props.fieldKeyValues);
     }
 
@@ -21,7 +21,7 @@ class BooleanComponent extends Component {
         const keyValues = this.props.field.keyValues || [{'key': 'TrueValue'}, {'key': 'FalseValue'}];
         const trueValue = isTrueValue ? value : keyValues[0]['value'];
         const falseValue = !isTrueValue ? value : keyValues[1]['value'];
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.field.type,
+        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
             [{...keyValues[0], 'value': trueValue}, {...keyValues[1], 'value': falseValue}]);
     }
 
@@ -98,5 +98,5 @@ BooleanComponent.propTypes = {
 };
 
 export default connect((state) => {
-    return {};
+    return {dataType: 'Boolean'};
 }, {updateField})(BooleanComponent);
