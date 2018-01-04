@@ -19,6 +19,7 @@ module.exports = {
                 {
                     from: path.join(__dirname, 'styles/fonts'), to: path.join(__dirname, '/dist/fonts'),
                 },
+                {from:'styles/images',to:'images'}
             ], { copyUnmodified: true }
         ),
         new webpack.ProvidePlugin({
