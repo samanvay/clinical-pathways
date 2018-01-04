@@ -138,7 +138,7 @@ class FormDetails extends Component {
 
     showFields(group) {
         return  <div ref={this.props.groupId +  "_FieldList"}>
-            <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId}/>
+            <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId} groupName={group.name}/>
         </div>;
     }
 

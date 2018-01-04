@@ -56,10 +56,11 @@ class FieldsPanel extends Component {
     }
 
     render() {
+        const groupName = this.props.groupName ? " for group '" + this.props.groupName + "'": "";
         return (
             <div className="card">
                 <div className="card-header">
-                    <strong>Select Field</strong>
+                    <strong>Select Field{groupName}</strong>
                 </div>
                 <div className="card-body">
                     {this.renderFields()}
@@ -71,7 +72,8 @@ class FieldsPanel extends Component {
 
 FieldsPanel.propTypes = {
     onClick: PropTypes.func.isRequired,
-    groupId: PropTypes.string
+    groupId: PropTypes.string,
+    groupName: PropTypes.string
 };
 
 export default connect(() => {
