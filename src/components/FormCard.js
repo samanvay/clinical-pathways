@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import moment from 'moment';
-import addNewForm, {fetchGroups} from "../actions/newForm";
+import addNewForm, {fetchGroups} from "../actions/form";
 import {connect} from "react-redux";
 
 class FormCard extends Component {

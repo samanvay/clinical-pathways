@@ -1,8 +1,8 @@
-import {FETCH_GROUPS, NEW_FORM} from "../actions/newForm";
+import {BASIC_FORM} from "../actions/form";
 
-export default function newForm(state = {}, action) {
+export default function basicForm(state = {}, action) {
     switch (action.type) {
-        case NEW_FORM:
+        case BASIC_FORM:
             const {name, formType, programName, uuid} = action;
             return {
                 name,

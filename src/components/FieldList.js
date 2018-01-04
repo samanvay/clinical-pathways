@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {MenuItem} from "react-bootstrap";
 import {connect} from "react-redux";
 import fieldsMetadata from './configFields';
-import addField from "../actions/addField";
+import addField from "../actions/fields";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 

@@ -3,38 +3,12 @@ import FormGroup from "./FormGroup";
 import UpdateForm from "./UpdateForm";
 import FieldList from "./FieldList";
 import {connect} from "react-redux";
-import addField, {addGroup} from "../actions/addField";
+import addField, {addGroup} from "../actions/fields";
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {bindActionCreators, dispatch} from "redux";
-import {fetchGroups} from "../actions/newForm";
 
 class FormDetails extends Component {
-    /*
-"formElementGroups": [
-{"name":
-"displayOrder":
-"display":
-"formElements": [
-{"name":
-"uuid":
-"isMandatory":
-"keyValues":
-"conceptName":
-"dateType":
-"displayOrder",
-"answers":
-}, {
-..
-}
-]
-},
-]
-    [
-        {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: [{id: '', name: '', type: '', icon: ''}]},
-        {groupId: '', groupName: '', groupDisplayName: '', fieldMetadata: []}
-    ]
-     */
+
     constructor(props) {
         super(props);
         if (this.props.formGroups.length === 0) {
@@ -131,6 +105,7 @@ class FormDetails extends Component {
         const formElements = [];
         _.forEach(this.props.formGroups, (group) => {
             const groupId = (group.groupId || group.name).replace(/ /g,"_");
+            group.groupId = groupId;
             const isCurrentGroup = (this.state.currentGroup && groupId === this.state.currentGroup.groupId) || false;
             formElements.push(
                 <FormGroup id={groupId} name={group.name} display={group.display}
@@ -150,14 +125,21 @@ class FormDetails extends Component {
         return formElements;
     }
 
+    componentDidUpdate() {
+        if (this.state.anchor) {
+            this.refs[this.state.anchor].scrollIntoView();
+            delete this.state.anchor;
+        }
+    }
+
     addGroupField(currentGroup) {
-        this.setState({currentGroup, showFields: true});
-        scrollDown();
+        this.setState({currentGroup, showFields: true, anchor: this.props.groupId + "_FieldList"});
     }
 
     showFields(group) {
-        return <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId}
-                          key={group.groupId + '_fieldList'}/>;
+        return  <div ref={this.props.groupId +  "_FieldList"}>
+            <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId}/>
+        </div>;
     }
 
     render() {

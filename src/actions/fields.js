@@ -2,7 +2,7 @@ export const ADD_FIELD = "ADD_FIELD";
 export const ADD_GROUP = "ADD_GROUP";
 export const UPDATE_GROUP = "UPDATE_GROUP";
 export const UPDATE_FIELD = "UPDATE_FIELD";
-export const INIT_GROUPS = "INIT_GROUPS"
+export const INIT_GROUPS = "INIT_GROUPS";
 
 export default function addField(field, groupId) {
     return {type: ADD_FIELD, field, groupId}

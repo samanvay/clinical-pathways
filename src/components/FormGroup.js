@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {updateGroup} from "../actions/addField";
+import {updateGroup} from "../actions/fields";
 import fieldsMetadata from './configFields';
 import PropTypes from 'prop-types';
 import _ from 'lodash';

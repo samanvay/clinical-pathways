@@ -1,28 +1,11 @@
-import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP, INIT_GROUPS} from "../actions/addField";
+import {ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP, LOAD_GROUPS, INIT_GROUPS} from "../actions/fields";
 import _ from 'lodash';
-import {FETCH_GROUPS} from "../actions/newForm";
-/*
-"formElementGroups": [
-{"name":
-"displayOrder":
-"display":
-"formElements": [
-{"name":
-"uuid":
-"isMandatory":
-"keyValues":
-"conceptName":
-"dataType":
-"displayOrder",
-"answers":
-}, {
-..
-}
-]
-},
-]
- */
+import {FETCH_GROUPS} from "../actions/form";
+
 export default function addField(formGroups = [], action) {
+    if (action.type === INIT_GROUPS) {
+        return [];
+    }
     if (action.type === FETCH_GROUPS) {
         return action.form.formElementGroups;
     }

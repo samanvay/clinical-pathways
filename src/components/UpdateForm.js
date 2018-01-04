@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import addNewForm from "../actions/newForm";
+import addNewForm from "../actions/form";
 import {connect} from "react-redux";
 
 class UpdateForm extends Component {

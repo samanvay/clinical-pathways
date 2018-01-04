@@ -1,8 +1,8 @@
-export const NEW_FORM = "newForm";
+export const BASIC_FORM = "basicForm";
 export const FETCH_GROUPS = "fetchGroups";
 export const REQUEST_GROUPS = "requestGroups";
-export default function addNewForm(name, formType, programName, uuid) {
-    return {type: NEW_FORM, name, formType, programName, uuid};
+export default function updateBasicForm(name, formType, programName, uuid) {
+    return {type: BASIC_FORM, name, formType, programName, uuid};
 }
 export function fetchGroups(formName, uuid, callback) {
     return (dispatch) => {

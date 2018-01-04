@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from 'react-redux';
-import addNewForm from "../actions/newForm";
+import addNewForm from "../actions/form";
+import {initGroups} from "../actions/fields";
 
 export function NewFormButton() {
     return <div className="row justify-content-end">
@@ -15,14 +16,7 @@ export function NewFormButton() {
         </div>
     </div>;
 }
-/*
-{
-"name":,
-"uuid":,
-"formType":,
-"programName":,
-"userUUID":
- */
+
 class NewFormModal extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +25,7 @@ class NewFormModal extends Component {
 
     addFields() {
         this.props.addNewForm(this.state.name, this.state.formType, this.state.programName);
+        this.props.initGroups();
         this.props.history.push("/forms/addFields");
     };
 
@@ -93,4 +88,4 @@ class NewFormModal extends Component {
 
 export default connect((state) => {
     return {}
-}, {addNewForm})(NewFormModal);
+}, {addNewForm, initGroups})(NewFormModal);
