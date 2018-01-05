@@ -38,7 +38,7 @@ const fieldsMetadata = [{
     id: "multiCodedField",
     icon: "align-left",
     label: "Multiple choices",
-    type: "Coded",
+    type: "MultiSelect",
     component: (groupId, field, collapse) => (
         <MultiCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[4]} key={field.id}
                             collapse={collapse}/>)
@@ -46,10 +46,18 @@ const fieldsMetadata = [{
     id: "singleCodedField",
     icon: "list",
     label: "Multiple choices",
-    type: "Coded",
+    type: "SingleSelect",
     component: (groupId, field, collapse) => (
         <SingleCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
                              collapse={collapse}/>)
+},{
+    id: "codedField",
+    icon: "list",
+    label: "Multiple choices",
+    type: "Coded",
+    component: (groupId, field, collapse) => (
+        <SingleCodedComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
+                              collapse={collapse}/>)
 },{
     id: "numberField",
     icon: "circle-o-#",

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
+import _ from 'lodash';
 
 class CodedComponent extends Component {
     constructor(props) {
@@ -34,7 +35,8 @@ class CodedComponent extends Component {
     render() {
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
-        const tags = this.props.field.answers || [];
+        const tags = (this.props.field.concept && this.props.field.concept.answers &&
+        _.map(this.props.field.concept.answers, (answer)=>(answer.name)))|| [];
         const tagsFieldId = this.props.field.id + "_tags";
         const mandatoryFieldId = this.props.field.id + "_mandatory";
         return (
