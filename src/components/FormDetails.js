@@ -48,7 +48,7 @@ class FormDetails extends Component {
     }
 
     saveForm(form) {
-        fetch("http://localhost:8021/saveForm",{
+        fetch("/save",{
             method: 'POST',
             credentials: 'include',
             headers: {
