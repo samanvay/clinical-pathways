@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {connect} from 'react-redux';
 import addNewForm from "../actions/form";
 import {initGroups} from "../actions/fields";
+import TagsInput from 'react-tagsinput';
 
 export function NewFormButton() {
     return <div className="row justify-content-end">
@@ -24,7 +25,7 @@ class NewFormModal extends Component {
     }
 
     addFields() {
-        this.props.addNewForm(this.state.name, this.state.formType, this.state.programName);
+        this.props.addNewForm(this.state.name, this.state.formType, this.state.programName, this.state.encounterTypes);
         this.props.initGroups();
         this.props.history.push("/forms/addFields");
     };
@@ -33,7 +34,35 @@ class NewFormModal extends Component {
         this.setState(Object.assign({}, this.state, {[ event.target.name ]: event.target.value}));
     };
 
+    onChangeEncounterField(encounterTypes) {
+        this.setState(Object.assign({}, this.state, {encounterTypes: encounterTypes}));
+    };
+
+    programNameElement() {
+        return <div className="form-group">
+            <label htmlFor="programName">Program Name</label>
+            <select className="form-control" id="programNameSelect" name="programName"
+                    onChange={this.onChangeField.bind(this)}>
+                <option>Mother</option>
+                <option>Child</option>
+                <option>Diabetes</option>
+            </select>
+        </div>
+    }
+
+    encounterTypesElement() {
+        return <div className="form-group">
+            <label htmlFor="encounterTypes">Encounter Type</label>
+            <TagsInput value={this.state.encounterTypes || []} onChange={this.onChangeEncounterField.bind(this)}
+                       id="encounterTypes" inputProps={{placeholder: ""}}/>
+        </div>;
+    }
+
     render() {
+        const encounterTypes = this.state.formType === "Encounter" || this.state.formType === "ProgramEncounter";
+        const programBased = this.state.formType === "ProgramEncounter" ||
+                             this.state.formType === "ProgramExit" ||
+                             this.state.formType === "ProgramEnrolment";
         return <div className="modal fade" id="newFormModal" role="dialog" aria-labelledby="newFormModalTitle"
                     aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -64,15 +93,8 @@ class NewFormModal extends Component {
                                     <option>ProgramExit</option>
                                 </select>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="programName">Program Name</label>
-                                <select className="form-control" id="programNameSelect" name="programName"
-                                        onChange={this.onChangeField.bind(this)}>
-                                    <option>Mother</option>
-                                    <option>Child</option>
-                                    <option>Diabetes</option>
-                                </select>
-                            </div>
+                            {programBased && this.programNameElement()}
+                            {encounterTypes && this.encounterTypesElement()}
                         </div>
                         <div className="modal-footer">
                             <button type="button" data-dismiss="modal" className="btn btn-primary btn-block"

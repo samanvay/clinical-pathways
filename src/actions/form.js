@@ -1,8 +1,9 @@
 export const BASIC_FORM = "basicForm";
 export const FETCH_GROUPS = "fetchGroups";
+export const FETCH_FORM = "fetchForm";
 export const REQUEST_GROUPS = "requestGroups";
-export default function updateBasicForm(name, formType, programName, uuid) {
-    return {type: BASIC_FORM, name, formType, programName, uuid};
+export default function updateBasicForm(name, formType, programName, encounterTypes) {
+    return {type: BASIC_FORM, name, formType, programName, encounterTypes};
 }
 export function fetchGroups(formName, uuid, callback) {
     return (dispatch) => {
@@ -24,6 +25,8 @@ export function fetchGroups(formName, uuid, callback) {
             })
             .then((form) => {
                 dispatch(receiveGroups(form));
+                delete form.formElementGroups;
+                dispatch(receiveForm(form));
                 callback();
             })
             .catch((error) => {
@@ -33,13 +36,26 @@ export function fetchGroups(formName, uuid, callback) {
             });
     }
 }
-function receiveGroups(form) {
+
+function receiveForm(form) {
+    //const {formElementGroups, ...basicForm} = {form};
+    console.log("basic form: " + JSON.stringify(form));
+    //console.log("Just form: " + JSON.stringify(basicForm.form));
     return {
-        type: FETCH_GROUPS,
+        type: FETCH_FORM,
         form,
         loading: false
     }
 }
+
+function receiveGroups(form) {
+    return {
+        type: FETCH_GROUPS,
+        groups: form.formElementGroups,
+        loading: false
+    }
+}
+
 function requestGroups(formName) {
     return {
         type: REQUEST_GROUPS,

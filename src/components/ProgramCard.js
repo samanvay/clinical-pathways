@@ -23,7 +23,7 @@ export default function ProgramCard(props) {
                 <div className="card-body">
                     <div id={collapseId} className="collapse show" role="tabpanel" aria-labelledby={headingId}
                          data-parent="#accordion">
-                        <ProgramForms programData={programData} history={props.history}/>
+                        <ProgramForms forms={programData.forms} history={props.history}/>
                     </div>
                 </div>
             </div>);

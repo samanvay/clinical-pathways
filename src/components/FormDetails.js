@@ -82,8 +82,10 @@ class FormDetails extends Component {
             });
             const groupFields = currentGroup.formElements;
             const id = groupId + field.id + currentGroup.formElements.length + 1;
-            const groupField = {id, dateType: field.type, keyValues: field.keyValues, answers: field.answers,
-            mandatory: field.mandatory, icon: field.icon};
+            let groupField = {id, icon: field.icon, concept: {dataType: field.dataType}};
+            if (field.type) {
+                groupField = {...groupField, type: field.type};
+            }
             addField(groupField, currentGroup.groupId);
             groupFields.push(groupField);
             showFields = false;
@@ -103,13 +105,14 @@ class FormDetails extends Component {
      */
     renderGroups() {
         const formElements = [];
+        let i = 0;
         _.forEach(this.props.formGroups, (group) => {
-            const groupId = (group.groupId || group.name).replace(/ /g,"_");
-            group.groupId = groupId;
-            const isCurrentGroup = (this.state.currentGroup && groupId === this.state.currentGroup.groupId) || false;
+            group.groupId = (group.groupId || group.name).replace(/ /g,"_") + i++;
+            const isCurrentGroup = (this.state.currentGroup &&
+                group.groupId === this.state.currentGroup.groupId) || false;
             formElements.push(
-                <FormGroup id={groupId} name={group.name} display={group.display}
-                           fields={group.formElements} key={groupId + group.formElements.length}
+                <FormGroup id={group.groupId} name={group.name} display={group.display}
+                           fields={group.formElements} key={group.groupId}
                            collapse={this.state.showFields || !isCurrentGroup}/>
             );
             if (this.state.showFields && isCurrentGroup) {
@@ -117,7 +120,7 @@ class FormDetails extends Component {
             } else {
                 formElements.push(
                     <button type="button" className="btn btn-secondary btn-block"
-                            onClick={() =>(this.addGroupField(group))} key={groupId}>
+                            onClick={() =>(this.addGroupField(group))} key={group.groupId}>
                         Add Fields
                     </button>);
             }
@@ -137,7 +140,7 @@ class FormDetails extends Component {
     }
 
     showFields(group) {
-        return  <div ref={this.props.groupId +  "_FieldList"}>
+        return  <div ref={this.props.groupId +  "_FieldList"} key={this.props.groupId +  "_FieldList"}>
             <FieldList onClick={this.onSelectField.bind(this)} groupId={group.groupId} groupName={group.name}/>
         </div>;
     }

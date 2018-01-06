@@ -22,7 +22,7 @@ class FormCard extends Component {
                     <h5>{form.formType}</h5>
                     <a href="#" className="btn btn-primary" onClick={(e) => {
                         e.preventDefault();
-                        this.props.updateBasicForm(form.name, form.formType, form.programName, form.uuid);
+                        this.props.updateBasicForm(form.name, form.formType, form.programName, form.encounterTypes);
                         this.props.fetchGroups(form.name, form.uuid, ()=>{this.props.history.push("/forms/addFields")});
                     }}>Open</a>
                 </div>

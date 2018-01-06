@@ -20,8 +20,8 @@ class FormGroup extends Component {
         const collapseClass = this.state['groupName'] ? collapse : collapse + " show";
         const collapseId = "collapse_" + this.props.id;
         const headerId = "heading_" + this.props.id;
-        const formHeader = 'Group' + (this.props.name ? ' ' + this.props.name :
-            (this.props.displayName ? ' ' + this.props.displayName : ''));
+        const formHeader = this.props.name ? ' ' + this.props.name :
+            (this.props.displayName ? ' ' + this.props.displayName : '');
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -57,21 +57,20 @@ class FormGroup extends Component {
         let i = 0;
         const collapse = "collapse";
         _.forEach(this.props.fields, (inputField) => {
+            if (!inputField.concept) {
+                console.log("Null concept for: " + inputField.id);
+                console.log(" name, " + inputField.name + ", type: " + inputField.type);
+            }
             i++;
             const fieldMetadata = _.find(fieldsMetadata, (field) => {
-                if (inputField.type) {
-                    return (field.type === inputField.type);
-                }
-                if (!inputField.concept) {
-                    console.log("Null concept for " + inputField.id);
-                }
-                return (field.type === inputField.concept.dataType);
+                return inputField.concept && (field.dataType === inputField.concept.dataType);
             });
             if (!fieldMetadata) {
-                console.log("No field metadata found for " + (inputField.name + ", type " + inputField.dataType));
+                console.log("No field metadata found for " + (inputField.name + ", dataType " + inputField.dataType));
             } else {
                 const fieldId = (inputField.id || inputField.name).replace(/ /g, "_");
-                const collapseClass = this.props.collapse === true ? collapse : (this.props.fields.length === i ? collapse + " show" : collapse);
+                const collapseClass = this.props.collapse === true ? collapse :
+                    (this.props.fields.length === i ? collapse + " show" : collapse);
                 inputField.id = fieldId;
                 const fieldComponent = fieldMetadata.component(this.props.id, inputField, collapseClass);
                 inputFields.push(

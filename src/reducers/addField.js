@@ -7,7 +7,7 @@ export default function addField(formGroups = [], action) {
         return [];
     }
     if (action.type === FETCH_GROUPS) {
-        return action.form.formElementGroups;
+        return action.groups;
     }
     const clonedFormGroups = formGroups.slice(0);
     const groupId = action.groupId;

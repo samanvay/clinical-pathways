@@ -11,12 +11,11 @@ function renderRow(cols, rowKey) {
 }
 
 export default function ProgramForms(props) {
-    const programData = props.programData;
     const rows = [];
     let cols = [];
     let uuid;
     let i = 0;
-    _.forEach(programData.forms, (form) => {
+    _.forEach(props.forms, (form) => {
         uuid = form.uuid;
         i++;
         cols.push(<FormCard form={form} key={uuid + i} history={props.history}/>);
