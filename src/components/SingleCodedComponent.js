@@ -7,7 +7,7 @@ class SingleCodedComponent extends Component {
     }
 
     render() {
-        return <CodedComponent {...this.props} selectType="Single"/>
+        return <CodedComponent {...this.props} type="SingleSelect"/>
     }
 }
 

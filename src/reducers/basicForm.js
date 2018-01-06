@@ -11,7 +11,7 @@ export default function basicForm(state = {}, action) {
                 encounterTypes
             };
         case FETCH_FORM:
-            return action.form
+            return action.form;
         default:
             return state;
     }

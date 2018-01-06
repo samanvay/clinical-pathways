@@ -7,7 +7,7 @@ class MultiCodedComponent extends Component {
     }
 
     render() {
-        return <CodedComponent {...this.props} selectType="Multi"/>
+        return <CodedComponent {...this.props} type="MultiSelect"/>
     }
 }
 

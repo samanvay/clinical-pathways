@@ -68,11 +68,13 @@ class FormGroup extends Component {
             if (!fieldMetadata) {
                 console.log("No field metadata found for " + (inputField.name + ", dataType " + inputField.dataType));
             } else {
-                const fieldId = (inputField.id || inputField.name).replace(/ /g, "_");
+                const fieldId = (inputField.id || inputField.name).replace(/[^a-zA-Z0-9]/g, "_");
                 const collapseClass = this.props.collapse === true ? collapse :
                     (this.props.fields.length === i ? collapse + " show" : collapse);
                 inputField.id = fieldId;
                 const fieldComponent = fieldMetadata.component(this.props.id, inputField, collapseClass);
+
+                console.log(fieldId + " cmp: " + fieldComponent);
                 inputFields.push(
                     <div className="row" key={fieldId}>
                         <div className="col-12">

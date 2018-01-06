@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FieldIcon} from "./FieldList";
-import {updateField} from "../actions/fields";
+import {updateCodedField} from "../actions/fields";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import TagsInput from 'react-tagsinput'
@@ -10,35 +10,46 @@ import _ from 'lodash';
 class CodedComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {tags: [], mandatory: false}
+        this.state = {
+            mandatory: false,
+            answers: (this.props.field.concept && this.props.field.concept.answers)|| []};
     }
 
     onChangeFieldName(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
-            this.props.field.fieldKeyValues, this.props.field.answers, this.state.mandatory);
+        this.props.updateCodedField(this.props.groupId, this.props.field.id, fieldName, this.props.type,
+            this.state.answers, this.state.mandatory);
     }
 
-    onChangeAnswers(tags) {
-        this.setState(...this.state, {tags});
-        const keyValues = [{'key': 'Select', 'value': this.props.selectType}];
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
-            keyValues, tags, this.state.mandatory);
+    onChangeAnswers(rawAnswers) {
+        const answers = this.state.answers;
+        _.map(rawAnswers, (rawAnswer)=>{
+            const currentAnswer = _.find(answers, (stateAnswer)=>{return stateAnswer.name === rawAnswer});
+            if (currentAnswer) {
+                currentAnswer.name = rawAnswer;
+            } else {
+                answers.push({name: rawAnswer});
+            }
+        });
+        this.setState(...this.state, answers);
+        console.log("Answers changed " + JSON.stringify(answers));
+        this.props.updateCodedField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.type,
+            answers, this.state.mandatory);
     }
 
     onChangeMandatory(event) {
         this.setState(...this.state, {mandatory: !this.state.mandatory});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
-            this.props.field.fieldKeyValues, tags, this.state.mandatory);
+        this.props.updateCodedField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.type,
+            this.state.answers, this.state.mandatory);
     }
 
     render() {
+        console.log("render");
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
-        const tags = (this.props.field.concept && this.props.field.concept.answers &&
-        _.map(this.props.field.concept.answers, (answer)=>(answer.name)))|| [];
         const tagsFieldId = this.props.field.id + "_tags";
         const mandatoryFieldId = this.props.field.id + "_mandatory";
+        const tags = _.map(this.state.answers, (answer)=>(answer.name));
         return (
             <div className="card">
                 <div className="card-header py-2" id={headerId}>
@@ -63,8 +74,8 @@ class CodedComponent extends Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor={tagsFieldId}>Type your choices. Press enter after each choice.</label>
-                            <TagsInput value={tags} onChange={this.onChangeAnswers.bind(this)} id={tagsFieldId}
-                                       inputProps={{placeholder: "Answer"}}/>
+                            <TagsInput value={tags} onChange={this.onChangeAnswers.bind(this)}
+                                       id={tagsFieldId} inputProps={{placeholder: "Answer"}}/>
                         </div>
                         <div className="form-group">
                             <div className="form-check">
@@ -84,11 +95,10 @@ class CodedComponent extends Component {
 CodedComponent.propTypes = {
     groupId: PropTypes.string.isRequired,
     field: PropTypes.object,
-    selectType: PropTypes.oneOf(['Single', 'Multi']),
+    type: PropTypes.oneOf(['SingleSelect', 'MultiSelect']),
     fieldMetadata: PropTypes.object,
     collapse: PropTypes.string
 };
 
-export default connect((state) => {
-    return {dataType: 'Coded'};
-}, {updateField})(CodedComponent);
+export default connect((state) => { return {}
+}, {updateCodedField})(CodedComponent);

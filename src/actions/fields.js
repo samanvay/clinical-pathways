@@ -2,6 +2,10 @@ export const ADD_FIELD = "ADD_FIELD";
 export const ADD_GROUP = "ADD_GROUP";
 export const UPDATE_GROUP = "UPDATE_GROUP";
 export const UPDATE_FIELD = "UPDATE_FIELD";
+export const UPDATE_TEXT_FIELD = "UPDATE_TEXT_FIELD";
+export const UPDATE_NUMERIC_FIELD = "UPDATE_NUMERIC_FIELD";
+export const UPDATE_DATE_FIELD = "UPDATE_DATE_FIELD";
+export const UPDATE_CODED_FIELD = "UPDATE_CODED_FIELD";
 export const INIT_GROUPS = "INIT_GROUPS";
 
 export default function addField(field, groupId) {
@@ -18,6 +22,10 @@ export function updateGroup(groupId, groupField, value) {
 
 export function updateField(groupId, fieldId, fieldName, fieldType, fieldKeyValues, answers, mandatory) {
     return {type: UPDATE_FIELD, groupId, fieldId, fieldName, fieldType, fieldKeyValues, answers, mandatory}
+}
+
+export function updateCodedField(groupId, fieldId, fieldName, fieldType, answers, mandatory) {
+    return {type: UPDATE_CODED_FIELD, groupId, fieldId, fieldName, fieldType, answers, mandatory}
 }
 
 export function initGroups(groups) {
