@@ -1,6 +1,6 @@
 import {
     ADD_FIELD, UPDATE_FIELD, ADD_GROUP, UPDATE_GROUP, LOAD_GROUPS, INIT_GROUPS,
-    UPDATE_TEXT_FIELD, UPDATE_CODED_FIELD
+    UPDATE_TEXT_FIELD, UPDATE_CODED_FIELD, UPDATE_NUMERIC_FIELD
 } from "../actions/fields";
 import _ from 'lodash';
 import {FETCH_GROUPS} from "../actions/form";
@@ -23,7 +23,17 @@ export default function addField(formGroups = [], action) {
     if (!formGroup) {
         console.log("no form group found for " + groupId);
     }
-
+    let fieldIndex;
+    let fieldElement;
+    let concept;
+    if (action.type === UPDATE_FIELD || action.type === UPDATE_CODED_FIELD ||
+        action.type === UPDATE_NUMERIC_FIELD ) {
+        fieldIndex = _.findIndex(formGroup.formElements, function (field) {
+            return field.id === action.fieldId;
+        });
+        fieldElement = formGroup.formElements[fieldIndex];
+        concept = fieldElement.concept;
+    }
     switch (action.type) {
         case ADD_FIELD:
             formGroup.formElements.push(action.field);
@@ -46,11 +56,6 @@ export default function addField(formGroups = [], action) {
             formElement.answers = action.answers;
             return clonedFormGroups;
         case UPDATE_CODED_FIELD:
-            const fieldIndex = _.findIndex(formGroup.formElements, function(field) {
-                return field.id === action.fieldId;
-            });
-            const fieldElement = formGroup.formElements[fieldIndex];
-            const concept = fieldElement.concept;
             const answers = action.answers;
             console.log("update coded " + answers);
             formGroup.formElements[fieldIndex] =
@@ -62,6 +67,18 @@ export default function addField(formGroups = [], action) {
                     mandatory: action.mandatory
                 };
             console.log("state: " + JSON.stringify(formGroup.formElements[fieldIndex]));
+            return clonedFormGroups;
+        case UPDATE_NUMERIC_FIELD:
+            formGroup.formElements[fieldIndex] =
+                {
+                    ...fieldElement,
+                    name: action.fieldName,
+                    concept: {...concept, name: action.fieldName, dataType: "Numeric",
+                        lowAbsolute: action.lowAbsolute, highAbsolute: action.highAbsolute,
+                        lowNormal: action.lowNormal, highNormal: action.highNormal, unit: action.unit
+                    },
+                    mandatory: action.mandatory
+                };
             return clonedFormGroups;
         default:
             return formGroups;

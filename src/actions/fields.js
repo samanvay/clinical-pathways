@@ -28,6 +28,12 @@ export function updateCodedField(groupId, fieldId, fieldName, fieldType, answers
     return {type: UPDATE_CODED_FIELD, groupId, fieldId, fieldName, fieldType, answers, mandatory}
 }
 
+export function updateNumericField(groupId, fieldId, fieldName, lowAbsolute, highAbsolute,
+                                   lowNormal, highNormal, unit) {
+    return {type: UPDATE_NUMERIC_FIELD, groupId, fieldId, fieldName, lowAbsolute, highAbsolute,
+        lowNormal, highNormal, unit}
+}
+
 export function initGroups(groups) {
     return {type: INIT_GROUPS, groups}
 }

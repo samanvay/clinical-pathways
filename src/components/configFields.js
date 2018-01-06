@@ -4,6 +4,7 @@ import DateComponent from "./DateComponent";
 import MultiCodedComponent from "./MultiCodedComponent";
 import SingleCodedComponent from "./SingleCodedComponent";
 import BooleanComponent from "./BooleanComponent";
+import NumericComponent from "./NumericComponent";
 
 const fieldsMetadata = [{
     id: "groupField",
@@ -53,7 +54,7 @@ const fieldsMetadata = [{
     label: "Number",
     dataType: "Numeric",
     component: (groupId, field, collapse) => (
-        <TextComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
+        <NumericComponent groupId={groupId} field={field} fieldMetadata={fieldsMetadata[5]} key={field.id}
                        collapse={collapse}/>)
 }];
 export default fieldsMetadata;
