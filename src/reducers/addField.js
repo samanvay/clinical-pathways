@@ -6,7 +6,6 @@ import _ from 'lodash';
 import {FETCH_GROUPS} from "../actions/form";
 
 export default function addField(formGroups = [], action) {
-    console.log("add field " + action.type);
     if (action.type === INIT_GROUPS) {
         return [];
     }
@@ -15,9 +14,7 @@ export default function addField(formGroups = [], action) {
     }
     const clonedFormGroups = formGroups.slice(0);
     const groupId = action.groupId;
-    console.log("Find group " + groupId);
     const formGroup = _.find(clonedFormGroups, function (formGroup) {
-        console.log("Find " + formGroup.groupId);
         return formGroup.groupId === groupId;
     });
     if (!formGroup) {
@@ -55,9 +52,17 @@ export default function addField(formGroups = [], action) {
             formElement.keyValues = action.fieldKeyValues;
             formElement.answers = action.answers;
             return clonedFormGroups;
+        case UPDATE_TEXT_FIELD:
+            formGroup.formElements[fieldIndex] =
+                {
+                    ...fieldElement,
+                    name: action.fieldName,
+                    concept: {...concept, name: action.fieldName, dataType: "Text"},
+                    mandatory: action.mandatory
+                };
+            return clonedFormGroups;
         case UPDATE_CODED_FIELD:
             const answers = action.answers;
-            console.log("update coded " + answers);
             formGroup.formElements[fieldIndex] =
                 {
                     ...fieldElement,
@@ -66,7 +71,6 @@ export default function addField(formGroups = [], action) {
                     concept: {...concept, name: action.fieldName, dataType: "Coded", answers},
                     mandatory: action.mandatory
                 };
-            console.log("state: " + JSON.stringify(formGroup.formElements[fieldIndex]));
             return clonedFormGroups;
         case UPDATE_NUMERIC_FIELD:
             formGroup.formElements[fieldIndex] =

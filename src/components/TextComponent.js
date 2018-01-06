@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {FieldIcon} from "./FieldList";
-import {updateField} from "../actions/fields";
+import {updateTextField} from "../actions/fields";
 import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 
@@ -12,14 +12,13 @@ class TextComponent extends Component {
 
     onChangeField(event) {
         const fieldName = event.target.value;
-        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
-            this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
+        this.props.updateTextField(this.props.groupId, this.props.field.id, fieldName, this.state.mandatory);
     }
 
     onChangeMandatory(event) {
         this.setState(...this.state, {mandatory: !this.state.mandatory});
-        this.props.updateField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.dataType,
-            this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
+        this.props.updateTextField(this.props.groupId, this.props.field.id, this.props.field.name,
+            this.state.mandatory);
     }
 
     render() {
@@ -48,12 +47,12 @@ class TextComponent extends Component {
                                     fieldMetadata={this.props.fieldMetadata}/>{" " + this.props.fieldMetadata.label}
                             </div>
                         </div>
-
                         <div className="form-group">
                             <div className="form-check">
                                 <label className="form-check-label">
-                                    <input className="form-check-input" type="checkbox"
-                                           onChange={this.onChangeMandatory.bind(this)}/> Required
+                                    <input className="form-check-input" type="checkbox" id={mandatoryFieldId}
+                                           onChange={this.onChangeMandatory.bind(this)}
+                                           checked={this.state.mandatory}/> Required
                                 </label>
                             </div>
                         </div>
@@ -72,5 +71,5 @@ TextComponent.propTypes = {
 };
 
 export default connect((state) => {
-    return {dataType: 'Text'};
-}, {updateField})(TextComponent);
+    return {};
+}, {updateTextField})(TextComponent);

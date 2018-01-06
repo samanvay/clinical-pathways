@@ -24,14 +24,18 @@ export function updateField(groupId, fieldId, fieldName, fieldType, fieldKeyValu
     return {type: UPDATE_FIELD, groupId, fieldId, fieldName, fieldType, fieldKeyValues, answers, mandatory}
 }
 
+export function updateTextField(groupId, fieldId, fieldName, mandatory) {
+    return {type: UPDATE_TEXT_FIELD, groupId, fieldId, fieldName, mandatory}
+}
+
 export function updateCodedField(groupId, fieldId, fieldName, fieldType, answers, mandatory) {
     return {type: UPDATE_CODED_FIELD, groupId, fieldId, fieldName, fieldType, answers, mandatory}
 }
 
 export function updateNumericField(groupId, fieldId, fieldName, lowAbsolute, highAbsolute,
-                                   lowNormal, highNormal, unit) {
+                                   lowNormal, highNormal, unit, mandatory) {
     return {type: UPDATE_NUMERIC_FIELD, groupId, fieldId, fieldName, lowAbsolute, highAbsolute,
-        lowNormal, highNormal, unit}
+        lowNormal, highNormal, unit, mandatory}
 }
 
 export function initGroups(groups) {
