@@ -7,12 +7,13 @@ import {connect} from "react-redux";
 class TextComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {mandatory: false}
+        this.state = {mandatory: false, fieldHeader: this.props.field.name || 'Question'}
     }
 
     onChangeField(event) {
         const fieldName = event.target.value;
         this.props.updateTextField(this.props.groupId, this.props.field.id, fieldName, this.state.mandatory);
+        this.setState({...this.state, fieldHeader: fieldName});
     }
 
     onChangeMandatory(event) {
@@ -30,7 +31,7 @@ class TextComponent extends Component {
                 <div className="card-header py-2" id={headerId}>
                     <a data-toggle="collapse" href={"#" + collapseId} aria-expanded="true"
                        aria-controls={collapseId}>
-                        {this.props.field.name || 'Question'}
+                        {this.state.fieldHeader}
                     </a>
                 </div>
                 <div id={collapseId} className={this.props.collapse} aria-labelledby={headerId}

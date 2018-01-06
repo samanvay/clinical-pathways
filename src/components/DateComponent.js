@@ -16,12 +16,15 @@ class DateComponent extends Component {
                     {checked,
                      dateSubField}});
         });
-        this.state = {dateSubFieldsState, 'mandatory': this.props.field.mandatory || false};
+        this.state = {dateSubFieldsState, 'mandatory': this.props.field.mandatory || false,
+            fieldHeader: this.props.field.name || 'Question'};
     }
 
     onChangeFieldName(event) {
-        this.props.updateField(this.props.groupId, this.props.field.id, event.target.value, this.props.dataType,
+        const fieldName = event.target.value;
+        this.props.updateField(this.props.groupId, this.props.field.id, fieldName, this.props.dataType,
             this.props.field.keyValues, this.props.field.answers, this.state.mandatory);
+        this.setState({...this.state, fieldHeader: fieldName});
     }
 
     renderDateSubField(dateSubField) {
@@ -91,7 +94,7 @@ class DateComponent extends Component {
                 <div className="card-header py-2" id={headerId}>
                     <a data-toggle="collapse" href={"#" + collapseId} aria-expanded="true"
                        aria-controls={collapseId}>
-                        {this.props.field.name || 'Question'}
+                        {this.state.fieldHeader}
                     </a>
                 </div>
                 <div id={collapseId} className={this.props.collapse} aria-labelledby={headerId}

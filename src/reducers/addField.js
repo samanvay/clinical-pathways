@@ -24,7 +24,7 @@ export default function addField(formGroups = [], action) {
     let fieldElement;
     let concept;
     if (action.type === UPDATE_FIELD || action.type === UPDATE_CODED_FIELD ||
-        action.type === UPDATE_NUMERIC_FIELD ) {
+        action.type === UPDATE_NUMERIC_FIELD || action.type === UPDATE_TEXT_FIELD) {
         fieldIndex = _.findIndex(formGroup.formElements, function (field) {
             return field.id === action.fieldId;
         });

@@ -26,7 +26,8 @@ class UpdateForm extends Component {
         return <div className="form-group">
             <label htmlFor="programName">Program Name</label>
             <select className="form-control" id="programNameSelect" name="programName"
-                    onChange={this.onChangeField.bind(this)}>
+                    onChange={this.onChangeField.bind(this)}
+                    defaultValue={this.state.programName}>
                 <option>Mother</option>
                 <option>Child</option>
                 <option>Diabetes</option>

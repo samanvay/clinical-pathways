@@ -12,13 +12,15 @@ class CodedComponent extends Component {
         super(props);
         this.state = {
             mandatory: false,
-            answers: (this.props.field.concept && this.props.field.concept.answers)|| []};
+            answers: (this.props.field.concept && this.props.field.concept.answers)|| [],
+            fieldHeader: this.props.field.name || 'Question'};
     }
 
     onChangeFieldName(event) {
         const fieldName = event.target.value;
         this.props.updateCodedField(this.props.groupId, this.props.field.id, fieldName, this.props.type,
             this.state.answers, this.state.mandatory);
+        this.setState({...this.state, fieldHeader: fieldName});
     }
 
     onChangeAnswers(rawAnswers) {
@@ -32,7 +34,6 @@ class CodedComponent extends Component {
             }
         });
         this.setState(...this.state, answers);
-        console.log("Answers changed " + JSON.stringify(answers));
         this.props.updateCodedField(this.props.groupId, this.props.field.id, this.props.field.name, this.props.type,
             answers, this.state.mandatory);
     }
@@ -44,7 +45,6 @@ class CodedComponent extends Component {
     }
 
     render() {
-        console.log("render");
         const collapseId = "collapse_" + this.props.field.id;
         const headerId = "heading_" + this.props.field.id;
         const tagsFieldId = this.props.field.id + "_tags";
@@ -55,7 +55,7 @@ class CodedComponent extends Component {
                 <div className="card-header py-2" id={headerId}>
                     <a data-toggle="collapse" href={"#" + collapseId} aria-expanded="true"
                        aria-controls={collapseId}>
-                        {this.props.field.name || 'Question'}
+                        {this.state.fieldHeader}
                     </a>
                 </div>
                 <div id={collapseId} className={this.props.collapse} aria-labelledby={headerId}
