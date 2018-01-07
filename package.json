@@ -50,14 +50,13 @@
     "sw-precache-webpack-plugin": "0.11.4",
     "tether": "^1.4.0",
     "webpack-manifest-plugin": "1.2.1",
-    "whatwg-fetch": "2.0.3",
-    "yarn-install": "^0.5.1"
+    "whatwg-fetch": "2.0.3"
   },
   "scripts": {
     "copy": "copyfiles -f ./index.html ./dist",
     "start": "webpack-dev-server --hot --progress --colors",
-    "build": "yarn run copy && webpack",
-    "build-dev": "yarn run copy && webpack --config webpack.dev.config.js",
+    "build": "npm run copy && webpack",
+    "build-dev": "npm run copy && webpack --config webpack.dev.config.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
