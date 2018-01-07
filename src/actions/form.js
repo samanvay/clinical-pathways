@@ -8,8 +8,8 @@ export default function updateBasicForm(name, formType, programName, encounterTy
 export function fetchGroups(formName, uuid, callback) {
     return (dispatch) => {
         dispatch(requestGroups(formName));
-        console.log(`http://localhost:8021/forms/export?formUUID=${uuid}`);
-        return fetch(`http://localhost:8021/forms/export?formUUID=${uuid}`, {
+        console.log(`/forms/export?formUUID=${uuid}`);
+        return fetch(`/forms/export?formUUID=${uuid}`, {
             credentials: 'include',
             Accept: 'application/json'
         })

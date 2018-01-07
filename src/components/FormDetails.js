@@ -50,7 +50,7 @@ class FormDetails extends Component {
     saveForm(form) {
         _.remove(form.formElementGroups, (group)=>(_.isEmpty(group.name)));
         console.log(JSON.stringify(form));
-        fetch("http://localhost:8021/forms",{
+        fetch("/forms",{
             method: 'POST',
             credentials: 'include',
             headers: {

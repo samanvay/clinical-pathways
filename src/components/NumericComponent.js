@@ -75,7 +75,7 @@ class NumericComponent extends Component{
                                 <label htmlFor="unit">Unit</label>
                                 <select id="unit" className="form-control"
                                         defaultValue={this.props.field.concept.unit}>
-                                    <option selected>Choose...</option>
+                                    <option defaultValue="">Choose...</option>
                                     <option>cm</option>
                                     <option>kg</option>
                                     <option>mm Hg</option>

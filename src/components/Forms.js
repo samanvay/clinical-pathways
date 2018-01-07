@@ -11,7 +11,11 @@ class Forms extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8021/forms", {credentials: 'include', Accept: 'application/json'})
+        fetch("/forms",
+            {
+                method: 'GET',
+                credentials: 'include',
+                Accept: 'application/json'})
             .then((response) => {
                 if (response.status >= 200 && response.status < 300) {
                     return response.json();
