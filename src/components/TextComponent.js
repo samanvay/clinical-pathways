@@ -20,6 +20,7 @@ class TextComponent extends Component {
         this.setState(...this.state, {mandatory: !this.state.mandatory});
         this.props.updateTextField(this.props.groupId, this.props.field.id, this.props.field.name,
             this.state.mandatory);
+        this.setState({...this.state, mandatory: !this.state.mandatory});
     }
 
     render() {
