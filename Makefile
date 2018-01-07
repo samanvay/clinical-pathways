@@ -1,8 +1,7 @@
 deps:
 	npm install
 
-deploy:
-	make deps
+deploy: deps
 	npm run build
 	rm -rf ../openchs-server/openchs-server-api/src/main/resources/static
 	mkdir ../openchs-server/openchs-server-api/src/main/resources/static
