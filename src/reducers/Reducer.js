@@ -1,0 +1,24 @@
+import _ from 'lodash';
+
+export default class Reducer {
+    static factory(actions, initState, beans, prefix) {
+        actions.forEach((action, name) => {
+            if (_.isNil(action)) {
+                throw Error(`Action function is undefined for ${name}`);
+            }
+        });
+
+        return (state = initState, action) => {
+            const genericActionName = `${prefix}.${action.type}`;
+            if (actions.has(genericActionName)) {
+                console.log(`[Reducer] Found generic action ${genericActionName}. Invoking.`);
+                return actions.get(genericActionName)(state, action, beans);
+            }
+
+            if (!(actions.has(action.type)))
+                return state;
+
+            return actions.get(action.type)(state, action, beans);
+        }
+    }
+}
