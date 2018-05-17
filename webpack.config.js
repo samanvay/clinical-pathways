@@ -11,7 +11,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/openchs-admin-client/',
+        publicPath: '/app/',
     },
     plugins: [
         new ExtractTextPlugin({filename: 'styles.css', allChunks: true}),
@@ -38,6 +38,9 @@ module.exports = {
     },
     devServer: {
         contentBase: './dist',
+        proxy: {
+            "/api": "http://localhost:6001"
+        }
     },
     module: {
         rules: [

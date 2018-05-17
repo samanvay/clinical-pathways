@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createHashHistory} from 'history';
 import {createStore, combineReducers, applyMiddleware} from 'redux';

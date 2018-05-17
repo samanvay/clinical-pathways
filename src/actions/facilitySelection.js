@@ -8,7 +8,8 @@ export class FacilitySelection {
 }
 
 const FacilitySelectionActionsNames = {
-    DISTRICTS_FOR_STATE: 'FacilitySelection.DISTRICTS_FOR_STATE'
+    DISTRICTS_FOR_STATE: 'FacilitySelection.DISTRICTS_FOR_STATE',
+    ON_LOAD: 'FacilitySelection.ON_LOAD'
 };
 
 export default new Map([
