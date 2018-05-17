@@ -10,7 +10,7 @@ class BaseComponent extends Component {
     cloneState(cloneableAttributes = []) {
         let newState = Object.assign({}, this.state);
         cloneableAttributes.forEach((cloneableAttribute) => {
-            newState[cloneableAttribute] = Object.assign({}, this.state[cloneableAttribute]);
+            newState[cloneableAttribute] = this.state[cloneableAttribute].clone();
         });
         return newState;
     }

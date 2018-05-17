@@ -1,21 +1,23 @@
 import React from 'react';
 import {Col, Grid} from "react-bootstrap";
 import ReferenceDataService from "../service/ReferenceDataService";
-import FacilitySelectionProcess from "../model/FacilitySelectionProcess";
 import BaseComponent from "./BaseComponent";
+import {FacilitySelectionAction} from "../actions/FacilitySelectionAction";
 
 export default class FacilitySelection extends BaseComponent {
     constructor(props) {
         super(props);
-        this.state = {selectionProcess: FacilitySelectionProcess.start()};
+        this.state = FacilitySelectionAction.start();
     }
 
     componentDidMount() {
         ReferenceDataService.getAllStates().then((states) => {
-            let newState = this.cloneState(["selectionProcess"]);
-            newState.selectionProcess.states = states;
-            this.setState(newState);
+            this.setState(FacilitySelectionAction.onLoad(this.state, states));
         });
+    }
+
+    stateSelected(event) {
+        this.setState(this.state.stateSelected(event.target.value));
     }
 
     render() {
@@ -24,8 +26,8 @@ export default class FacilitySelection extends BaseComponent {
                 <Col>
                     <div className="form-group">
                         <label htmlFor="sel1">State</label>
-                        <select className="form-control" id="sel1">
-                            {this.state.selectionProcess.states.map((state) => <option>{state.name}</option>)}
+                        <select className="form-control" id="sel1" onChange={this.stateSelected} value={this.state.selectedState}>
+                            {this.state.states.map((state) => <option value={state.name}>{state.name}</option>)}
                         </select>
                         <label htmlFor="sel1">District</label>
                         <select className="form-control" id="sel1">

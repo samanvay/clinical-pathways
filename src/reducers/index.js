@@ -1,5 +1,5 @@
 import Reducer from "./Reducer";
-import FacilitySelectionActionsMap, {FacilitySelection} from '../actions/FacilitySelection';
+// import FacilitySelectionActionsMap, {FacilitySelectionAction} from '../actions/FacilitySelection';
 
 export default class Reducers {
     static get reducerKeys() {
@@ -8,7 +8,7 @@ export default class Reducers {
 
     static createReducers() {
         const reducerMap = {};
-        reducerMap[Reducers.reducerKeys.districtsForState] = Reducers._add(FacilitySelectionActionsMap, FacilitySelection);
+        // reducerMap[Reducers.reducerKeys.districtsForState] = Reducers._add(FacilitySelectionActionsMap, FacilitySelectionAction);
         return reducerMap;
     };
 
