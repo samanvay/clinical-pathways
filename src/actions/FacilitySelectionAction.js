@@ -1,5 +1,6 @@
 import FacilitySelectionProcess from "../model/FacilitySelectionProcess";
 import ReferenceDataService from "../service/ReferenceDataService";
+import AssessmentService from "../service/AssessmentService";
 
 export class FacilitySelectionAction {
     static empty() {
@@ -8,7 +9,18 @@ export class FacilitySelectionAction {
 
     static onLoad(state) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes);
+        return facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes);
+    }
+
+    static assessmentToolModeSelected(state, assessmentToolModeName) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.setSelectedAssessmentToolMode(assessmentToolModeName, (assessmentToolModeName) => ReferenceDataService.getAssessmentTools(assessmentToolModeName));
+    }
+
+    static assessmentToolSelected(state, assessmentToolName) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        facilitySelectionProcess.setSelectedAssessmentTool(assessmentToolName);
+        return facilitySelectionProcess;
     }
 
     static stateSelected(state, stateName) {
@@ -28,6 +40,24 @@ export class FacilitySelectionAction {
 
     static facilitySelected(state, facilityName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.setFacility(facilityName);
+        facilitySelectionProcess.setFacility(facilityName);
+        return facilitySelectionProcess;
+    }
+
+    static facilityNameChanged(state, facilityName) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        facilitySelectionProcess.setFreeTextFacilityName(facilityName);
+        return facilitySelectionProcess;
+    }
+
+    static uploadFileSelected(state, file) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        facilitySelectionProcess.uploadFileSelected(file);
+        return facilitySelectionProcess;
+    }
+
+    static submitAssessment(state) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.submitAssessment(AssessmentService.submit);
     }
 }

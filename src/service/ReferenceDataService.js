@@ -1,4 +1,5 @@
 import RestClient from "../framework/RestClient";
+import _ from 'lodash';
 
 class ReferenceDataService {
     static _processListResources(promise, resourceName) {
@@ -8,6 +9,14 @@ class ReferenceDataService {
 
     static _getAllResources(resourceName) {
         return ReferenceDataService._processListResources(RestClient.get(resourceName), resourceName);
+    }
+
+    static getAllAssessmentToolModes() {
+        return ReferenceDataService._getAllResources("assessmentToolMode");
+    }
+
+    static getAssessmentTools(assessmentToolModeName) {
+        return ReferenceDataService._processListResources(RestClient.get("assessmentTool/search/byAssessmentToolMode/", {assessmentToolModeName: assessmentToolModeName}), "assessmentTool");
     }
 
     static getAllStates() {

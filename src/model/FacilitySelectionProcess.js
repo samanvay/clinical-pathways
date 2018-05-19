@@ -1,5 +1,7 @@
 import _ from "lodash";
 
+const nullAssessmentToolMode = {name: "Select Program"};
+const nullAssessmentTool = {name: "Select Assessment Tool"};
 const nullState = {name: "Select State"};
 const nullDistrict = {name: "Select District"};
 const nullFacilityType = {name: "Select Facility Type"};
@@ -12,7 +14,7 @@ class FacilitySelectionProcess {
         return facilitySelectionProcess;
     }
 
-    start(getAllStates, getAllFacilityTypes) {
+    start(getAllStates, getAllFacilityTypes, getAllAssessmentToolModes) {
         this.initialised = true;
         return getAllStates()
             .then((states) => {
@@ -20,17 +22,25 @@ class FacilitySelectionProcess {
                 this.selectedState = nullState;
             })
             .then(getAllFacilityTypes)
-            .then((facilityTypes) => this.facilityTypes = FacilitySelectionProcess._getSortedList(facilityTypes, nullFacilityType)).then(() => {
-                this.selectedState = nullState;
+            .then((facilityTypes) => {
+                this.facilityTypes = FacilitySelectionProcess._getSortedList(facilityTypes, nullFacilityType);
+                this.selectedFacilityType = nullFacilityType;
+            })
+            .then(getAllAssessmentToolModes)
+            .then((assessmentToolModes) => {
+                this.assessmentToolModes = FacilitySelectionProcess._getSortedList(assessmentToolModes, nullAssessmentToolMode);
+                this.selectedAssessmentToolMode = nullAssessmentToolMode;
+
+                this.assessmentTools = [nullAssessmentTool];
+                this.selectedAssessmentTool = nullAssessmentTool;
 
                 this.districts = [nullDistrict];
                 this.selectedDistrict = nullDistrict;
 
-                this.selectedFacilityType = nullFacilityType;
-
                 this.facilities = [nullFacility];
                 this.selectedFacility = nullFacility;
 
+                this.facilityName = '';
                 return this;
             });
     }
@@ -43,6 +53,23 @@ class FacilitySelectionProcess {
         let sortedObjects = _.sortBy(objects, (obj) => obj.name);
         sortedObjects.splice(0, 0, nullObject);
         return sortedObjects;
+    }
+
+    setSelectedAssessmentToolMode(assessmentToolModeName, getAssessmentTools) {
+        this.selectedAssessmentToolMode = _.find(this.assessmentToolModes, (assessmentToolMode) => assessmentToolMode.name === assessmentToolModeName);
+        if (assessmentToolModeName === nullAssessmentToolMode.name) {
+            return new Promise(() => this);
+        } else {
+            return getAssessmentTools(assessmentToolModeName).then((assessmentTools) => {
+                this.assessmentTools = FacilitySelectionProcess._getSortedList(assessmentTools, nullAssessmentTool);
+                this.selectedAssessmentTool = nullAssessmentTool;
+                return this;
+            });
+        }
+    }
+
+    setSelectedAssessmentTool(assessmentToolName) {
+        this.selectedAssessmentTool = _.find(this.assessmentTools, (assessmentTool) => assessmentTool.name === assessmentToolName);
     }
 
     setSelectedState(stateName, getDistricts) {
@@ -87,6 +114,11 @@ class FacilitySelectionProcess {
         }
     }
 
+    setFreeTextFacilityName(facilityName) {
+        this.facilityName = facilityName;
+        this.selectedFacility = nullFacility;
+    }
+
     static isNullDistrict(districtName) {
         return nullDistrict.name === districtName;
     }
@@ -96,7 +128,20 @@ class FacilitySelectionProcess {
     }
 
     setFacility(facilityName) {
+        this.facilityName = '';
         this.selectedFacility = _.find(this.facilities, (facility) => facility.name === facilityName);
+    }
+
+    uploadFileSelected(file) {
+        this.uploadFile = file;
+    }
+
+    submitAssessment(submit) {
+        let facilityAssessment = {
+            facilityUuid: this.selectedFacility.uuid,
+            facilityName: this.facilityName
+        };
+        submit();
     }
 }
 
