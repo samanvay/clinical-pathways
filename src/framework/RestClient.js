@@ -10,10 +10,9 @@ class RestClient {
         return _.toPairs(obj).map((kv) => kv.join('=')).join("&");
     }
 
-    static postMultipart(path, fileParam, file, params) {
+    static postMultipart(path, obj) {
         let data = new FormData();
-        data.append(fileParam, file);
-        _.toPairs(params).forEach((param) => data.append(param[0], param[1]));
+        _.toPairs(obj).forEach((param) => data.append(param[0], param[1]));
         return fetch(path, {
             'method': 'POST',
             'Content-Type': 'multipart/form-data'

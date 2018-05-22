@@ -1,6 +1,9 @@
 deps:
 	npm install
 
+build_dev:
+	npm run build-dev
+
 build:
 	npm run build
 
@@ -11,5 +14,5 @@ deploy: build
 	rsync -av dist/ ../facilities-assessment-server/app/ --exclude index.html
 	cp index.html ../facilities-assessment-server/app/
 
-start_local_server: build
+start_local_server: build_dev
 	npm start

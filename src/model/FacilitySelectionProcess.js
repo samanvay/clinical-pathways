@@ -14,6 +14,10 @@ class FacilitySelectionProcess {
         return facilitySelectionProcess;
     }
 
+    static clone(facilitySelectionProcess) {
+        return Object.assign(new FacilitySelectionProcess(), facilitySelectionProcess);
+    }
+
     start(getAllStates, getAllFacilityTypes, getAllAssessmentToolModes) {
         this.initialised = true;
         return getAllStates()
@@ -43,10 +47,6 @@ class FacilitySelectionProcess {
                 this.facilityName = '';
                 return this;
             });
-    }
-
-    static clone(facilitySelectionProcess) {
-        return Object.assign(new FacilitySelectionProcess(), facilitySelectionProcess);
     }
 
     static _getSortedList(objects, nullObject) {
@@ -138,10 +138,12 @@ class FacilitySelectionProcess {
 
     submitAssessment(submit) {
         let facilityAssessment = {
+            assessmentToolUuid: this.selectedAssessmentTool.uuid,
             facilityUuid: this.selectedFacility.uuid,
-            facilityName: this.facilityName
+            facilityName: this.facilityName,
+            assessmentFile: this.uploadFile
         };
-        submit();
+        return submit(facilityAssessment);
     }
 }
 

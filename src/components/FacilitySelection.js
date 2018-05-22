@@ -53,6 +53,7 @@ export default class FacilitySelection extends BaseComponent {
     render() {
         if (!this.state.initialised) return <div/>;
 
+        let env = process.env;
         return <div>
             <Grid>
                 <Col>
