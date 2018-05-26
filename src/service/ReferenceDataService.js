@@ -3,8 +3,7 @@ import _ from 'lodash';
 
 class ReferenceDataService {
     static _processListResources(promise, resourceName) {
-        return promise.then((streamedResponse) => streamedResponse.json())
-            .then((responseObj) => responseObj["_embedded"][resourceName]);
+        return promise.then((responseObj) => responseObj["_embedded"][resourceName]);
     }
 
     static _getAllResources(resourceName) {
@@ -25,6 +24,10 @@ class ReferenceDataService {
 
     static getFacilityTypes() {
         return ReferenceDataService._getAllResources("facilityType");
+    }
+
+    static getAllAssessmentTypes() {
+        return ReferenceDataService._getAllResources("assessmentType");
     }
 
     static getDistricts(stateName) {

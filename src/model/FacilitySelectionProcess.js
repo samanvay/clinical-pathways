@@ -5,6 +5,7 @@ const nullAssessmentTool = {name: "Select Assessment Tool"};
 const nullState = {name: "Select State"};
 const nullDistrict = {name: "Select District"};
 const nullFacilityType = {name: "Select Facility Type"};
+const nullAssessmentType = {name: "Select Assessment Type"};
 const nullFacility = {name: "Select Facility"};
 
 class FacilitySelectionProcess {
@@ -18,7 +19,7 @@ class FacilitySelectionProcess {
         return Object.assign(new FacilitySelectionProcess(), facilitySelectionProcess);
     }
 
-    start(getAllStates, getAllFacilityTypes, getAllAssessmentToolModes) {
+    start(getAllStates, getAllFacilityTypes, getAllAssessmentToolModes, getAllAssessmentTypes) {
         this.initialised = true;
         return getAllStates()
             .then((states) => {
@@ -29,6 +30,11 @@ class FacilitySelectionProcess {
             .then((facilityTypes) => {
                 this.facilityTypes = FacilitySelectionProcess._getSortedList(facilityTypes, nullFacilityType);
                 this.selectedFacilityType = nullFacilityType;
+            })
+            .then(getAllAssessmentTypes)
+            .then((assessmentTypes) => {
+                this.assessmentTypes = FacilitySelectionProcess._getSortedList(assessmentTypes, nullAssessmentType);
+                this.selectedAssessmentType = nullAssessmentType;
             })
             .then(getAllAssessmentToolModes)
             .then((assessmentToolModes) => {
@@ -70,6 +76,7 @@ class FacilitySelectionProcess {
 
     setSelectedAssessmentTool(assessmentToolName) {
         this.selectedAssessmentTool = _.find(this.assessmentTools, (assessmentTool) => assessmentTool.name === assessmentToolName);
+        return this;
     }
 
     setSelectedState(stateName, getDistricts) {
@@ -114,9 +121,14 @@ class FacilitySelectionProcess {
         }
     }
 
+    setAssessmentType(assessmentTypeName) {
+        this.selectedAssessmentType = _.find(this.assessmentTypes, (assessmentType) => assessmentType.name === assessmentTypeName);
+    }
+
     setFreeTextFacilityName(facilityName) {
         this.facilityName = facilityName;
         this.selectedFacility = nullFacility;
+        return this;
     }
 
     static isNullDistrict(districtName) {
@@ -130,10 +142,12 @@ class FacilitySelectionProcess {
     setFacility(facilityName) {
         this.facilityName = '';
         this.selectedFacility = _.find(this.facilities, (facility) => facility.name === facilityName);
+        return this;
     }
 
     uploadFileSelected(file) {
         this.uploadFile = file;
+        return this;
     }
 
     submitAssessment(submit) {

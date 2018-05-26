@@ -9,7 +9,7 @@ export class FacilitySelectionAction {
 
     static onLoad(state) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes);
+        return facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
     }
 
     static assessmentToolModeSelected(state, assessmentToolModeName) {
@@ -19,8 +19,7 @@ export class FacilitySelectionAction {
 
     static assessmentToolSelected(state, assessmentToolName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        facilitySelectionProcess.setSelectedAssessmentTool(assessmentToolName);
-        return facilitySelectionProcess;
+        return facilitySelectionProcess.setSelectedAssessmentTool(assessmentToolName);
     }
 
     static stateSelected(state, stateName) {
@@ -38,22 +37,24 @@ export class FacilitySelectionAction {
         return facilitySelectionProcess.setFacilityType(facilityTypeName, ReferenceDataService.getFacilities);
     }
 
+    static assessmentTypeSelected(state, assessmentTypeName) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.setAssessmentType(assessmentTypeName);
+    }
+
     static facilitySelected(state, facilityName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
         facilitySelectionProcess.setFacility(facilityName);
-        return facilitySelectionProcess;
     }
 
     static facilityNameChanged(state, facilityName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        facilitySelectionProcess.setFreeTextFacilityName(facilityName);
-        return facilitySelectionProcess;
+        return facilitySelectionProcess.setFreeTextFacilityName(facilityName);
     }
 
     static uploadFileSelected(state, file) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        facilitySelectionProcess.uploadFileSelected(file);
-        return facilitySelectionProcess;
+        return facilitySelectionProcess.uploadFileSelected(file);
     }
 
     static submitAssessment(state) {

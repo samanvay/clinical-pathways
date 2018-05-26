@@ -3,7 +3,7 @@ import {Col, Grid} from "react-bootstrap";
 import BaseComponent from "./BaseComponent";
 import {FacilitySelectionAction} from "../actions/FacilitySelectionAction";
 
-export default class FacilitySelection extends BaseComponent {
+export default class AssessmentImport extends BaseComponent {
     constructor(props) {
         super(props);
         this.state = FacilitySelectionAction.empty();
@@ -33,6 +33,10 @@ export default class FacilitySelection extends BaseComponent {
         FacilitySelectionAction.facilityTypeSelected(this.state, event.target.value).then(this.setState);
     }
 
+    assessmentTypeSelected(event) {
+        FacilitySelectionAction.assessmentTypeSelected(this.state, event.target.value).then(this.setState);
+    }
+
     facilitySelected(event) {
         this.setState(FacilitySelectionAction.facilitySelected(this.state, event.target.value));
     }
@@ -53,7 +57,6 @@ export default class FacilitySelection extends BaseComponent {
     render() {
         if (!this.state.initialised) return <div/>;
 
-        let env = process.env;
         return <div>
             <Grid>
                 <Col>
@@ -81,6 +84,10 @@ export default class FacilitySelection extends BaseComponent {
                         <label htmlFor="sel1">Facility</label>
                         <select className="form-control" id="facility" onChange={this.facilitySelected.bind(this)} value={this.state.selectedFacility.name}>
                             {this.state.facilities.map((facility) => <option key={facility.name}  value={facility.name}>{facility.name}</option>)}
+                        </select>
+                        <label htmlFor="sel1">Assessment Type</label>
+                        <select className="form-control" id="assessmentType" onChange={this.assessmentTypeSelected.bind(this)} value={this.state.selectedAssessmentType.name}>
+                            {this.state.assessmentTypes.map((assessmentType) => <option key={assessmentType.name}  value={assessmentType.name}>{assessmentType.name}</option>)}
                         </select>
                         <label htmlFor="sel1">Enter facility (if not present in the list)</label>
                         <input type="text" className="form-control" id="usr" onChange={this.facilityNameEntered.bind(this)} value={this.state.facilityName}/>
