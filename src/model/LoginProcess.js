@@ -1,6 +1,14 @@
 class LoginProcess {
-    start() {
-        return this;
+    start(getCurrentUser) {
+        return getCurrentUser().then((response) => {
+            this.status = response.success;
+            this.user = response.user;
+            return this;
+        }).catch((error) => {
+            this.user = undefined;
+            this.status = false;
+            return this;
+        });
     }
 
     static clone(loginProcess) {
@@ -17,8 +25,12 @@ class LoginProcess {
         return this;
     }
 
-    submit(login) {
-        return login(this.email, this.password);
+    submit(login, getCurrentUser) {
+        return login(this.email, this.password).then(() => this.start(getCurrentUser))
+            .catch((error) => {
+                this.status = false;
+                return this;
+            });
     }
 }
 

@@ -2,10 +2,9 @@ import React from 'react';
 import {withRouter} from "react-router-dom";
 
 const App = (props) => {
-    const {header: Header, history, location, breadcrumb: Breadcrumb, content: Content} = props;
+    const {header: Header, history, location, content: Content} = props;
     return <div>
-        {Header && <Header/>}
-        {Breadcrumb && <Breadcrumb location={location}/>}
+        {<Header location={location}/>}
         <div className="container">
             <Content history={history}/>
         </div>

@@ -39,8 +39,8 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         proxy: {
-            "/api": "http://localhost:6001",
-            "/login": "http://localhost:6001"
+            "/api": {target: "http://localhost:6001", secure: false},
+            "/login": {target: "http://localhost:6001", secure: false}
         }
     },
     module: {

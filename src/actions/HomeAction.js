@@ -8,7 +8,7 @@ export class HomeAction {
 
     static onLoad(state) {
         let loginProcess = LoginProcess.clone(state);
-        return loginProcess.start();
+        return loginProcess.start(IAMService.getCurrentUser);
     }
 
     static setEmail(state, value) {
@@ -23,8 +23,6 @@ export class HomeAction {
 
     static login(state) {
         let loginProcess = LoginProcess.clone(state);
-        return loginProcess.submit(IAMService.login).then((response) => {
-            console.log(JSON.stringify(response));
-        });
+        return loginProcess.submit(IAMService.login, IAMService.getCurrentUser);
     }
 }

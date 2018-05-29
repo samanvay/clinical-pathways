@@ -7,7 +7,7 @@ class ReferenceDataService {
     }
 
     static _getAllResources(resourceName) {
-        return ReferenceDataService._processListResources(RestClient.get(resourceName), resourceName);
+        return ReferenceDataService._processListResources(RestClient.getJSON(resourceName), resourceName);
     }
 
     static getAllAssessmentToolModes() {
@@ -15,7 +15,7 @@ class ReferenceDataService {
     }
 
     static getAssessmentTools(assessmentToolModeName) {
-        return ReferenceDataService._processListResources(RestClient.get("assessmentTool/search/byAssessmentToolMode/", {assessmentToolModeName: assessmentToolModeName}), "assessmentTool");
+        return ReferenceDataService._processListResources(RestClient.getJSON("assessmentTool/search/byAssessmentToolMode/", {assessmentToolModeName: assessmentToolModeName}), "assessmentTool");
     }
 
     static getAllStates() {
@@ -31,14 +31,14 @@ class ReferenceDataService {
     }
 
     static getDistricts(stateName) {
-        return ReferenceDataService._processListResources(RestClient.get("district/search/byState/", {stateName: stateName}), "district");
+        return ReferenceDataService._processListResources(RestClient.getJSON("district/search/byState/", {stateName: stateName}), "district");
     }
 
     static getFacilities(districtName, facilityTypeName) {
         if (_.isNil(facilityTypeName))
-            return ReferenceDataService._processListResources(RestClient.get("facility/search/byDistrict/", {districtName: districtName}), "facility");
+            return ReferenceDataService._processListResources(RestClient.getJSON("facility/search/byDistrict/", {districtName: districtName}), "facility");
         else
-            return ReferenceDataService._processListResources(RestClient.get("facility/search/byDistrictAndFacilityType/", {districtName: districtName, facilityTypeName: facilityTypeName}), "facility");
+            return ReferenceDataService._processListResources(RestClient.getJSON("facility/search/byDistrictAndFacilityType/", {districtName: districtName, facilityTypeName: facilityTypeName}), "facility");
     }
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Col, Grid} from "react-bootstrap";
 import BaseComponent from "./BaseComponent";
-import {FacilitySelectionAction} from "../actions/FacilitySelectionAction";
 import {HomeAction} from "../actions/HomeAction";
+import {Redirect} from 'react-router-dom';
 
 export default class Home extends BaseComponent {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class Home extends BaseComponent {
     }
 
     componentDidMount() {
-        this.setState(HomeAction.onLoad(this.state));
+        HomeAction.onLoad(this.state).then(this.setState);
     }
 
     emailEntered(event) {
@@ -24,10 +24,14 @@ export default class Home extends BaseComponent {
 
     onFormSubmit(e) {
         e.preventDefault();
-        HomeAction.login(this.state);
+        HomeAction.login(this.state).then(this.setState);
     }
 
     render() {
+        if (this.state.status) {
+            return <Redirect to={{pathname: '/facilityAssessment/import', state: {user: this.state.user}}}/>
+        }
+
         return <div>
             <Grid>
                 <Col>
