@@ -2,6 +2,7 @@ import React from 'react';
 import {Col, Grid} from "react-bootstrap";
 import BaseComponent from "./BaseComponent";
 import {FacilitySelectionAction} from "../actions/FacilitySelectionAction";
+import {HomeAction} from "../actions/HomeAction";
 
 export default class AssessmentImport extends BaseComponent {
     constructor(props) {
@@ -46,7 +47,7 @@ export default class AssessmentImport extends BaseComponent {
     }
 
     fileChanged(event) {
-        FacilitySelectionAction.uploadFileSelected(this.state, event.target.files[0]);
+        this.setState(FacilitySelectionAction.uploadFileSelected(this.state, event.target.files[0]));
     }
 
     onFormSubmit(e) {
@@ -85,15 +86,19 @@ export default class AssessmentImport extends BaseComponent {
                         <select className="form-control" id="facility" onChange={this.facilitySelected.bind(this)} value={this.state.selectedFacility.name}>
                             {this.state.facilities.map((facility) => <option key={facility.name}  value={facility.name}>{facility.name}</option>)}
                         </select>
+
+                        <label htmlFor="sel1">Enter facility (if not present in the list)</label>
+                        <input type="text" className="form-control" id="usr" onChange={this.facilityNameEntered.bind(this)} value={this.state.facilityName}/>
+
                         <label htmlFor="sel1">Assessment Type</label>
                         <select className="form-control" id="assessmentType" onChange={this.assessmentTypeSelected.bind(this)} value={this.state.selectedAssessmentType.name}>
                             {this.state.assessmentTypes.map((assessmentType) => <option key={assessmentType.name}  value={assessmentType.name}>{assessmentType.name}</option>)}
                         </select>
-                        <label htmlFor="sel1">Enter facility (if not present in the list)</label>
-                        <input type="text" className="form-control" id="usr" onChange={this.facilityNameEntered.bind(this)} value={this.state.facilityName}/>
+
                         <label htmlFor="exampleFormControlFile1">Example file input (only .XLSX file supported)</label>
                         <input type="file" className="form-control-file" id="assessmentFile" accept='.xlsx' onChange={this.fileChanged.bind(this)}/>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+
+                        <button type="submit" className="btn btn-primary" onClick={this.onFormSubmit.bind(this)}>Submit</button>
                     </div>
 
                     <h4>Re-upload (overwrites already uploaded assessment)</h4>

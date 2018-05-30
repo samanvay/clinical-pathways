@@ -7,9 +7,25 @@ export class FacilitySelectionAction {
         return new FacilitySelectionProcess();
     }
 
+    static __selectItemsForDev(promise) {
+        return promise.then((deleteMe) => deleteMe.setSelectedState('Bihar', ReferenceDataService.getDistricts))
+            .then((deleteMe) => deleteMe.setSelectedDistrict("Araria", ReferenceDataService.getFacilities))
+            .then((deleteMe) => deleteMe.setFacilityType('Primary Health Center', ReferenceDataService.getFacilities))
+            .then((deleteMe) => deleteMe.setSelectedAssessmentToolMode('LAQSHYA', ReferenceDataService.getAssessmentTools))
+            .then((deleteMe) => {
+                deleteMe.setSelectedAssessmentTool('NQAS');
+                deleteMe.setFacility('Bardaha');
+                deleteMe.setAssessmentType('External');
+                return deleteMe;
+            });
+    }
+
     static onLoad(state) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
+        let promise = facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
+        promise = FacilitySelectionAction.__selectItemsForDev(promise);
+        return promise;
+
     }
 
     static assessmentToolModeSelected(state, assessmentToolModeName) {

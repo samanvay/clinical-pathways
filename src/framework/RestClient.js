@@ -19,16 +19,15 @@ class RestClient {
         return _.toPairs(obj).map((kv) => kv.join('=')).join("&");
     }
 
-    static postMultipart(path, obj) {
-        let data = new FormData();
-        _.toPairs(obj).forEach((param) => data.append(param[0], param[1]));
-        return fetch(path, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            body: data
-        }).then((streamedResponse) => streamedResponse.body);
+    static postMultipart(path, files, params) {
+        let promise = request.post(`/api/${path}`);
+        _.toPairs(files).forEach((file) => {
+            promise = promise.attach(file[0], file[1]);
+        });
+        _.toPairs(params).forEach((param) => {
+            promise = promise.field(param[0], param[1]);
+        });
+        return promise.then((streamedResponse) => streamedResponse.body);
     }
 
     static post(path, obj) {

@@ -151,13 +151,7 @@ class FacilitySelectionProcess {
     }
 
     submitAssessment(submit) {
-        let facilityAssessment = {
-            assessmentToolUuid: this.selectedAssessmentTool.uuid,
-            facilityUuid: this.selectedFacility.uuid,
-            facilityName: this.facilityName,
-            assessmentFile: this.uploadFile
-        };
-        return submit(facilityAssessment);
+        return submit(this.selectedAssessmentTool.uuid, this.selectedAssessmentType.uuid, this.selectedFacility.uuid, this.facilityName, this.uploadFile);
     }
 }
 
