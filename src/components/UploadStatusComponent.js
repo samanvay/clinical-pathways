@@ -10,32 +10,33 @@ export default class UploadStatusComponent extends BaseComponent {
     }
 
     renderUploadView() {
-        switch(this.props.state.uploadStatus) {
+        switch (this.props.state.uploadStatus) {
             case 'Uploading':
                 return <Modal.Dialog>
-                    <Modal.Header>
-                        <Modal.Title>Uploading...</Modal.Title>
-                    </Modal.Header>
-                </Modal.Dialog>;
+                    <Modal.Header><Modal.Title>Uploading...</Modal.Title></Modal.Header></Modal.Dialog>;
             case 'Completed':
-                return <div>
-                    <br/>
-                    <Alert bsStyle="success" onDismiss={() => this.props.confirmUpload()}>
-                        <strong>Assessment uploaded successfully</strong>
-                        <p>{FacilitySelectionProcess.assessmentUploadMessage(this.props.state)}</p>
-                        <p>
-                            <Button bsStyle="success" bsSize="large" onClick={() => this.props.confirmUpload()}>Done</Button>
-                        </p>
-                    </Alert></div>;
+                return this.wrapInModal('Assessment uploaded successfully', <p>{FacilitySelectionProcess.assessmentUploadMessage(this.props.state)}</p>);
         }
         return null;
     }
 
+    wrapInModal(title, body) {
+        return <Modal.Dialog bsSize="large">
+            <Modal.Header>
+                <Modal.Title>{title}</Modal.Title>
+            </Modal.Header>
+            {body}
+            <Modal.Footer>
+                <Button bsStyle="primary" onClick={() => this.props.confirmUpload()}>Close</Button>
+            </Modal.Footer>
+        </Modal.Dialog>;
+    }
+
     render() {
         return FacilitySelectionProcess.uploadFailed(this.props.state) ?
-            <Alert bsStyle="danger" onDismiss={() => this.props.confirmUpload()}>
-                <strong>Error in uploading</strong>{FacilitySelectionProcess.uploadErrorMessage(this.props.state)}
-            </Alert> : this.renderUploadView()
+            this.wrapInModal('Error in uploading', <p color={'red'}>{FacilitySelectionProcess.uploadErrorMessage(this.props.state)}</p>)
+            :
+            this.renderUploadView();
     }
 };
 
