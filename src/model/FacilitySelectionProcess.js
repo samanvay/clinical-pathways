@@ -10,9 +10,7 @@ const nullFacility = {name: "Select Facility"};
 
 class FacilitySelectionProcess {
     static empty() {
-        let facilitySelectionProcess = new FacilitySelectionProcess();
-        facilitySelectionProcess.initialised = false;
-        return facilitySelectionProcess;
+        return new FacilitySelectionProcess();
     }
 
     static clone(facilitySelectionProcess) {
@@ -20,7 +18,6 @@ class FacilitySelectionProcess {
     }
 
     start(getAllStates, getAllFacilityTypes, getAllAssessmentToolModes, getAllAssessmentTypes) {
-        this.initialised = true;
         return getAllStates()
             .then((states) => {
                 this.states = FacilitySelectionProcess._getSortedList(states, nullState);
@@ -51,8 +48,22 @@ class FacilitySelectionProcess {
                 this.selectedFacility = nullFacility;
 
                 this.facilityName = '';
+                this.resetUploadState();
                 return this;
             });
+    }
+
+    get loading() {
+        return _.isNil(this.assessmentToolModes);
+    }
+
+    static isSubmittable(facilitySelectionProcess) {
+        let submittable = !(_.isNil(facilitySelectionProcess.selectedAssessmentTool) || _.isNil(facilitySelectionProcess.selectedAssessmentType) || _.isNil(facilitySelectionProcess.uploadFile));
+        return submittable && (!_.isNil(facilitySelectionProcess.selectedFacility) || !_.isEmpty(facilitySelectionProcess.facilityName));
+    }
+
+    static isUpdatable(facilitySelectionProcess) {
+        return !_.isEmpty(facilitySelectionProcess.facilityAssessmentUuid);
     }
 
     static _getSortedList(objects, nullObject) {
@@ -136,7 +147,7 @@ class FacilitySelectionProcess {
     }
 
     getFacilityTypeName() {
-        return this.selectedFacilityType === nullFacilityType ? null : this.selectedFacilityType.name;
+        return this.selectedFacilityType === nullFacilityType ? undefined : this.selectedFacilityType.name;
     }
 
     setFacility(facilityName) {
@@ -150,8 +161,64 @@ class FacilitySelectionProcess {
         return this;
     }
 
-    submitAssessment(submit) {
-        return submit(this.selectedAssessmentTool.uuid, this.selectedAssessmentType.uuid, this.selectedFacility.uuid, this.facilityName, this.uploadFile);
+    submitNewAssessment(submit) {
+        return this._handleSubmitResponse(submit(this.selectedAssessmentTool["uuid"], this.selectedAssessmentType["uuid"], this.selectedFacility["uuid"], this.facilityName, this.uploadFile));
+    }
+
+    _handleSubmitResponse(promise) {
+        return promise.then((response) => {
+            this.uploadStatus = 'Completed';
+            this.assessmentUploadResponse = response;
+            return this;
+        }).catch((error) => {
+            this.error = error;
+            this.uploadStatus = 'Completed';
+            this.assessmentUploadResponse = undefined;
+            return this;
+        });
+    }
+
+    setFacilityAssessmentUuid(uuid) {
+        this.facilityAssessmentUuid = uuid;
+        return this;
+    }
+
+    submitExistingAssessment(submit) {
+        return this._handleSubmitResponse(submit(this.facilityAssessmentUuid, this.uploadFile));
+    }
+
+    startUpload() {
+        this.uploadStatus = 'Uploading';
+        return this;
+    }
+
+    static uploadFailed(facilitySelectionProcess) {
+        return !_.isNil(facilitySelectionProcess.error) || (!_.isNil(facilitySelectionProcess.assessmentUploadResponse) && (facilitySelectionProcess.assessmentUploadResponse["checkpointInErrors"].length !== 0));
+    }
+
+    static uploadErrorMessage(facilitySelectionProcess) {
+        if (facilitySelectionProcess.error)
+            return JSON.stringify(facilitySelectionProcess.error);
+        else {
+            let errorMessage = '';
+            facilitySelectionProcess.assessmentUploadResponse["checkpointInErrors"].forEach((checkpointInError) => errorMessage += `${checkpointInError["checkpoint"]} not found in ${checkpointInError["measurableElementReference"]}\n`);
+            return errorMessage;
+        }
+    }
+
+    static assessmentUploadMessage(facilitySelectionProcess) {
+        return `Please retain this token in case you want to overwrite this assessment by re-uploading this file - ${facilitySelectionProcess.assessmentUploadResponse["facilityAssessment"]["uuid"]}`;
+    }
+
+    uploadProcessCompleted() {
+        this.resetUploadState();
+        return this;
+    }
+
+    resetUploadState() {
+        this.uploadFile = this.error = this.assessmentUploadResponse = undefined;
+        this.facilityAssessmentUuid = undefined;
+        this.uploadStatus = 'NotUploading';
     }
 }
 

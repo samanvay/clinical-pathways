@@ -1,13 +1,18 @@
-import _ from "lodash";
 import RestClient from "../framework/RestClient";
 
 class AssessmentService {
-    static submit(assessmentToolUuid, assessmentTypeUuid, facilityUuid, facilityName, assessmentFile) {
-        return RestClient.postMultipart("facility-assessment/excel/", {assessmentFile: assessmentFile}, {
+    static submitNew(assessmentToolUuid, assessmentTypeUuid, facilityUuid, facilityName, assessmentFile) {
+        return RestClient.postMultipart("facility-assessment/excel/new", {assessmentFile: assessmentFile}, {
             assessmentToolUuid: assessmentToolUuid,
             assessmentTypeUuid: assessmentTypeUuid,
             facilityUuid: facilityUuid,
-            facilityName: facilityName
+            nonExistentFacilityName: facilityName
+        });
+    }
+
+    static submitExisting(facilityAssessmentUuid, assessmentFile) {
+        return RestClient.postMultipart("facility-assessment/excel/update", {assessmentFile: assessmentFile}, {
+            facilityAssessmentUuid: facilityAssessmentUuid
         });
     }
 }

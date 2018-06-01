@@ -36,10 +36,15 @@ export default class Home extends BaseComponent {
             <Grid>
                 <Col>
                     <div className="form-group">
-                        <label htmlFor="sel1">Email</label>
+                        <br/>
+                        <label htmlFor="sel1"><b>Email</b></label>
                         <input type="text" className="form-control" id="email" onChange={this.emailEntered.bind(this)} value={this.state.email}/>
-                        <label htmlFor="sel1">Password</label>
+                        <br/>
+
+                        <label htmlFor="sel1"><b>Password</b></label>
                         <input type="password" className="form-control" id="password" onChange={this.passwordEntered.bind(this)} value={this.state.password}/>
+                        <br/>
+
                         <button type="submit" className="btn btn-primary" onClick={this.onFormSubmit.bind(this)}>Login</button>
                     </div>
                 </Col>

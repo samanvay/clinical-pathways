@@ -68,13 +68,33 @@ export class FacilitySelectionAction {
         return facilitySelectionProcess.setFreeTextFacilityName(facilityName);
     }
 
+    static startAssessmentUpload(state) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.startUpload();
+    }
+
     static uploadFileSelected(state, file) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
         return facilitySelectionProcess.uploadFileSelected(file);
     }
 
-    static submitAssessment(state) {
+    static submitNewAssessment(state) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.submitAssessment(AssessmentService.submit);
+        return facilitySelectionProcess.submitNewAssessment(AssessmentService.submitNew);
+    }
+
+    static submitExistingAssessment(state) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.submitExistingAssessment(AssessmentService.submitExisting);
+    }
+
+    static uploadProcessConfirmed(state) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.uploadProcessCompleted();
+    }
+
+    static facilityAssessmentEntered(state, value) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.setFacilityAssessmentUuid(value);
     }
 }
