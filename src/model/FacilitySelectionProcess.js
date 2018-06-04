@@ -134,6 +134,7 @@ class FacilitySelectionProcess {
 
     setAssessmentType(assessmentTypeName) {
         this.selectedAssessmentType = _.find(this.assessmentTypes, (assessmentType) => assessmentType.name === assessmentTypeName);
+        return this;
     }
 
     setFreeTextFacilityName(facilityName) {

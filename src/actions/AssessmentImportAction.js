@@ -26,7 +26,8 @@ export class AssessmentImportAction {
         return Action.onLoad(facilitySelectionProcess).then((loggedIn) => {
             if (loggedIn) {
                 let promise = facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
-                return AssessmentImportAction.__selectItemsForDev(promise);
+                return promise;
+                // return AssessmentImportAction.__selectItemsForDev(promise);
             }
             return new Promise(() => facilitySelectionProcess);
         });
@@ -64,7 +65,7 @@ export class AssessmentImportAction {
 
     static facilitySelected(state, facilityName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        facilitySelectionProcess.setFacility(facilityName);
+        return facilitySelectionProcess.setFacility(facilityName);
     }
 
     static facilityNameChanged(state, facilityName) {

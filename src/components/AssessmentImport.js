@@ -38,7 +38,7 @@ export default class AssessmentImport extends BaseComponent {
     }
 
     assessmentTypeSelected(event) {
-        AssessmentImportAction.assessmentTypeSelected(this.state, event.target.value).then(this.setState);
+        this.setState(AssessmentImportAction.assessmentTypeSelected(this.state, event.target.value));
     }
 
     facilitySelected(event) {
