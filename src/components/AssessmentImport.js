@@ -1,78 +1,86 @@
 import React from 'react';
 import {Col, Grid, Modal} from "react-bootstrap";
+import {Redirect} from 'react-router-dom';
 import BaseComponent from "./BaseComponent";
-import {FacilitySelectionAction} from "../actions/FacilitySelectionAction";
+import {AssessmentImportAction} from "../actions/AssessmentImportAction";
 import UploadStatusComponent from "./UploadStatusComponent";
 import FacilitySelectionProcess from "../model/FacilitySelectionProcess";
+import GlobalState from "../model/GlobalState";
 
 export default class AssessmentImport extends BaseComponent {
     constructor(props) {
         super(props);
-        this.state = FacilitySelectionAction.empty();
+        this.state = AssessmentImportAction.empty();
     }
 
     componentDidMount() {
-        FacilitySelectionAction.onLoad(this.state).then(this.setState);
+        AssessmentImportAction.onLoad(this.state).then(this.setState).catch(this.setState);
     }
 
     assessmentToolModeSelected(event) {
-        FacilitySelectionAction.assessmentToolModeSelected(this.state, event.target.value).then(this.setState);
+        AssessmentImportAction.assessmentToolModeSelected(this.state, event.target.value).then(this.setState);
     }
 
     assessmentToolSelected(event) {
-        this.setState(FacilitySelectionAction.assessmentToolSelected(this.state, event.target.value));
+        this.setState(AssessmentImportAction.assessmentToolSelected(this.state, event.target.value));
     }
 
     stateSelected(event) {
-        FacilitySelectionAction.stateSelected(this.state, event.target.value).then(this.setState);
+        AssessmentImportAction.stateSelected(this.state, event.target.value).then(this.setState);
     }
 
     districtSelected(event) {
-        FacilitySelectionAction.districtSelected(this.state, event.target.value).then(this.setState);
+        AssessmentImportAction.districtSelected(this.state, event.target.value).then(this.setState);
     }
 
     facilityTypeSelected(event) {
-        FacilitySelectionAction.facilityTypeSelected(this.state, event.target.value).then(this.setState);
+        AssessmentImportAction.facilityTypeSelected(this.state, event.target.value).then(this.setState);
     }
 
     assessmentTypeSelected(event) {
-        FacilitySelectionAction.assessmentTypeSelected(this.state, event.target.value).then(this.setState);
+        AssessmentImportAction.assessmentTypeSelected(this.state, event.target.value).then(this.setState);
     }
 
     facilitySelected(event) {
-        this.setState(FacilitySelectionAction.facilitySelected(this.state, event.target.value));
+        this.setState(AssessmentImportAction.facilitySelected(this.state, event.target.value));
     }
 
     facilityNameEntered(event) {
-        this.setState(FacilitySelectionAction.facilityNameChanged(this.state, event.target.value));
+        this.setState(AssessmentImportAction.facilityNameChanged(this.state, event.target.value));
     }
 
     fileChanged(event) {
-        this.setState(FacilitySelectionAction.uploadFileSelected(this.state, event.target.files[0]));
+        this.setState(AssessmentImportAction.uploadFileSelected(this.state, event.target.files[0]));
     }
 
     handleUploadConfirmed() {
-        this.setState(FacilitySelectionAction.uploadProcessConfirmed(this.props.state));
+        this.setState(AssessmentImportAction.uploadProcessConfirmed(this.props.state));
         this.newFileInput.value = this.updateFileInput.value = "";
     }
 
     onNewAssessmentSubmit(e) {
         e.preventDefault();
-        this.setState(FacilitySelectionAction.startAssessmentUpload(this.state));
-        FacilitySelectionAction.submitNewAssessment(this.state).then(this.setState);
+        this.setState(AssessmentImportAction.startAssessmentUpload(this.state));
+        AssessmentImportAction.submitNewAssessment(this.state).then(this.setState);
     }
 
     onExistingAssessmentSubmit(e) {
         e.preventDefault();
-        this.setState(FacilitySelectionAction.startAssessmentUpload(this.state));
-        FacilitySelectionAction.submitExistingAssessment(this.state).then(this.setState);
+        this.setState(AssessmentImportAction.startAssessmentUpload(this.state));
+        AssessmentImportAction.submitExistingAssessment(this.state).then(this.setState);
     }
 
     facilityAssessmentChanged(event) {
-        this.setState(FacilitySelectionAction.facilityAssessmentEntered(this.state, event.target.value));
+        this.setState(AssessmentImportAction.facilityAssessmentEntered(this.state, event.target.value));
     }
 
     render() {
+        if (!GlobalState.initialised) return <div/>;
+
+        if (!GlobalState.isLoggedIn) {
+            return <Redirect to={{pathname: '/'}}/>
+        }
+
         return <div>
             {this.state.loading ?
                 <div className="static-modal">

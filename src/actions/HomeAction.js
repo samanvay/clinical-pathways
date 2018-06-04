@@ -1,5 +1,6 @@
 import LoginProcess from "../model/LoginProcess";
 import IAMService from "../service/IAMService";
+import Action from "./Action";
 
 export class HomeAction {
     static empty() {
@@ -8,7 +9,7 @@ export class HomeAction {
 
     static onLoad(state) {
         let loginProcess = LoginProcess.clone(state);
-        return loginProcess.start(IAMService.getCurrentUser);
+        return Action.onLoad(loginProcess).then(() => state);
     }
 
     static setEmail(state, value) {

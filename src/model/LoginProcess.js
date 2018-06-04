@@ -1,16 +1,6 @@
-class LoginProcess {
-    start(getCurrentUser) {
-        return getCurrentUser().then((response) => {
-            this.status = response.success;
-            this.user = response.user;
-            return this;
-        }).catch((error) => {
-            this.user = undefined;
-            this.status = false;
-            return this;
-        });
-    }
+import GlobalState from "./GlobalState";
 
+class LoginProcess {
     static clone(loginProcess) {
         return Object.assign(new LoginProcess(), loginProcess);
     }
@@ -26,10 +16,10 @@ class LoginProcess {
     }
 
     submit(login, getCurrentUser) {
-        return login(this.email, this.password).then(() => this.start(getCurrentUser))
+        return login(this.email, this.password).then(() => GlobalState.loadCurrentUser(getCurrentUser))
             .catch((error) => {
-                this.status = false;
-                return this;
+                GlobalState._setLoginDetails(false, undefined, error);
+                throw this;
             });
     }
 }

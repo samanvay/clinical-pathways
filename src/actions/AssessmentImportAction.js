@@ -1,8 +1,9 @@
 import FacilitySelectionProcess from "../model/FacilitySelectionProcess";
 import ReferenceDataService from "../service/ReferenceDataService";
 import AssessmentService from "../service/AssessmentService";
+import Action from "./Action";
 
-export class FacilitySelectionAction {
+export class AssessmentImportAction {
     static empty() {
         return new FacilitySelectionProcess();
     }
@@ -22,10 +23,13 @@ export class FacilitySelectionAction {
 
     static onLoad(state) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        let promise = facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
-        promise = FacilitySelectionAction.__selectItemsForDev(promise);
-        return promise;
-
+        return Action.onLoad(facilitySelectionProcess).then((loggedIn) => {
+            if (loggedIn) {
+                let promise = facilitySelectionProcess.start(ReferenceDataService.getAllStates, ReferenceDataService.getFacilityTypes, ReferenceDataService.getAllAssessmentToolModes, ReferenceDataService.getAllAssessmentTypes);
+                return AssessmentImportAction.__selectItemsForDev(promise);
+            }
+            return new Promise(() => facilitySelectionProcess);
+        });
     }
 
     static assessmentToolModeSelected(state, assessmentToolModeName) {
