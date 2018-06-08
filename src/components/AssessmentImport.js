@@ -22,7 +22,11 @@ export default class AssessmentImport extends BaseComponent {
     }
 
     assessmentToolSelected(event) {
-        this.setState(AssessmentImportAction.assessmentToolSelected(this.state, event.target.value));
+        AssessmentImportAction.assessmentToolSelected(this.state, event.target.value).then(this.setState);
+    }
+
+    checklistSelected(event) {
+        this.setState(AssessmentImportAction.checklistSelected(this.state, event.target.value));
     }
 
     stateSelected(event) {
@@ -110,7 +114,14 @@ export default class AssessmentImport extends BaseComponent {
                                     <label htmlFor="sel1"><b>Assessment Tool</b></label>
                                     <select className="form-control" id="assessmentTool" onChange={this.assessmentToolSelected.bind(this)}
                                             value={this.state.selectedAssessmentTool.name}>
-                                        {this.state.assessmentTools.map((state) => <option key={state.name} value={state.name}>{state.name}</option>)}
+                                        {this.state.assessmentTools.map((assessmentTool) => <option key={assessmentTool.name} value={assessmentTool.name}>{assessmentTool.name}</option>)}
+                                    </select>
+                                    <br/>
+
+                                    <label htmlFor="sel1"><b>Checklist</b></label>
+                                    <select className="form-control" id="checklist" onChange={this.checklistSelected.bind(this)}
+                                            value={this.state.selectedChecklist.name}>
+                                        {this.state.checklists.map((checklist) => <option key={checklist.name} value={checklist.name}>{checklist.name}</option>)}
                                     </select>
                                     <br/>
 

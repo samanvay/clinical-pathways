@@ -40,7 +40,12 @@ export class AssessmentImportAction {
 
     static assessmentToolSelected(state, assessmentToolName) {
         let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
-        return facilitySelectionProcess.setSelectedAssessmentTool(assessmentToolName);
+        return facilitySelectionProcess.setSelectedAssessmentTool(assessmentToolName, ReferenceDataService.getChecklists);
+    }
+
+    static checklistSelected(state, checklistName) {
+        let facilitySelectionProcess = FacilitySelectionProcess.clone(state);
+        return facilitySelectionProcess.setChecklist(checklistName);
     }
 
     static stateSelected(state, stateName) {

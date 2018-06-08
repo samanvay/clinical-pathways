@@ -18,6 +18,10 @@ class ReferenceDataService {
         return ReferenceDataService._processListResources(RestClient.getJSON("assessmentTool/search/byAssessmentToolMode/", {assessmentToolModeName: assessmentToolModeName}), "assessmentTool");
     }
 
+    static getChecklists(assessmentToolName) {
+        return ReferenceDataService._processListResources(RestClient.getJSON("checklist/search/byAssessmentTool/", {assessmentToolName: assessmentToolName}), "checklist");
+    }
+
     static getAllStates() {
         return ReferenceDataService._getAllResources("state");
     }

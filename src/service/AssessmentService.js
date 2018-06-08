@@ -1,10 +1,11 @@
 import RestClient from "../framework/RestClient";
 
 class AssessmentService {
-    static submitNew(assessmentToolUuid, assessmentTypeUuid, facilityUuid, facilityName, assessmentFile) {
+    static submitNew(assessmentToolUuid, checklistUuid, assessmentTypeUuid, facilityUuid, facilityName, assessmentFile) {
         return RestClient.postMultipart("facility-assessment/excel/new", {assessmentFile: assessmentFile}, {
             assessmentToolUuid: assessmentToolUuid,
             assessmentTypeUuid: assessmentTypeUuid,
+            checklistUuid: checklistUuid,
             facilityUuid: facilityUuid,
             nonExistentFacilityName: facilityName
         });

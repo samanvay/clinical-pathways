@@ -2,6 +2,7 @@ import _ from "lodash";
 
 const nullAssessmentToolMode = {name: "Select Program"};
 const nullAssessmentTool = {name: "Select Assessment Tool"};
+const nullChecklist = {name: "Select Checklist"};
 const nullState = {name: "Select State"};
 const nullDistrict = {name: "Select District"};
 const nullFacilityType = {name: "Select Facility Type"};
@@ -40,6 +41,9 @@ class FacilitySelectionProcess {
 
                 this.assessmentTools = [nullAssessmentTool];
                 this.selectedAssessmentTool = nullAssessmentTool;
+
+                this.checklists = [nullChecklist];
+                this.selectedChecklist = nullChecklist;
 
                 this.districts = [nullDistrict];
                 this.selectedDistrict = nullDistrict;
@@ -85,8 +89,17 @@ class FacilitySelectionProcess {
         }
     }
 
-    setSelectedAssessmentTool(assessmentToolName) {
+    setSelectedAssessmentTool(assessmentToolName, getChecklists) {
         this.selectedAssessmentTool = _.find(this.assessmentTools, (assessmentTool) => assessmentTool.name === assessmentToolName);
+        return getChecklists(assessmentToolName).then((checklists) => {
+            this.checklists = FacilitySelectionProcess._getSortedList(checklists, nullChecklist);
+            this.selectedChecklist = nullChecklist;
+            return this;
+        });
+    }
+
+    setChecklist(checklistName) {
+        this.selectedChecklist = _.find(this.checklists, (checklist) => checklist.name === checklistName);
         return this;
     }
 
@@ -163,7 +176,7 @@ class FacilitySelectionProcess {
     }
 
     submitNewAssessment(submit) {
-        return this._handleSubmitResponse(submit(this.selectedAssessmentTool["uuid"], this.selectedAssessmentType["uuid"], this.selectedFacility["uuid"], this.facilityName, this.uploadFile));
+        return this._handleSubmitResponse(submit(this.selectedAssessmentTool["uuid"], this.selectedChecklist["uuid"], this.selectedAssessmentType["uuid"], this.selectedFacility["uuid"], this.facilityName, this.uploadFile));
     }
 
     _handleSubmitResponse(promise) {
