@@ -1,10 +1,10 @@
 define _deploy
-	rm -rf ../$1/app/*.html
-	rm -rf ../$1/app/*.bundle
-	rm -rf ../$1/app/*.css
+	rm -rf ../$1/app/*.*
 	rsync -av dist/ ../$1/app/ --exclude index.html
 	cp index.html ../$1/app/
 endef
+
+#ssh fmes "rm -f /var/www/html/ijmewp/paymentapp/*.$1"
 
 deps:
 	npm install
