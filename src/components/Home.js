@@ -32,7 +32,10 @@ export default class Home extends BaseComponent {
     render() {
         if (_.isNil(this.state)) return null;
 
+        let file = `/images/${this.state.file}`;
+
         return <div>
+            <br/>
             <Grid>
                 <Row>
                     <Col md={4}>
@@ -72,7 +75,7 @@ export default class Home extends BaseComponent {
             <Grid>
                 <Row>
                     <Col md={8}>
-                        <img src="/images/file1.png" height={375} width={750}/>
+                        <img src={file} height={350} width={700}/>
                     </Col>
                     <Col md={4}>
                         <div className="verticalLine">

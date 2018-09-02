@@ -8,9 +8,7 @@ export default class AdminHeader extends BaseComponent {
 
     render() {
         return <div className="background">
-            <div className="container header">
-                <h1>Clinical pathways</h1>
-            </div>
+            <h3>Clinical pathways</h3>
         </div>;
     }
 };

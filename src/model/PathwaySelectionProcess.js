@@ -1,3 +1,6 @@
+import files from './files.json';
+import _ from 'lodash';
+
 class PathwaySelectionProcess {
     static createWithDefaults() {
         let pathwaySelectionProcess = new PathwaySelectionProcess();
@@ -7,7 +10,14 @@ class PathwaySelectionProcess {
         pathwaySelectionProcess.setAgeGroup("<5 years");
         pathwaySelectionProcess.sexes = ["Female", "Male", "Other"];
         pathwaySelectionProcess.setSex("Female");
+        pathwaySelectionProcess.chooseFile();
         return pathwaySelectionProcess;
+    }
+
+    chooseFile() {
+        let file = _.find(files, (file) => file.qualification === this.qualification && file.sex === this.sex && file.ageGroup === this.ageGroup);
+        this.file = file;
+        return this;
     }
 
     static clone(process) {
@@ -16,22 +26,22 @@ class PathwaySelectionProcess {
 
     setQualification(qualification) {
         this.qualification = qualification;
-        return this;
+        return this.chooseFile();
     }
 
     setLocation(location) {
         this.location = location;
-        return this;
+        return this.chooseFile();
     }
 
     setSex(sex) {
         this.sex = sex;
-        return this;
+        return this.chooseFile();
     }
 
     setAgeGroup(ageGroup) {
         this.ageGroup = ageGroup;
-        return this;
+        return this.chooseFile();
     }
 }
 
