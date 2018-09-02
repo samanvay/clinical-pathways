@@ -5,18 +5,18 @@ class PathwaySelectionProcess {
     static createWithDefaults() {
         let pathwaySelectionProcess = new PathwaySelectionProcess();
         pathwaySelectionProcess.qualifications = ["MBBS", "BAMS", "ASHA", "Other"];
-        pathwaySelectionProcess.setQualification("MBBS");
+        pathwaySelectionProcess.qualification = "MBBS";
         pathwaySelectionProcess.ageGroups = ["<5 years", "5-10 years"];
-        pathwaySelectionProcess.setAgeGroup("<5 years");
+        pathwaySelectionProcess.ageGroup = "<5 years";
         pathwaySelectionProcess.sexes = ["Female", "Male", "Other"];
-        pathwaySelectionProcess.setSex("Female");
+        pathwaySelectionProcess.sex = "Female";
         pathwaySelectionProcess.chooseFile();
         return pathwaySelectionProcess;
     }
 
     chooseFile() {
         let file = _.find(files, (file) => file.qualification === this.qualification && file.sex === this.sex && file.ageGroup === this.ageGroup);
-        this.file = file;
+        this.file = file ? file.file : undefined;
         return this;
     }
 

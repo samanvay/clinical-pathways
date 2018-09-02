@@ -13,10 +13,12 @@ export default class Home extends BaseComponent {
     }
 
     qualificationSelected(event) {
+        console.log(event.target);
         this.setState(HomeAction.setQualification(this.state, event.target.value));
     }
 
     sexSelected(event) {
+        console.log(event.target);
         this.setState(HomeAction.setSex(this.state, event.target.value));
     }
 
@@ -32,6 +34,7 @@ export default class Home extends BaseComponent {
     render() {
         if (_.isNil(this.state)) return null;
 
+        console.log(this.state);
         let file = `/images/${this.state.file}`;
 
         return <div>
@@ -52,13 +55,16 @@ export default class Home extends BaseComponent {
                     <Col md={4}>
                         {this.state.qualifications.map((qualification) =>
                             <label className="radio-inline radioLabel" key={"Q" + qualification}><input className="radioInput" type="radio" name="qualification"
-                                                                                                        checked={qualification === this.state.qualification}/>{qualification}
+                                                                                                        value={qualification}
+                                                                                                        checked={qualification === this.state.qualification}
+                                                                                                        onChange={this.qualificationSelected.bind(this)}/>{qualification}
                             </label>)}
                     </Col>
                     <Col md={4}>
                         {this.state.sexes.map((sex) =>
-                            <label className="radio-inline radioLabel" key={"Q" + sex}><input className="radioInput" type="radio" name="qualification"
-                                                                                              checked={sex === this.state.sex}/>{sex}</label>)}
+                            <label className="radio-inline radioLabel" key={"Q" + sex}><input className="radioInput" type="radio" name="sex" value={sex}
+                                                                                              checked={sex === this.state.sex}
+                                                                                              onChange={this.sexSelected.bind(this)}/>{sex}</label>)}
                     </Col>
                     <Col md={2}>
                         <select className="form-control" id="patientAge" onChange={this.ageGroupSelected.bind(this)}
