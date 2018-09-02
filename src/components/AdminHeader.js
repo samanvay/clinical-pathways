@@ -1,6 +1,5 @@
 import React from 'react';
 import BaseComponent from "./BaseComponent";
-import GlobalState from "../model/GlobalState";
 
 export default class AdminHeader extends BaseComponent {
     constructor(props) {
@@ -10,8 +9,7 @@ export default class AdminHeader extends BaseComponent {
     render() {
         return <div className="background">
             <div className="container header">
-                <h1>Gunak</h1>
-                {GlobalState.isLoggedIn ? <p>Welcome {GlobalState.userName}</p> : null}
+                <h1>Clinical pathways</h1>
             </div>
         </div>;
     }

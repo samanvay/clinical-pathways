@@ -1,29 +1,27 @@
-import LoginProcess from "../model/LoginProcess";
-import IAMService from "../service/IAMService";
-import Action from "./Action";
+import PathwaySelectionProcess from "../model/PathwaySelectionProcess";
 
 export class HomeAction {
-    static empty() {
-        return new LoginProcess();
-    }
-
     static onLoad(state) {
-        let loginProcess = LoginProcess.clone(state);
-        return Action.onLoad(loginProcess).then(() => state);
+        return PathwaySelectionProcess.createWithDefaults();
     }
 
-    static setEmail(state, value) {
-        let loginProcess = LoginProcess.clone(state);
-        return loginProcess.setEmail(value);
+    static setQualification(state, value) {
+        let process = PathwaySelectionProcess.clone(state);
+        return process.setQualification(value);
     }
 
-    static setPassword(state, value) {
-        let loginProcess = LoginProcess.clone(state);
-        return loginProcess.setPassword(value);
+    static setLocation(state, value) {
+        let process = PathwaySelectionProcess.clone(state);
+        return process.setLocation(value);
     }
 
-    static login(state) {
-        let loginProcess = LoginProcess.clone(state);
-        return loginProcess.submit(IAMService.login, IAMService.getCurrentUser);
+    static setSex(state, value) {
+        let process = PathwaySelectionProcess.clone(state);
+        return process.setSex(value);
+    }
+
+    static setAgeGroup(state, value) {
+        let process = PathwaySelectionProcess.clone(state);
+        return process.setAgeGroup(value);
     }
 }
