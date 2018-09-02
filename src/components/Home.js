@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Grid, Row} from "react-bootstrap";
+import {Col, Grid, Row, Image} from "react-bootstrap";
 import BaseComponent from "./BaseComponent";
 import {HomeAction} from "../actions/HomeAction";
 
@@ -48,19 +48,49 @@ export default class Home extends BaseComponent {
                 <Row>
                     <Col md={4}>
                         {this.state.qualifications.map((qualification) =>
-                            <label className="radio-inline radioLabel"><input className="radioInput" type="radio" name="qualification"
-                                                                   checked={qualification === this.state.qualification}/>{qualification}</label>)}
+                            <label className="radio-inline radioLabel" key={"Q" + qualification}><input className="radioInput" type="radio" name="qualification"
+                                                                                                        checked={qualification === this.state.qualification}/>{qualification}
+                            </label>)}
                     </Col>
                     <Col md={4}>
                         {this.state.sexes.map((sex) =>
-                            <label className="radio-inline radioLabel"><input className="radioInput" type="radio" name="qualification"
-                                                                   checked={sex === this.state.sex}/>{sex}</label>)}
+                            <label className="radio-inline radioLabel" key={"Q" + sex}><input className="radioInput" type="radio" name="qualification"
+                                                                                              checked={sex === this.state.sex}/>{sex}</label>)}
                     </Col>
                     <Col md={2}>
                         <select className="form-control" id="patientAge" onChange={this.ageGroupSelected.bind(this)}
                                 value={this.state.ageGroup}>
                             {this.state.ageGroups.map((ageGroup) => <option key={ageGroup} value={ageGroup}>{ageGroup}</option>)}
                         </select>
+                    </Col>
+                </Row>
+                <Row>
+
+                </Row>
+            </Grid>
+            <hr/>
+            <Grid>
+                <Row>
+                    <Col md={8}>
+                        <img src="/images/file1.png" height={375} width={750}/>
+                    </Col>
+                    <Col md={4}>
+                        <div className="verticalLine">
+                            <fieldset style={{"margin-left": "10px"}}>
+                                <legend>References</legend>
+                                <p>1. Integrated management of newborn</p>
+                                <p>2. Essential Pediatrics 9th Edition- O.P. Ghai</p>
+                            </fieldset>
+                            <br/>
+                            <br/>
+                            <fieldset style={{"margin-left": "10px"}}>
+                                <legend>User Comments</legend>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce auctor semper velit, in maximus arcu imperdiet id. Duis magna nibh,
+                                    porttitor ut dignissim id, bibendum in quam.</p>
+                                <p>Integer ut metus placerat, dictum dolor eu, maximus lorem. Sed vehicula quis dolor non pretium. Fusce sagittis felis quis varius
+                                    vulputate. Mauris molestie iaculis fringilla.</p>
+                            </fieldset>
+                        </div>
                     </Col>
                 </Row>
             </Grid>
